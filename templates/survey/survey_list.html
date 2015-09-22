@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block base_body %}
+    <h2>Surveys</h2>
+    <a href="{%  url 'survey:create' %}">Add new survey</a>
+    <ul>
+        {% for survey in object_list %}
+            <li>{{ survey.title}}</li>
+        {% endfor %}
+    </ul>
+{% endblock base_body%}
+

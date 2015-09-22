@@ -1,3 +1,16 @@
-from django.shortcuts import render
+from django.views.generic import ListView, CreateView
+from django.core.urlresolvers import reverse
+from .models import Survey
+from .forms import SurveyForm
 
-# Create your views here.
+
+class SurveyList(ListView):
+    model = Survey
+
+
+class SurveyCreate(CreateView):
+    model = Survey
+    form_class = SurveyForm
+
+    def get_success_url(self):
+        return reverse("survey:index")
