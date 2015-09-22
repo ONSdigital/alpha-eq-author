@@ -55,7 +55,7 @@ docs/_build/
 
 # PyBuilder
 target/
-idea/
+.idea/
 
 # Sqlite
 *.db
