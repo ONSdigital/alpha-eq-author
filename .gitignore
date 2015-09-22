@@ -59,3 +59,4 @@ target/
 # Sqlite
 *.db
 *.sqlite3
+.idea
