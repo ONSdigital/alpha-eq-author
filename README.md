@@ -20,6 +20,9 @@ externalise settings and secret management, in accordance with GDS guidance.
 5. To test for Heroku, use the heroku toolbelt: `heroku local` This will read
 the procfile and run your django wsgi application.
 
+## How to run the application 
+
+
 ## How to run the test suite
 
 `manage.py test`
