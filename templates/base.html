@@ -1,7 +1,56 @@
-{% extends "foundation/base.html" %}
+{% load staticfiles %}
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block meta %}{% endblock meta %}
+    {% block base_title %}
+    <title>{% block title %}ONS Survey Designer{% endblock title %}</title>
+    {% endblock base_title %}
 
-{% block base_body %}
+    {# Base Foundation CSS #}
+    {% block foundation_css %}
+    <link href="{% static "foundation/css/normalize.css" %}" rel="stylesheet"/>
+    <link href="{% static "foundation/css/foundation.min.css" %}" rel="stylesheet"/>
+    {% endblock foundation_css %}
+    <link href="{% static "css/app.css" %}" rel="stylesheet"/>
+    {# Custom CSS #}
+    {% block css %}
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,400italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    {% endblock css %}
 
-<h3>Hello world</h3>
+    {# Override if you need another version of modernizr #}
+    {% block foundation_modernizer %}
+    <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
+    {% endblock foundation_modernizer %}
 
-{% endblock base_body %}
+    {# Custom head JS #}
+    {% block head_js %}{% endblock head_js %}
+</head>
+<body {% block body_attr %}{% endblock body_attr %}>
+    {# Main content goes here #}
+    {% block base_body %}{% endblock base_body %}
+
+    {# Override if you need another version of jQuery #}
+    {% block foundation_jquery %}
+    <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
+    {% endblock foundation_jquery %}
+
+    {# Foundation JS #}
+    {% block foundation_js %}
+    <script src="{% static "foundation/js/foundation.min.js" %}"></script>
+    {% endblock foundation_js %}
+
+    {# Custom JS #}
+    {% block body_js %}{% endblock body_js %}
+
+    {# Init Foundation #}
+    {% block foundation_js_init %}
+    <script>
+        $(document).foundation();
+    </script>
+    {% endblock foundation_js_init %}
+</body>
+</html>
