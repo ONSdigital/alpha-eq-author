@@ -26,7 +26,6 @@ $(function() { // dom is ready
         $('.pwd-container').removeClass("correct");
       }, 4000);
     }
-    event.preventDefault();
   });
 
 });

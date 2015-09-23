@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout, login
 from django.http import HttpResponse
@@ -17,22 +17,25 @@ class WelcomeView(LoginRequiredMixin, TemplateView):
     template_name = 'welcome.html'
 
 
-class LoginView(TemplateView):
-    template_name = 'login.html'
-
-    def post(self, request):
-
-        user = authenticate(username=request.POST['username'], password=request.POST['password'])
-        if user is not None:
-            # password is verified
-            if user.is_active:
-                login(request, user)
-                if 'next' in request.GET:
-                    return redirect(request.GET['next'])
-
-                return redirect(reverse('welcome'))
-
-        return HttpResponse('Sorry %s, your name\'s not down, you\'re not coming in.' % request.POST['username'])
+# class LoginView(FormView):
+#     template_name = 'login.html'
+#
+#     def def_valid(self, form):
+#         next = reverse('welcome')
+#         if 'next' in self.request.GET:
+#             next = self.request.GET['next']
+#
+#         username = form.cleaned_data['username']
+#         password = form.cleaned_data['password']
+#
+#         user = authenticate(username=username, password=password)
+#         if user is not None and user.is_active:
+#             login(self.request, user)
+#
+#             return redirect(next)
+#
+#         form.errors.append('Invalid username and password')
+#         return self.form_invalid(form)
 
 
 class LogoutView(TemplateView):
