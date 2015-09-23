@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     url('^', include('django.contrib.auth.urls')),
     url(r'^$',  WelcomeView.as_view(), name="welcome"),
 
+    url(r'^create/$',  TemplateView.as_view(template_name='create.html'), name='create'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^surveys/', include("survey.urls", namespace='survey')),
 

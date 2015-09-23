@@ -20,6 +20,92 @@ h1, h2, h3, h4, h5, h6, p {
   height: 100%;
 }
 
+/* header and app toolbar */
+
+header {
+  background: #FFFFFF;
+  box-shadow: inset 0px -1px 0px 0px rgba(0,0,0,0.11);
+  position: fixed;
+  width:100%;
+  height: 72px;
+  z-index: 100;
+}
+
+header > div {
+  position: relative;
+}
+
+header h1 {
+  text-indent: -100000px;
+  overflow-x: hidden;
+  background: url(/static/img/logo.svg) no-repeat;
+  background-size: 150px auto;
+  display: inline-block;
+  position: absolute;
+  top:14px;
+  left:12px;
+}
+
+header nav {
+  display:table;
+  table-layout: fixed;
+  margin: 0 auto;
+  line-height: 72px;
+}
+
+header nav a {
+  display:table-cell;
+  padding:0 20px;
+  font-weight: bold;
+  color: rgba(65,65,65,0.4);
+  transition: color .3s ease;
+}
+
+header nav a.current {
+  border-bottom: 3px solid rgba(0,0,0,0.3);
+  color: rgba(65,65,65,1);
+}
+
+header ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 20px;
+  top:22px;
+}
+
+header ul li, header ul li a {
+  line-height: 29px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+header ul li:first-child:before {
+  content: "";
+  width:29px;
+  height:29px;
+  line-height: 29px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  background: url(/static/img/user.svg) no-repeat;
+  background-size: 29px auto;
+}
+
+header ul li:first-child:after {
+  content: "";
+  width:29px;
+  height:29px;
+  line-height: 29px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  background: url(/static/img/pip.svg) no-repeat;
+  background-size: 29px auto;
+}
+
+
 /* sign in panel */
 
 .row {
