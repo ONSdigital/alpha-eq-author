@@ -35,3 +35,8 @@
     </div>
   </section>
 {% endblock base_body%}
+
+{% block body_js %}
+  {{ block.super }}
+  <script src="{% static "js/hideShowPassword.min.js" %}"></script>
+{% endblock body_js %}
