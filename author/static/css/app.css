@@ -1,0 +1,110 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: #FBFAFA;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* positioning helpers */
+
+.fullvh {
+  height: 100%;
+}
+
+/* sign in panel */
+
+.row {
+  position: relative;
+}
+
+.signin-container {
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -65%);
+  -ms-transform: translate(-50%, -65%);
+  transform: translate(-50%, -65%);
+}
+
+.signin-container img {
+  width:200px;
+  height: auto;
+  margin:0 auto 25px auto;
+  display: block;
+}
+
+.signin-container p {
+  font-size: 12px;
+  color:#999;
+  text-align: center;
+  margin: 5px 0 10px 0;
+}
+
+.signin {
+  display:block;
+  background:white;
+  border: 1px solid #E9E9E9;
+  box-shadow: inset 0px 3px 0px 0px rgba(87,136,170,0.23);
+  border-radius: 3px;
+  padding: 20px;
+}
+
+.signin h1 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 200;
+}
+
+ .pwd-container, .pwd-funcs {
+  position: relative;
+  background: pink;
+  display: block;
+}
+
+.signin input[type=submit] {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+p.pwd-toggle, p.pwd-remind {
+  display:block;
+  text-align: left;
+}
+
+p.pwd-toggle i, p.pwd-remind i {
+  font-size: 18px;
+  margin-right: 10px;
+  min-width: 22px;
+  text-align: center;
+}
+
+/* form visual style overrides */
+
+input[type=text] {
+  border-radius: 2px;
+  display: block;
+  margin-top: 6px;
+}
+
+input[type=submit] {
+  background:#5789AA;
+}
+
+label {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color:#666;
+  display: block;
+}
