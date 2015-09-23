@@ -10,23 +10,27 @@
       <img src="{% static "img/logo.svg" %}" alt="{{ logo_alt }}">
       <div class="signin clearfix">
         <h1>Sign In</h1>
-        <form action="#" id="dosignin">
+        <form action="{% url 'django.contrib.auth.views.login' %}" method="post" id="dosignin">
+          {% csrf_token %}
         <div class="small-12 ">
           <label>user name
-            <input type="text" placeholder="youremail@ons.gsi.gov.uk" id="username"/>
+            <input type="text" name="username" placeholder="youremail@ons.gsi.gov.uk" id="username"/>
           </label>
         </div>
         <div class="small-12 pwd-container">
           <label>password
-            <input type="password" placeholder="" class="pwd" id="password" />
+            <input type="password" name="password" placeholder="" class="pwd" id="password" />
           </label>
+          {% if form.errors %}
           <p class="error signin-error">Incorrect password, please try again</p>
+          {% endif %}
         </div>
         <div class="small-12 pwd-funcs">
           <p class="pwd-toggle"><i class="fa fa-eye"></i><span>Show</span> Password</p>
           <p class="pwd-remind"><i class="fa fa-question"></i><a href="#">Forgotten Password?</a></p>
           <input type="submit" class="button small radius" value="Sign In">
         </div>
+          <input type="hidden" name="next" value="{{ next }}" />
       </form>
       </div>
       <aside>
