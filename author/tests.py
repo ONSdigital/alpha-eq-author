@@ -26,9 +26,12 @@ class LoginTest(TestCase):
         response = self.client.get(reverse('welcome'), follow=True)
         self.assertContains(response, 'username')
 
-        response = self.client.post(reverse('login'), data={"username":"invalid", "password":"IWillWork@Gattaca"})
-        self.assertContains(response, 'Sorry')
+        login = self.client.login(username="invalid", password="IWillWork@Gattaca")
 
+        self.assertFalse(login)
+
+        response = self.client.get(reverse('welcome'), follow=True)
+        self.assertContains(response, 'username')
 
     def test_successful_login(self):
         password = 'notANatural'

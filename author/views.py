@@ -1,7 +1,6 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, logout, login
-from django.http import HttpResponse
+from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
@@ -15,28 +14,6 @@ class LoginRequiredMixin(object):
 
 class WelcomeView(LoginRequiredMixin, TemplateView):
     template_name = 'welcome.html'
-
-
-class AnotherView(LoginRequiredMixin, TemplateView):
-    template_name = 'index.html'
-
-
-class LoginView(TemplateView):
-    template_name = 'login.html'
-
-    def post(self, request):
-
-        user = authenticate(username=request.POST['username'], password=request.POST['password'])
-        if user is not None:
-            # password is verified
-            if user.is_active:
-                login(request, user)
-                if 'next' in request.GET:
-                    return redirect(request.GET['next'])
-
-                return redirect(reverse('welcome'))
-
-        return HttpResponse('Sorry %s, your name\'s not down, you\'re not coming in.' % request.POST['username'])
 
 
 class LogoutView(TemplateView):
