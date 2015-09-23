@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^$',  WelcomeView.as_view(), name="welcome"),
 
     url(r'^create/$',  TemplateView.as_view(template_name='create.html'), name='create'),
+    url(r'^home/$',  TemplateView.as_view(template_name='index.html'), name='home'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^surveys/', include("survey.urls", namespace='survey')),
 
