@@ -9,26 +9,29 @@
       <img src="{% static "img/logo.svg" %}" alt="{{ logo_alt }}">
       <div class="signin clearfix">
         <h1>Sign In</h1>
-        <form action="javascript:alert('hello')">
+        <form action="#" id="dosignin">
         <div class="large-12">
           <label>user name
-            <input type="text" placeholder="youremail@ons.gsi.gov.uk" />
+            <input type="text" placeholder="youremail@ons.gsi.gov.uk" id="username"/>
           </label>
         </div>
         <div class="large-12 pwd-container">
           <label>password
-            <input type="password" placeholder="********" class="pwd" />
+            <input type="password" placeholder="" class="pwd" id="password" />
           </label>
+          <p class="error signin-error">Incorrect password, please try again</p>
         </div>
-        <div class="large-12" class="pwd-funcs">
+        <div class="large-12 pwd-funcs">
           <p class="pwd-toggle"><i class="fa fa-eye"></i><span>Show</span> Password</p>
-          <p class="pwd-remind"><i class="fa fa-question"></i>Forgotten Password?</p>
+          <p class="pwd-remind"><i class="fa fa-question"></i><a href="#">Forgotten Password?</a></p>
           <input type="submit" class="button small radius" value="Sign In">
         </div>
       </form>
       </div>
-      <p>Use of this tool is strictly limited to...</p>
-      <p>For access please <a href="mailto:admin@admin.com">contact the dudes</a></p>
+      <aside>
+        <p>Use of this tool is strictly limited to...</p>
+        <p>For access please <a href="mailto:admin@admin.com">contact these lovely people</a></p>
+      </aside>
     </div>
   </section>
 {% endblock base_body%}
