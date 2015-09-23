@@ -13,5 +13,8 @@ install:
   - pip install -r requirements.txt
   - pip install psycopg2 --quiet
 
+before_script:
+  - python manage.py collectstatic --noinput
+
 script:
   - python manage.py test
