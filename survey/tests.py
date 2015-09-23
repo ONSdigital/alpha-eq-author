@@ -20,8 +20,28 @@ class SurveyTestCase(TestCase):
 
     def test_add_survey(self):
         client = Client()
+
+        # first see how many surveys exist (2 are added in the setup method)
+        response = client.get('/surveys/')
+        self.assertEqual(len(response.context['object_list']), 2)
+
+        # now add a new survey
         response = client.post('/surveys/add/', {'survey_list': '024'}, follow=True)
         self.assertEqual(200, response.status_code)
+        # check we've got an additional survey
         self.assertEqual(len(response.context['object_list']), 3)
 
+        # double check by sending a request to the main survey page again
+        response = client.get('/surveys/')
+        self.assertEqual(len(response.context['object_list']), 3)
 
+    def test_add_survey_fails(self):
+        client = Client()
+
+        # first see how many surveys exist
+        response = client.get('/surveys/')
+        self.assertEqual(len(response.context['object_list']), 2)
+
+        # attempt to add an invalid survey
+        response = client.post('/surveys/add/', {'survey_list': '9999'}, follow=True)
+        self.assertContains(response, "Select a valid choice. 9999 is not one of the available choices")
