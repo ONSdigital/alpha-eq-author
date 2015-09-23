@@ -1,13 +1,35 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
+{% block title %}Sign In{% endblock %}
 {% block base_body %}
-
-<h1>Login</h1>
-<form action="" method="post">
-    {% csrf_token %}
-    <input type="text" name="username"/>
-    <input type="password" name="password"/>
-    <input type="submit"/>
-</form>
-
-{% endblock %}
+  {{ block.super }}
+  <!--{% include "includes/navigation.html" %}-->
+  <section class="row fullvh">
+    <div class="signin-container large-4">
+      {% load staticfiles %}
+      <img src="{% static "img/logo.svg" %}" alt="{{ logo_alt }}">
+      <div class="signin clearfix">
+        <h1>Sign In</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+        <div class="large-12">
+          <label>user name
+            <input type="text" name="username" placeholder="youremail@ons.gsi.gov.uk" />
+          </label>
+        </div>
+        <div class="large-12 pwd-container">
+          <label>password
+            <input type="password" name="password" placeholder="********" class="pwd" />
+          </label>
+        </div>
+        <div class="large-12" class="pwd-funcs">
+          <p class="pwd-toggle"><i class="fa fa-eye"></i><span>Show</span> Password</p>
+          <p class="pwd-remind"><i class="fa fa-question"></i>Forgotten Password?</p>
+          <input type="submit" class="button small radius" value="Sign In">
+        </div>
+      </form>
+      </div>
+      <p>Use of this tool is strictly limited to...</p>
+      <p>For access please <a href="mailto:admin@admin.com">contact the dudes</a></p>
+    </div>
+  </section>
+{% endblock base_body%}
