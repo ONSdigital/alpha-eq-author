@@ -17,10 +17,6 @@ class WelcomeView(LoginRequiredMixin, TemplateView):
     template_name = 'welcome.html'
 
 
-class AnotherView(LoginRequiredMixin, TemplateView):
-    template_name = 'index.html'
-
-
 class LoginView(TemplateView):
     template_name = 'login.html'
 
