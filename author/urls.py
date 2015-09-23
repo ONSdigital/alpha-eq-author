@@ -1,10 +1,9 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from author.views import LoginView, WelcomeView, AnotherView, LogoutView
+from author.views import LoginView, WelcomeView, LogoutView
 
 urlpatterns = patterns('',
     url(r'^login', LoginView.as_view(), name='login'),
-    url(r'^another', AnotherView.as_view()),
 
     url(r'^$',  WelcomeView.as_view(), name="welcome"),
 
