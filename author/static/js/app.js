@@ -29,4 +29,10 @@ $(function() { // dom is ready
     event.preventDefault();
   });
 
+  /* user settings panel */
+
+  $(".open-settings").click(function() {
+    $('.user-settings').toggleClass("open");
+  });
+
 });
