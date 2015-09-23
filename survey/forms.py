@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Select, ChoiceField
-from .models import Survey
+from .models import Survey, Questionnaire
 
 
 SURVEY_STORE = (

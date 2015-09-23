@@ -3,12 +3,26 @@
     <section class="row fullvh">
         <div>
             <h2>Surveys</h2>
-            <a href="{%  url 'survey:create' %}">Add new survey</a>
-            <ul>
-                {% for survey in object_list %}
-                    <li>{{ survey.title}}</li>
-                {% endfor %}
-            </ul>
+            <p>
+                <a href="{%  url 'survey:create' %}">Add new survey</a>
+            </p>
+            <p>
+                <ul>
+                    {% for survey in object_list %}
+                        <li>{{ survey.title}}</li>
+                            <ul>
+                            {%  for questionnaire in survey.questionnaire_set.all %}
+                                <li>{{ questionnaire.title }}</li>
+                            {% endfor %}
+                            <li>
+                                <a href="{%  url 'survey:create-questionnaire' survey.survey_id %}">Add new questionnaire</a>
+                            </li>
+                        </ul>
+
+                    {% endfor %}
+                </ul>
+            </p>
+
         </div>
     </section>
 {% endblock base_body%}

@@ -8,3 +8,12 @@ class Survey(models.Model):
     def __unicode__(self):
         return self.title
 
+
+class Questionnaire(models.Model):
+    questionnaire_id = models.CharField(max_length=10)
+    title = models.CharField(max_length=120)
+    overview = models.TextField(max_length=3000)
+    survey = models.ForeignKey(Survey)
+
+    def __unicode__(self):
+        return self.title
