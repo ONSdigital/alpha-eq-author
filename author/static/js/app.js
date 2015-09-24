@@ -29,4 +29,27 @@ $(function() { // dom is ready
     event.preventDefault();
   });
 
+  /* user settings panel */
+
+  $("header ul.user-menu").click(function() {
+    $('.user-settings, header ul.user-menu').toggleClass("open");
+  });
+
+  /* create new survey check we have a survey selected */
+
+  $("#surveylist").change(function() {
+    if ($("#surveylist").val() !== "") {
+      $('#dosetup').prop("disabled", false);
+    } else {
+      $('#dosetup').prop("disabled", true);
+    }
+  });
+
+  $(".user-prompt").click(function() {
+    if ($('#dosetup').prop("disabled") === true) {
+      alert('Choose a survey to proceed');
+    }
+  });
+
+
 });

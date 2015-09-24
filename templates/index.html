@@ -3,7 +3,6 @@
 {% block title %}Sign In{% endblock %}
 {% block base_body %}
   {{ block.super }}
-  <!--{% include "includes/navigation.html" %}-->
   <section class="row fullvh">
     <div class="signin-container small-8 medium-6">
       {% load staticfiles %}
@@ -37,3 +36,8 @@
   </section>
 
 {% endblock base_body%}
+
+{% block body_js %}
+  {{ block.super }}
+  <script src="{% static "js/hideShowPassword.min.js" %}"></script>
+{% endblock body_js %}
