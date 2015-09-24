@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block base_body %}
+     <section class="row fullvh">
+        <div>
+            <h1>{{ object.survey }}</h1>
+            <h2>{{ object.title }}</h2>
+            <p>{{ object.overview }}</p>
+            <p></p>
+            {%  for question in object.question_set.all %}
+                <li>{{ question.title }}</li>
+            {% endfor %}
+           <li>
+                <a href="{%  url 'survey:create-question' object.questionnaire_id %}">Add new question</a>
+            </li>
+        </div>
+    </section>
+{% endblock base_body%}
+
+
