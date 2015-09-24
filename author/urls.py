@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from author.views import WelcomeView
+from django.views.generic import TemplateView
 
 urlpatterns = patterns('',
     url(r'^login/$', auth_views.login, {'template_name':'login.html'}),
