@@ -51,6 +51,29 @@ class SurveyTestCase(TestCase):
         response = client.post('/surveys/add/', {'survey_list': '9999'}, follow=True)
         self.assertContains(response, "Select a valid choice. 9999 is not one of the available choices")
 
+    def test_add_survey_fails_if_already_added(self):
+        client = Client()
+
+        # first see how many surveys exist
+        response = client.get('/surveys/')
+        self.assertEqual(len(response.context['object_list']), 2)
+
+         # now add a new survey
+        response = client.post('/surveys/add/', {'survey_list': '024'}, follow=True)
+        self.assertEqual(200, response.status_code)
+        # check we've got an additional survey
+        self.assertEqual(len(response.context['object_list']), 3)
+
+        # now attempt to add the same survey
+        response = client.post('/surveys/add/', {'survey_list': '024'}, follow=True)
+
+        # check we got an error message
+        self.assertContains(response, "Survey has already been added")
+
+        # check we've still got 3
+        response = client.get('/surveys/')
+        self.assertEqual(len(response.context['object_list']), 3)
+
 
 class QuestionnaireTestCase(TestCase):
 

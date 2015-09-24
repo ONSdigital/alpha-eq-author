@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Select, ChoiceField
+from django.forms import ModelForm, Select, ChoiceField, ValidationError
 from .models import Survey, Questionnaire
 
 
@@ -31,6 +31,12 @@ class SurveyForm(ModelForm):
         widgets = {
             'survey_list': Select(),
         }
+
+    def clean_survey_list(self):
+        survey_id = self.cleaned_data['survey_list']
+        if Survey.objects.filter(survey_id=survey_id).exists():
+            raise ValidationError("Survey has already been added")
+        return survey_id
 
     def save(self):
         data = self.cleaned_data

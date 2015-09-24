@@ -18,7 +18,16 @@ class Migration(migrations.Migration):
                 ('questionnaire_id', models.CharField(max_length=10)),
                 ('title', models.CharField(max_length=120)),
                 ('overview', models.TextField(max_length=3000)),
-                ('survey', models.ForeignKey(to='survey.Survey')),
             ],
+        ),
+        migrations.AlterField(
+            model_name='survey',
+            name='survey_id',
+            field=models.CharField(unique=True, max_length=10),
+        ),
+        migrations.AddField(
+            model_name='questionnaire',
+            name='survey',
+            field=models.ForeignKey(to='survey.Survey'),
         ),
     ]
