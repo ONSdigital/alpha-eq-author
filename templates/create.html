@@ -5,14 +5,34 @@
 {% include "includes/navigation.html" %}
 {% load staticfiles %}
 <div class="wrapper">
-  <section class="row application">
-    <div class="small-8 medium-6">
+  <section class="row application clearfix">
+    <div class="large-12">
       <ul class="breadcrumb">
         <li><a href="" title="">Home</a></li>
         <li><a href="" title="">Surveys</a></li>
         <li>Setup new Survey</li>
       </ul>
+      <main>
       <h1>Setup a new Survey</h1>
+      <aside class="step">Step 1 of 2</aside>
+      <p>A questionnaire must be added to an existing survey. Please choose from the list below to get started.</p>
+          <fieldset>
+            <form id="submitsurvey">
+              <label>Choose a Survey
+                <select id="surveylist">
+                  <option value="" selected="selected">-</option>
+                  <option value="husker">Husker</option>
+                  <option value="starbuck">Starbuck</option>
+                  <option value="hotdog">Hot Dog</option>
+                  <option value="apollo">Apollo</option>
+                </select>
+              </label>
+              <div class="right user-prompt">
+                <input type="submit" class="button small radius" id="dosetup" value="Proceed" disabled="true">
+              </div>
+          </form>
+        </fieldset>
+      </main>
     </div>
   </section>
 </div>
