@@ -4,10 +4,16 @@
   {{ block.super }}
 {% include "includes/navigation.html" %}
 {% load staticfiles %}
-  <section class="row fullvh">
+<div class="wrapper">
+  <section class="row application">
     <div class="small-8 medium-6">
-
-      hello
+      <ul class="breadcrumb">
+        <li><a href="" title="">Home</a></li>
+        <li><a href="" title="">Surveys</a></li>
+        <li>Setup new Survey</li>
+      </ul>
+      <h1>Setup a new Survey</h1>
     </div>
   </section>
+</div>
 {% endblock base_body%}

@@ -31,8 +31,8 @@ $(function() { // dom is ready
 
   /* user settings panel */
 
-  $(".open-settings").click(function() {
-    $('.user-settings').toggleClass("open");
+  $("header ul.user-menu").click(function() {
+    $('.user-settings, header ul.user-menu').toggleClass("open");
   });
 
 });
