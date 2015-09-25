@@ -2,15 +2,15 @@
 {% block base_body %}
      <section class="row fullvh">
         <div>
-            <h1>{{ object.survey }}</h1>
-            <h2>{{ object.title }}</h2>
-            <p>{{ object.overview }}</p>
+            <h1>{{ questionnaire.survey }}</h1>
+            <h2>{{ questionnaire.title }}</h2>
+            <p>{{ questionnaire.overview }}</p>
             <p></p>
-            {%  for question in object.question_set.all %}
+            {%  for question in questionnaire.question_set.all %}
                 <li>{{ question.title }}</li>
             {% endfor %}
            <li>
-                <a href="{%  url 'survey:create-question' object.questionnaire_id %}">Add new question</a>
+                <a href="{%  url 'survey:create-question' questionnaire.questionnaire_id %}">Add new question</a>
             </li>
         </div>
     </section>

@@ -17,7 +17,7 @@ class SurveyCreate(LoginRequiredMixin, CreateView):
         return reverse("survey:index")
 
 
-class QuestionnaireDetail(DetailView):
+class QuestionnaireDetail(LoginRequiredMixin, DetailView):
     model = Questionnaire
     slug_field = 'questionnaire_id'
 
@@ -35,11 +35,11 @@ class QuestionnaireCreate(LoginRequiredMixin, CreateView):
         return reverse("survey:index")
 
 
-class QuestionList(ListView):
+class QuestionList(LoginRequiredMixin, ListView):
     model = Question
 
 
-class QuestionCreate(CreateView):
+class QuestionCreate(LoginRequiredMixin, CreateView):
     model = Question
     fields = ['title', 'description', 'help_text', 'error_text']
 
