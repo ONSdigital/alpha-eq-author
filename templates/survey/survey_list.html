@@ -12,7 +12,7 @@
                         <li>{{ survey.title}}</li>
                             <ul>
                             {%  for questionnaire in survey.questionnaire_set.all %}
-                                <li>{{ questionnaire.title }}</li>
+                                <li><a href="{%  url 'survey:questionnaire-summary' questionnaire.questionnaire_id %}">{{ questionnaire.title }}</a></li>
                             {% endfor %}
                             <li>
                                 <a href="{%  url 'survey:create-questionnaire' survey.survey_id %}">Add new questionnaire</a>
