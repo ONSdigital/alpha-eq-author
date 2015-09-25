@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Setup a new Survey{% endblock %}
+{% block base_body %}
+  {{ block.super }}
+{% include "includes/navigation.html" %}
+{% load staticfiles %}
+<div class="wrapper">
+  <section class="row application clearfix">
+    <div class="large-12">
+      <ul class="breadcrumb">
+        <li><a href="" title="">Home</a></li>
+        <li><a href="" title="">Surveys</a></li>
+        <li>Add a new Questionnaire</li>
+      </ul>
+      <main>
+      <h1>Add a Questionnaire</h1>
+      <aside class="step">Step 2 of 2</aside>
+      <p>Provide some details about your Questionnaire</p>
+          <fieldset>
+            <form id="addquestionnaire">
+              <label>Questionnaire title (some supporting copy here)
+                <input type="text" id="q-title" placeholder="" />
+              </label>
+              <label>Questionnaire id (some supporting copy here)
+                <input type="text" id="q-id" placeholder="" />
+              </label>
+              <label>Provide a description of your Questionnaire
+                <textarea rows="6" id="q-overview"></textarea>
+              </label>
+              <div class="right user-prompt">
+                <input type="submit" class="button small radius" id="dosetup" value="Proceed" disabled="true">
+              </div>
+            </form>
+        </fieldset>
+      </main>
+    </div>
+  </section>
+</div>
+{% endblock base_body%}
