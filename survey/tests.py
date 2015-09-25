@@ -38,53 +38,53 @@ class SurveyTestCase(TestCase):
         self.assertEqual("Test Survey 2", survey2.title)
 
     def test_check_survey_count(self):
-        response = SurveyTestCase.client.get('/surveys/', follow=True)
+        response = SurveyTestCase.client.get(reverse('survey:index'), follow=True)
         self.assertEqual(len(response.context['object_list']), 2)
 
     def test_add_survey(self):
         # first see how many surveys exist (2 are added in the setup method)
-        response = SurveyTestCase.client.get('/surveys/')
+        response = SurveyTestCase.client.get(reverse('survey:index'))
         self.assertEqual(len(response.context['object_list']), 2)
 
         # now add a new survey
-        response = SurveyTestCase.client.post('/surveys/add/', {'survey_list': '024'}, follow=True)
+        response = SurveyTestCase.client.post(reverse('survey:create'), {'survey_list': '024'}, follow=True)
         self.assertEqual(200, response.status_code)
         # check we've got an additional survey
         self.assertEqual(len(response.context['object_list']), 3)
 
         # double check by sending a request to the main survey page again
-        response = SurveyTestCase.client.get('/surveys/')
+        response = SurveyTestCase.client.get(reverse('survey:index'))
         self.assertEqual(len(response.context['object_list']), 3)
 
     def test_add_survey_fails(self):
         # first see how many surveys exist
-        response = SurveyTestCase.client.get('/surveys/')
+        response = SurveyTestCase.client.get(reverse('survey:index'))
         self.assertEqual(len(response.context['object_list']), 2)
 
         # attempt to add an invalid survey
-        response = SurveyTestCase.client.post('/surveys/add/', {'survey_list': '9999'}, follow=True)
+        response = SurveyTestCase.client.post(reverse('survey:create'), {'survey_list': '9999'}, follow=True)
         self.assertContains(response, "Select a valid choice. 9999 is not one of the available choices")
 
     def test_add_survey_fails_if_already_added(self):
 
         # first see how many surveys exist
-        response = SurveyTestCase.client.get('/surveys/')
+        response = SurveyTestCase.client.get(reverse('survey:index'))
         self.assertEqual(len(response.context['object_list']), 2)
 
         # now add a new survey
-        response = SurveyTestCase.client.post('/surveys/add/', {'survey_list': '024'}, follow=True)
+        response = SurveyTestCase.client.post(reverse('survey:create'), {'survey_list': '024'}, follow=True)
         self.assertEqual(200, response.status_code)
         # check we've got an additional survey
         self.assertEqual(len(response.context['object_list']), 3)
 
         # now attempt to add the same survey
-        response = SurveyTestCase.client.post('/surveys/add/', {'survey_list': '024'}, follow=True)
+        response = SurveyTestCase.client.post(reverse('survey:create'), {'survey_list': '024'}, follow=True)
 
         # check we got an error message
         self.assertContains(response, "Survey has already been added")
 
         # check we've still got 3
-        response = SurveyTestCase.client.get('/surveys/')
+        response = SurveyTestCase.client.get(reverse('survey:index'))
         self.assertEqual(len(response.context['object_list']), 3)
 
 
@@ -109,7 +109,7 @@ class QuestionnaireTestCase(TestCase):
         self.assertEqual(Survey.objects.get(survey_id='2'), questionnaire2.survey)
 
     def test_check_question_count(self):
-        response = QuestionnaireTestCase.client.get("/surveys/")
+        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
         # check that survey one has a single questionnaire with id 1
         survey = response.context['object_list'][0]
         self.assertEqual(Survey.objects.get(survey_id='1'), survey)
@@ -126,11 +126,11 @@ class QuestionnaireTestCase(TestCase):
 
     def test_add_questionnaire(self):
         # add a new questionnaire to survey 1
-        response = QuestionnaireTestCase.client.post("/surveys/questionnaire/new/1/", {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
         self.assertEqual(200, response.status_code)
 
         # now check that survey 1 has two questionnaires
-        response = QuestionnaireTestCase.client.get("/surveys/")
+        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
         survey = response.context['object_list'][0]
         self.assertEqual(Survey.objects.get(survey_id='1'), survey)
         questionnaire_set = survey.questionnaire_set.all()
@@ -140,17 +140,17 @@ class QuestionnaireTestCase(TestCase):
 
     def test_add_questionnaire_fails_when_overview_is_missing(self):
         # attempt to add an invalid questionnaire (i.e. missing the overview field)
-        response = QuestionnaireTestCase.client.post("/surveys/questionnaire/new/1/", {'title': 'Test Questionnaire 4', 'questionnaire_id': '4'}, follow=True)
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title': 'Test Questionnaire 4', 'questionnaire_id': '4'}, follow=True)
         self.assertContains(response, "This field is required")
 
     def test_add_questionnaire_fails_when_title_is_missing(self):
         # attempt to add an invalid questionnaire (i.e. missing the overview field)
-        response = QuestionnaireTestCase.client.post("/surveys/questionnaire/new/1/", {'questionnaire_id': '4', 'overview': 'questionnaire overview 4'}, follow=True)
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'questionnaire_id': '4', 'overview': 'questionnaire overview 4'}, follow=True)
         self.assertContains(response, "This field is required")
 
     def test_add_questionnaire_fails_when_id_is_missing(self):
         # attempt to add an invalid questionnaire (i.e. missing the overview field)
-        response = QuestionnaireTestCase.client.post("/surveys/questionnaire/new/1/", {'title': 'Test Questionnaire 4', 'overview': 'questionnaire overview 4'}, follow=True)
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title': 'Test Questionnaire 4', 'overview': 'questionnaire overview 4'}, follow=True)
         self.assertContains(response, "This field is required")
 
 
@@ -186,7 +186,7 @@ class QuestionTestCase(TestCase):
             index += 1
 
     def test_check_question_count(self):
-        response = QuestionTestCase.client.get("/surveys/")
+        response = QuestionTestCase.client.get(reverse('survey:index'))
 
         # check that survey one has a single questionnaire with id 1
         survey = response.context['object_list'][0]
@@ -210,7 +210,7 @@ class QuestionTestCase(TestCase):
         response = QuestionTestCase.client.post(reverse("survey:create-question", kwargs={'questionnaire_slug': '2'}), {'title': 'Test Question 6', 'description': 'question description 6', 'help_text': 'question help text 6', 'error_text' : 'question error text 6'}, follow=True)
         self.assertEqual(200, response.status_code)
         # now check that questionnaire 2 has 3 questions
-        response = QuestionTestCase.client.get("/surveys/questionnaire/2/")
+        response = QuestionTestCase.client.get(reverse("survey:questionnaire-summary", kwargs={'slug': '2'}))
         questionnaire = response.context['object']
         self.assertEqual(Questionnaire.objects.get(questionnaire_id="2"), questionnaire)
         question_set = questionnaire.question_set.all()

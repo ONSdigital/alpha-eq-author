@@ -27,7 +27,7 @@ class QuestionnaireCreate(LoginRequiredMixin, CreateView):
     fields = ['title', 'questionnaire_id', 'overview']
 
     def form_valid(self, form):
-        survey = Survey.objects.get(survey_id=self.args[0])
+        survey = Survey.objects.get(survey_id=self.kwargs['survey_slug'])
         form.instance.survey = survey
         return super(QuestionnaireCreate, self).form_valid(form)
 
