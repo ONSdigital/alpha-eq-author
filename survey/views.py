@@ -3,13 +3,14 @@ from django.core.urlresolvers import reverse
 from django.http import HttpRequest, HttpResponse
 from .models import Survey, Questionnaire
 from .forms import SurveyForm
+from author.views import LoginRequiredMixin
 
 
-class SurveyList(ListView):
+class SurveyList(LoginRequiredMixin, ListView):
     model = Survey
 
 
-class SurveyCreate(CreateView):
+class SurveyCreate(LoginRequiredMixin, CreateView):
     model = Survey
     form_class = SurveyForm
 
@@ -17,7 +18,7 @@ class SurveyCreate(CreateView):
         return reverse("survey:index")
 
 
-class QuestionnaireCreate(CreateView):
+class QuestionnaireCreate(LoginRequiredMixin, CreateView):
     model = Questionnaire
     fields = ['title', 'questionnaire_id', 'overview']
 
