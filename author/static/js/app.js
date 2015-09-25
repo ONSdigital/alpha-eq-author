@@ -45,11 +45,21 @@ $(function() { // dom is ready
     }
   });
 
-  $(".user-prompt").click(function() {
-    if ($('#dosetup').prop("disabled") === true) {
-      alert('Choose a survey to proceed');
+  $("#q-title, #q-id, #q-overview").blur(function() {
+    if ($("#q-title").val() !== "" && $("#q-id").val() !== "" && $(
+        "#q-overview").val() !== "") {
+      $('#dosetup').prop("disabled", false);
+    } else {
+      $('#dosetup').prop("disabled", true);
     }
   });
+
+  $(".user-prompt").click(function() {
+    if ($('#dosetup').prop("disabled") === true) {
+      alert('Make sure all fields are complete');
+    }
+  });
+
 
 
 });
