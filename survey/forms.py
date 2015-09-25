@@ -23,7 +23,7 @@ SURVEY_STORE = (
 
 class SurveyForm(ModelForm):
 
-    survey_list = ChoiceField(choices=[(k, k + "-" + v) for k,v in SURVEY_STORE], label="Please select a survey")
+    survey_list = ChoiceField(choices=[(k, k + "-" + v) for k,v in SURVEY_STORE], label="Choose a Survey")
 
     class Meta:
         model = Survey
