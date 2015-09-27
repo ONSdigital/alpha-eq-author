@@ -65,8 +65,8 @@ header h1 {
   background-size: 150px auto;
   display: inline-block;
   position: absolute;
-  top:14px;
-  left:15px;
+  top:16px;
+  left:18px;
 }
 
 header h1 a {
@@ -295,7 +295,7 @@ fieldset {
   padding: 0;
 }
 
-input[type=text], input[type=password], select {
+input[type=text], input[type=password], select, textarea {
   border-radius: 2px;
   display: block;
   margin-top: 6px;
