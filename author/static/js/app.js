@@ -11,23 +11,23 @@ $(function() { // dom is ready
 
   /* set class based on correct/incorrect sign in */
 
-  $("#dosignin").submit(function(event) {
-    if ($('#password').val() !== "password") {
-      $('.pwd-container label').addClass("wrong");
-      $('.signin-error').fadeIn();
-      setTimeout(function() {
-        $('.pwd-container label').removeClass("wrong");
-        $('.signin-error').fadeOut();
-        $('#password').val("").focus();
-      }, 4000);
-    } else if ($('#password').val() === "password") {
-      $('.pwd-container').addClass("correct");
-      setTimeout(function() {
-        $('.pwd-container').removeClass("correct");
-      }, 4000);
-    }
-    event.preventDefault();
-  });
+  //$("#dosignin").submit(function(event) {
+  //  if ($('#password').val() !== "password") {
+  //    $('.pwd-container label').addClass("wrong");
+  //    $('.signin-error').fadeIn();
+  //    setTimeout(function() {
+  //      $('.pwd-container label').removeClass("wrong");
+  //      $('.signin-error').fadeOut();
+  //      $('#password').val("").focus();
+  //    }, 4000);
+  //    event.preventDefault();
+  //  } else if ($('#password').val() === "password") {
+  //    $('.pwd-container').addClass("correct");
+  //    setTimeout(function() {
+  //      $('.pwd-container').removeClass("correct");
+  //    }, 4000);
+  //  }
+  //});
 
   /* user settings panel */
 
@@ -45,6 +45,25 @@ $(function() { // dom is ready
     }
   });
 
+<<<<<<< HEAD
+  /* user settings panel */
+
+  $("header ul.user-menu").click(function() {
+    $('.user-settings, header ul.user-menu').toggleClass("open");
+  });
+
+  /* create new survey check we have a survey selected */
+
+  $("#surveylist").change(function() {
+    if ($("#surveylist").val() !== "") {
+      $('#dosetup').prop("disabled", false);
+    } else {
+      $('#dosetup').prop("disabled", true);
+    }
+  });
+
+=======
+>>>>>>> 2fed29bb3ba6412f0ba9de901f1b468ff22a8792
   $("#q-title, #q-id, #q-overview").blur(function() {
     if ($("#q-title").val() !== "" && $("#q-id").val() !== "" && $(
         "#q-overview").val() !== "") {
