@@ -45,6 +45,25 @@ $(function() { // dom is ready
     }
   });
 
+<<<<<<< HEAD
+  /* user settings panel */
+
+  $("header ul.user-menu").click(function() {
+    $('.user-settings, header ul.user-menu').toggleClass("open");
+  });
+
+  /* create new survey check we have a survey selected */
+
+  $("#surveylist").change(function() {
+    if ($("#surveylist").val() !== "") {
+      $('#dosetup').prop("disabled", false);
+    } else {
+      $('#dosetup').prop("disabled", true);
+    }
+  });
+
+=======
+>>>>>>> 2fed29bb3ba6412f0ba9de901f1b468ff22a8792
   $("#q-title, #q-id, #q-overview").blur(function() {
     if ($("#q-title").val() !== "" && $("#q-id").val() !== "" && $(
         "#q-overview").val() !== "") {
