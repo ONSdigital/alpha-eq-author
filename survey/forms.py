@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Select, ChoiceField, ValidationError, forms
+from django.forms import ModelForm, Select, ChoiceField, ValidationError, Textarea, CheckboxInput
 from .models import Survey, Questionnaire
 
 
@@ -52,12 +52,18 @@ class SurveyForm(ModelForm):
 class QuestionnaireForm(ModelForm):
     class Meta:
         model = Questionnaire
-        fields = ('title', 'questionnaire_id',  'overview')
+        fields = ('title', 'questionnaire_id',  'overview', 'reviewed')
         labels = {
             'title': 'Questionnaire title (some supporting copy here)',
             'questionnaire_id': 'Questionnaire id (some supporting copy here)',
             'overview': 'Provide a description of your Questionnaire'
         }
         widgets = {
-          'overview': forms.Textarea(attrs={'rows': 6}),
+          'overview': Textarea(attrs={'rows': 6}),
         }
+
+
+class QuestionnaireDetailForm(ModelForm):
+    class Meta:
+        model = Questionnaire
+        fields = ('reviewed',)

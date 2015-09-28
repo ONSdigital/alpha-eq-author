@@ -9,6 +9,7 @@
             {%  for question in questionnaire.question_set.all %}
                 <li>{{ question.title }}</li>
             {% endfor %}
+            <p>Reviewed <input type="checkbox" {%  if questionnaire.reviewed  %}checked="checked" {%  endif %} disabled="disabled"/></p>
            <li>
                 <a href="{%  url 'survey:create-question' questionnaire.questionnaire_id %}">Add new question</a>
           </li>
