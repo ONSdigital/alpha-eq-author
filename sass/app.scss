@@ -62,10 +62,10 @@ header h1 {
   text-indent: -100000px;
   overflow-x: hidden;
   background: url(/static/img/logo.svg) no-repeat;
-  background-size: 150px auto;
+  background-size: 149px auto;
   display: inline-block;
   position: absolute;
-  top:16px;
+  top:14px;
   left:18px;
 }
 
@@ -298,7 +298,9 @@ fieldset {
 input[type=text], input[type=password], select, textarea {
   border-radius: 2px;
   display: block;
-  margin-top: 6px;
+  margin-top: 8px;
+  height: auto;
+  padding: 1rem;
   transition: background .4s ease;
 }
 
@@ -328,10 +330,10 @@ select {
 label {
   font-size: 10px;
   text-transform: uppercase;
-  font-weight: 600;
-  color:#666;
+  font-weight: 700;
+  color: #888;
   display: block;
-  margin:20px 0;
+  margin: 20px 0 40px 0;
 }
 
 /* error */
@@ -426,12 +428,13 @@ label {
 
 .application h1 {
   font-weight: 200;
-  margin:0 0 2rem 0;
+  margin:0 0 1.5rem 0;
 }
 
 .application p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   color:$appbodytxt;
+  font-size: 18px;
 }
 
 ul.breadcrumb {
@@ -495,6 +498,10 @@ ul.breadcrumb li a {
 
 aside.step {
   position: absolute;
-  right:30px;
-  top:40px;
+  right: 30px;
+  top: 40px;
+  background: #efefef;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 14px;
 }
