@@ -155,3 +155,5 @@ LOGGING = {
 
 LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = reverse_lazy('survey:index')
+
+SURVEY_RUNNER_URL = os.environ.get('SURVEY_RUNNER_URL', None)

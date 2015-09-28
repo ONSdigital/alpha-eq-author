@@ -11,9 +11,12 @@
             {% endfor %}
            <li>
                 <a href="{%  url 'survey:create-question' questionnaire.questionnaire_id %}">Add new question</a>
-            </li>
+          </li>
+          <li>
+            {% if survey_runner_url %}
+              <a href="{{survey_runner_url}}questionnaire/{{questionnaire.questionnaire_id}}">Preview</a>
+            {% endif %}
+          </li>
         </div>
     </section>
 {% endblock base_body%}
-
-
