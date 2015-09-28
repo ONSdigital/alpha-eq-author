@@ -23,6 +23,8 @@ class QuestionnaireTestCase(TestCase):
         self.assertEqual("questionnaire overview 2", questionnaire2.overview)
         self.assertEqual(Survey.objects.get(survey_id='1'), questionnaire1.survey)
         self.assertEqual(Survey.objects.get(survey_id='2'), questionnaire2.survey)
+        self.assertFalse(questionnaire1.reviewed)
+        self.assertFalse(questionnaire2.reviewed)
 
     def test_check_question_count(self):
         response = QuestionnaireTestCase.client.get(reverse('survey:index'))
@@ -68,3 +70,42 @@ class QuestionnaireTestCase(TestCase):
         # attempt to add an invalid questionnaire (i.e. missing the overview field)
         response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title': 'Test Questionnaire 4', 'overview': 'questionnaire overview 4'}, follow=True)
         self.assertContains(response, "This field is required")
+
+    def test_reviewed(self):
+        # add a new questionnaire to survey 1
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3', 'reviewed': 'True'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        # now check that survey 1 has two questionnaires and the reviewed state is correct
+        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
+        survey = response.context['object_list'][0]
+        self.assertEqual(Survey.objects.get(survey_id='1'), survey)
+        questionnaire_set = survey.questionnaire_set.all()
+        self.assertEqual(len(questionnaire_set), 2)
+        self.assertEqual(Questionnaire.objects.get(questionnaire_id='3'), questionnaire_set[0])
+        self.assertEqual(Questionnaire.objects.get(questionnaire_id='1'), questionnaire_set[1])
+        self.assertTrue(questionnaire_set[0].reviewed)
+        self.assertFalse(questionnaire_set[1].reviewed)
+
+    def test_reviewed_false_after_add_question(self):
+        # add a new questionnaire to survey 1
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3', 'reviewed': 'True'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        # check the reviewed status is true
+        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
+        survey = response.context['object_list'][0]
+        self.assertEqual(Survey.objects.get(survey_id='1'), survey)
+        questionnaire_set = survey.questionnaire_set.all()
+        self.assertTrue(questionnaire_set[0].reviewed)
+
+        # now add a question
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-question", kwargs={'questionnaire_slug': '3'}), {'title': 'Test Question 6', 'description': 'question description 6', 'help_text': 'question help text 6', 'error_text' : 'question error text 6'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        # and check the reviewed status is false
+        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
+        survey = response.context['object_list'][0]
+        self.assertEqual(Survey.objects.get(survey_id='1'), survey)
+        questionnaire_set = survey.questionnaire_set.all()
+        self.assertFalse(questionnaire_set[0].reviewed)
