@@ -5,21 +5,25 @@
       <i class="accordion fa fa-angle-down"></i>
       <i class="close fa fa-times-circle"></i>
     </div>
+    <div class="question-title"></div>
   </div>
   <div class="question-container">
   <fieldset>
-    <label>
+    <label for="q-title-auth">
       Title
-      <input type="text"> Question body
-      <textarea></textarea>
+      <input type="text" id="q-title-auth" value="">
+    </label>
+    <label for="question-body">
+      Question body
+      <textarea id="question-body"></textarea>
+    </label>
+    <label for="question-help">
       Help text
-      <textarea></textarea>
-
+    <textarea id="question-help"></textarea>
     </label>
     <div class="input-settings-box">
       <div class="input-settings">
         <i class="fa fa-cog"></i>
-
         <h5>Settings</h5>
         <span>Make this question required</span>
         <input type="checkbox" value="required">

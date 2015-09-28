@@ -89,4 +89,11 @@ $(function() { // dom is ready
 
   $(".question-list").sortable().disableSelection();
 
+  // set the title of the toolbar
+
+  $("body").on("keyup", "#q-title-auth", function() {
+    var keyed = $(this).val();
+    $(".question-title").text(keyed);
+  });
+
 });
