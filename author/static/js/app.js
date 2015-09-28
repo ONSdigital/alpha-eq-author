@@ -60,6 +60,33 @@ $(function() { // dom is ready
     }
   });
 
+  /* add form inputs to the canvas */
 
+  $(".add-text-field").click(function() {
+    $.get('/static/form-snippets/text.html', function(data) {
+      $(".question-list").append(data).hide().fadeIn(1000);
+    }, 'text');
+
+    if ($(".question")) {
+      $(".splash").fadeOut();
+      $(".form-canvas").addClass("active");
+    }
+  });
+
+  /* remove a question from the canvas */
+
+  $("body").on("click", ".close", function() {
+    $(this).closest(".question").fadeOut();
+  });
+
+  /* max/minimise a question */
+
+  $("body").on("click", ".accordion", function() {
+    $(this).parent().parent().parent().find(".question-container").slideToggle();
+  });
+
+  /* make the questions re-orderable */
+
+  $(".question-list").sortable().disableSelection();
 
 });

@@ -505,3 +505,93 @@ aside.step {
   border-radius: 20px;
   font-size: 14px;
 }
+
+/* authoring pages */
+
+.authoring-tools {
+  position: fixed;
+  width:200px;
+}
+
+.authoring-tools ul {
+  list-style-type: none;
+  margin: 0;
+  font-size: 0;
+}
+
+.authoring-tools ul li {
+  display: inline-block;
+  width: 45%;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.authoring-tools ul li.inactive img {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.form-canvas {
+  border-radius: 5px;
+  border:3px dashed $keyline;
+  padding: 10px;
+  counter-reset: order 0;
+}
+
+.form-canvas.active {
+  border-radius: 0;
+  border:0 transparent;
+  padding: 10px
+}
+
+.question-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0
+}
+
+.question {
+  border: 1px solid $keyline;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: white;
+}
+
+.question-toolbar {
+  background: #555;
+  color: #fff;
+  margin: -10px;
+  padding: 10px;
+  cursor: move;
+  position: relative;
+}
+
+.toolbar-actions {
+  position: absolute;
+  top:8px;
+  right:10px;
+}
+
+.toolbar-actions i {
+  margin: 0 5px
+}
+
+.input-settings {
+  display: none;
+}
+
+.close, .accordion {
+  cursor: pointer;
+  margin: 5px;
+}
+
+.boom {
+  background:red!important;
+}
+
+.order:before {
+	counter-increment: order 1;
+	content: "Question: " counter(order, decimal);
+  display: inline-block;
+}

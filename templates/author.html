@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Setup a new Survey{% endblock %}
+{% block base_body %}
+  {{ block.super }}
+{% include "includes/navigation.html" %}
+{% load staticfiles %}
+<div class="wrapper">
+  <section class="row application">
+    <div class="large-12">
+      <ul class="breadcrumb">
+        <li><a href="" title="">Home</a></li>
+        <li><a href="" title="">Surveys</a></li>
+        <li><a href="" title="">This Survey</a></li>
+        <li>Authoring</li>
+      </ul>
+      <main class="clearfix">
+      <h1>Add a Question to XXX</h1>
+      <div class="large-6 columns">
+          <fieldset>
+            <form id="makequestionnaire">
+              <div class="form-canvas">
+                <img src="/static/img/icons/splash.svg" class="splash">
+                <ul class="question-list"></ul>
+              </div>
+            </form>
+        </fieldset>
+      </div>
+      <div class="large-3 large-offset-2 columns end">
+
+        <div class="authoring-tools">
+          <h4>Question types</h4>
+          <ul>
+            <li class="add-text-field"><img src="/static/img/icons/text.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/check.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/radio.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/select.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/grid.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/slider.svg"></li>
+          </ul>
+        </div>
+      </div>
+      </main>
+    </div>
+  </section>
+</div>
+{% endblock base_body%}
