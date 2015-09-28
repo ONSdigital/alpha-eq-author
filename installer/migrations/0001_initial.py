@@ -14,6 +14,15 @@ def create_superuser(apps, schema_editor):
         is_staff=True
     )
 
+    author = User.objects.create(
+        username='user@ons.gov.uk',
+        email='user@ons.gov.uk',
+        password=make_password('password'),
+        is_superuser=False,
+        is_staff=True
+    )
+    
+
 class Migration(migrations.Migration):
 
     dependencies = [
