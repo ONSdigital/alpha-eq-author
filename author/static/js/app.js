@@ -37,17 +37,17 @@ $(function() { // dom is ready
 
   /* create new survey check we have a survey selected */
 
-  $("#surveylist").change(function() {
-    if ($("#surveylist").val() !== "") {
-      $('#dosetup').prop("disabled", false);
-    } else {
-      $('#dosetup').prop("disabled", true);
-    }
-  });
+  //$("#id_survey_list").change(function() {
+  //  if ($("#id_survey_list").val() !== "") {
+  //    $('#dosetup').prop("disabled", false);
+  //  } else {
+  //    $('#dosetup').prop("disabled", true);
+  //  }
+  //});
 
-  $("#q-title, #q-id, #q-overview").blur(function() {
-    if ($("#q-title").val() !== "" && $("#q-id").val() !== "" && $(
-        "#q-overview").val() !== "") {
+  $("#id_title, #id_questionnaire-id, #id_overview").blur(function() {
+    if ($("#id_title").val() !== "" && $("#id_questionnaire_id").val() !== "" && $(
+        "#id_overview").val() !== "") {
       $('#dosetup').prop("disabled", false);
     } else {
       $('#dosetup').prop("disabled", true);

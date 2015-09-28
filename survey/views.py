@@ -1,7 +1,7 @@
 from django.views.generic import ListView, CreateView, DetailView
 from django.core.urlresolvers import reverse
 from .models import Survey, Questionnaire, Question
-from .forms import SurveyForm
+from .forms import SurveyForm, QuestionnaireForm
 from author.views import LoginRequiredMixin
 
 
@@ -14,7 +14,7 @@ class SurveyCreate(LoginRequiredMixin, CreateView):
     form_class = SurveyForm
 
     def get_success_url(self):
-        return reverse("survey:index")
+        return reverse("survey:create-questionnaire", kwargs={'survey_slug': self.object.survey_id})
 
 
 class QuestionnaireDetail(LoginRequiredMixin, DetailView):
@@ -24,7 +24,7 @@ class QuestionnaireDetail(LoginRequiredMixin, DetailView):
 
 class QuestionnaireCreate(LoginRequiredMixin, CreateView):
     model = Questionnaire
-    fields = ['title', 'questionnaire_id', 'overview']
+    form_class = QuestionnaireForm
 
     def form_valid(self, form):
         survey = Survey.objects.get(survey_id=self.kwargs['survey_slug'])

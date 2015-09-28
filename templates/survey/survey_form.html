@@ -1,14 +1,32 @@
 {% extends "base.html" %}
+{% block title %}Setup a new Survey{% endblock %}
 {% block base_body %}
-     <section class="row fullvh">
-        <div>
-            <h2>Setup new survey</h2>
-            <form action="" method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Create" />
-            </form>
-        </div>
-    </section>
+  {{ block.super }}
+{% include "includes/navigation.html" %}
+{% load staticfiles %}
+<div class="wrapper">
+  <section class="row application clearfix">
+    <div class="large-12">
+      <ul class="breadcrumb">
+        <li><a href="{% url 'home' %}" title="">Home</a></li>
+        <li><a href="{% url 'survey:index' %}" title="">Surveys</a></li>
+        <li>Setup new Survey</li>
+      </ul>
+      <main>
+      <h1>Setup a new Survey</h1>
+      <aside class="step">Step 1 of 2</aside>
+      <p>A questionnaire must be added to an existing survey. Please choose from the list below to get started.</p>
+          <fieldset>
+               <form action="" method="post" id="submitsurvey">{% csrf_token %}
+                      {{ form.as_p }}
+
+                <div class="right user-prompt">
+                    <input type="submit" class="button small radius" id="dosetup" value="Proceed">
+                </div>
+               </form>
+        </fieldset>
+      </main>
+    </div>
+  </section>
+</div>
 {% endblock base_body%}
-
-
