@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Select, ChoiceField, ValidationError
+from django.forms import ModelForm, Select, ChoiceField, ValidationError, forms
 from .models import Survey, Questionnaire
 
 
@@ -47,3 +47,17 @@ class SurveyForm(ModelForm):
         survey.survey_id = survey_id
         survey.save()
         return survey
+
+
+class QuestionnaireForm(ModelForm):
+    class Meta:
+        model = Questionnaire
+        fields = ('title', 'questionnaire_id',  'overview')
+        labels = {
+            'title': 'Questionnaire title (some supporting copy here)',
+            'questionnaire_id': 'Questionnaire id (some supporting copy here)',
+            'overview': 'Provide a description of your Questionnaire'
+        }
+        widgets = {
+          'overview': forms.Textarea(attrs={'rows': 6}),
+        }

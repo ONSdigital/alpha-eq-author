@@ -8,8 +8,8 @@
   <section class="row application clearfix">
     <div class="large-12">
       <ul class="breadcrumb">
-        <li><a href="" title="">Home</a></li>
-        <li><a href="" title="">Surveys</a></li>
+        <li><a href="{% url 'home' %}" title="">Home</a></li>
+        <li><a href="{% url 'survey:index' %}" title="">Surveys</a></li>
         <li>Setup new Survey</li>
       </ul>
       <main>
@@ -21,7 +21,7 @@
                       {{ form.as_p }}
 
                 <div class="right user-prompt">
-                    <input type="submit" class="button small radius" id="dosetup" value="Proceed" disabled="true">
+                    <input type="submit" class="button small radius" id="dosetup" value="Proceed">
                 </div>
                </form>
         </fieldset>
