@@ -424,6 +424,7 @@ label {
 .application main {
   @include globalshadow;
   position: relative;
+  min-height: 800px;
 }
 
 .application h1 {
@@ -511,6 +512,7 @@ aside.step {
 .authoring-tools {
   position: fixed;
   width:200px;
+  top:280px;
 }
 
 .authoring-tools ul {

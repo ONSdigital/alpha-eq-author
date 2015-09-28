@@ -64,6 +64,7 @@ $(function() { // dom is ready
 
   $(".add-text-field").click(function() {
     $.get('/static/form-snippets/text.html', function(data) {
+      $(".question-container").slideUp();
       $(".question-list").append(data).hide().fadeIn(1000);
     }, 'text');
 
