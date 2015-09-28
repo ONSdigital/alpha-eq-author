@@ -49,8 +49,6 @@ class SurveyTestCase(TestCase):
         # now add a new survey
         response = SurveyTestCase.client.post(reverse('survey:create'), {'survey_list': '024'}, follow=True)
         self.assertEqual(200, response.status_code)
-        # check we've got an additional survey
-        self.assertEqual(len(response.context['object_list']), 3)
 
         # double check by sending a request to the main survey page again
         response = SurveyTestCase.client.get(reverse('survey:index'))
@@ -74,8 +72,6 @@ class SurveyTestCase(TestCase):
         # now add a new survey
         response = SurveyTestCase.client.post(reverse('survey:create'), {'survey_list': '024'}, follow=True)
         self.assertEqual(200, response.status_code)
-        # check we've got an additional survey
-        self.assertEqual(len(response.context['object_list']), 3)
 
         # now attempt to add the same survey
         response = SurveyTestCase.client.post(reverse('survey:create'), {'survey_list': '024'}, follow=True)
