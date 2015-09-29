@@ -4,8 +4,6 @@ from django.shortcuts import redirect
 from .models import Survey, Questionnaire, Question
 from django.http import JsonResponse, Http404
 from django.conf import settings
-from author.settings import SURVEY_RUNNER_URL
-import requests
 
 from .forms import SurveyForm, QuestionnaireForm
 
