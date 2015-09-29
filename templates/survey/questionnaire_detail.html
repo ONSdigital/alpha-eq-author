@@ -1,23 +1,35 @@
 {% extends "base.html" %}
 {% block base_body %}
-     <section class="row fullvh">
+    <section class="row fullvh">
         <div>
             <h1>{{ questionnaire.survey }}</h1>
+
             <h2>{{ questionnaire.title }}</h2>
+
             <p>{{ questionnaire.overview }}</p>
+
             <p></p>
-            {%  for question in questionnaire.question_set.all %}
-                <li>{{ question.title }}</li>
-            {% endfor %}
-            <p>Reviewed <input type="checkbox" {%  if questionnaire.reviewed  %}checked="checked" {%  endif %} disabled="disabled"/></p>
-           <li>
-                <a href="{%  url 'survey:create-question' questionnaire.questionnaire_id %}">Add new question</a>
-          </li>
-          <li>
-            {% if survey_runner_url %}
-              <a href="{{survey_runner_url}}questionnaire/{{questionnaire.id}}?preview=True">Preview</a>
-            {% endif %}
-          </li>
+            <ul>
+                {% for question in questionnaire.question_set.all %}
+                    <li>{{ question.title }}</li>
+                {% endfor %}
+                <li>
+                    <a href="{% url 'survey:create-question' questionnaire.questionnaire_id %}">Add new question</a>
+                </li>
+                <li>
+                    {% if survey_runner_url %}
+                        <a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True">Preview</a>
+                    {% endif %}
+                </li>
+                {%  if not questionnaire.reviewed %}
+                <li>
+                    <a href="{% url 'survey:review-questionnaire' slug=questionnaire.questionnaire_id %}">Review</a>
+                </li>
+                {%  else  %}
+                <li>Reviewed <input type="checkbox" {% if questionnaire.reviewed %}checked="checked" {% endif %}
+                                    disabled="disabled"/></li>
+                {%  endif %}
+            </ul>
         </div>
     </section>
-{% endblock base_body%}
+{% endblock base_body %}

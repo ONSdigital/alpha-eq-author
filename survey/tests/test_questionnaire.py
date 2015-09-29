@@ -73,7 +73,7 @@ class QuestionnaireTestCase(TestCase):
 
     def test_reviewed(self):
         # add a new questionnaire to survey 1
-        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3', 'reviewed': 'True'}, follow=True)
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
         self.assertEqual(200, response.status_code)
 
         # now check that survey 1 has two questionnaires and the reviewed state is correct
@@ -84,13 +84,19 @@ class QuestionnaireTestCase(TestCase):
         self.assertEqual(len(questionnaire_set), 2)
         self.assertEqual(Questionnaire.objects.get(questionnaire_id='3'), questionnaire_set[0])
         self.assertEqual(Questionnaire.objects.get(questionnaire_id='1'), questionnaire_set[1])
-        self.assertTrue(questionnaire_set[0].reviewed)
+        self.assertFalse(questionnaire_set[0].reviewed)
         self.assertFalse(questionnaire_set[1].reviewed)
+
+        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '1'}), follow=True)
+        self.assertContains(response, "Reviewed")
 
     def test_reviewed_false_after_add_question(self):
         # add a new questionnaire to survey 1
-        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3', 'reviewed': 'True'}, follow=True)
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
         self.assertEqual(200, response.status_code)
+
+        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '3'}), follow=True)
+        self.assertContains(response, "Reviewed")
 
         # check the reviewed status is true
         response = QuestionnaireTestCase.client.get(reverse('survey:index'))

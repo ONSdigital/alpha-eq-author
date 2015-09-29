@@ -52,7 +52,8 @@ class SurveyForm(ModelForm):
 class QuestionnaireForm(ModelForm):
     class Meta:
         model = Questionnaire
-        fields = ('title', 'questionnaire_id',  'overview', 'reviewed')
+        fields = ('title', 'questionnaire_id',  'overview')
+        exclude = {'reviewed'}
         labels = {
             'title': 'Questionnaire title (some supporting copy here)',
             'questionnaire_id': 'Questionnaire id (some supporting copy here)',
