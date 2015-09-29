@@ -247,7 +247,9 @@ class QuestionnaireAPITestCase(TestCase):
             Question.objects.create(title="Test Question 5", questionnaire=Questionnaire.objects.get(questionnaire_id='2'), description='question description 5', help_text='question help text 5', error_text='question error text 5')
 
         def test_render_to_json_object_matches_schema(self):
-            response = QuestionnaireAPITestCase.client.get(reverse("survey:questionnaire-api", kwargs={'slug': '1'}), follow=True)
+            ques_1 = Questionnaire.objects.get(questionnaire_id='1')
+            response = QuestionnaireAPITestCase.client.get(reverse("survey:questionnaire-api", kwargs={'slug': ques_1.pk}), follow=True)
+
             self.assertEqual(200, response.status_code)
             import json
             questionnaire = json.loads(response.content)
