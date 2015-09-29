@@ -115,3 +115,27 @@ class QuestionnaireTestCase(TestCase):
         self.assertEqual(Survey.objects.get(survey_id='1'), survey)
         questionnaire_set = survey.questionnaire_set.all()
         self.assertFalse(questionnaire_set[0].reviewed)
+
+    def test_published_a_questionnaire(self):
+        # add a new questionnaire to survey 1
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        # add a question to questionnaire
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-question", kwargs={'questionnaire_slug': '3'}), {'title': 'Test Question 6', 'description': 'question description 6', 'help_text': 'question help text 6', 'error_text' : 'question error text 6'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        # check we cannot make it live
+        self.assertNotContains(response, 'publish')
+
+        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '3'}), follow=True)
+        self.assertContains(response, "Reviewed")
+
+        # check we can publish
+        self.assertContains(response, 'publish')
+
+        response = QuestionnaireTestCase.client.get(reverse("survey:publish-questionnaire", kwargs={'slug':'3'}), follow=True)
+        self.assertContains(response, 'online')
+        self.assertNotContains(response, 'add')
+
+
