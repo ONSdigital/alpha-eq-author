@@ -31,7 +31,7 @@ class QuestionnaireDetail(LoginRequiredMixin, DetailView):
 
 class QuestionnaireAPIDetail(DetailView):
     model = Questionnaire
-    slug_field = 'questionnaire_id'
+    slug_field = 'id'
 
     def get_data(self, context):
         rtn_obj = {}
