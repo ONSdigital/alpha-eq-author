@@ -7,13 +7,13 @@
       <a href="#" tabindex="4" title="support page">Support</a>
     </nav>
     <ul class="user-menu" title="Settings &amp; Sign Out">
-      <li class="open-settings"><a href="#" tabindex="5">Long User Name</a></li>
+      <li class="open-settings"><a href="#" tabindex="5">{{ user.get_full_name }}</a></li>
     </ul>
   </div>
   <div class="user-settings">
     <ul>
-      <li><a href="#" tabindex="6" title="sign out">Sign Out</a></li>
-      <li><a href="#" tabindex="7" title="settings">Settings</a></li>
+      <li><a href="/logout/" tabindex="6" title="sign out">Sign Out</a></li>
+      {# <li><a href="#" tabindex="7" title="settings">Settings</a></li> #}
     </ul>
   </div>
 </header>

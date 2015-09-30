@@ -22,7 +22,7 @@
             <input type="password" name="password" placeholder="" class="pwd" id="password" />
           </label>
           {% if form.errors %}
-          <p class="error signin-error">Incorrect password, please try again</p>
+          <p class="error signin-error" style="display:block;">Incorrect password, please try again</p>
           {% endif %}
         </div>
         <div class="small-12 pwd-funcs">
@@ -41,3 +41,8 @@
   </section>
 
 {% endblock base_body%}
+
+{% block body_js %}
+  {{ block.super }}
+  <script src="{% static "js/hideShowPassword.min.js" %}"></script>
+{% endblock body_js %}

@@ -11,7 +11,9 @@ def create_superuser(apps, schema_editor):
         email='admin@example.com',
         password=make_password('password'),
         is_superuser=True,
-        is_staff=True
+        is_staff=True,
+        first_name='Admin',
+        last_name='User'
     )
 
     author = User.objects.create(
@@ -19,7 +21,9 @@ def create_superuser(apps, schema_editor):
         email='user@ons.gov.uk',
         password=make_password('password'),
         is_superuser=False,
-        is_staff=True
+        is_staff=True,
+        first_name='Example',
+        last_name='User'
     )
     
 
