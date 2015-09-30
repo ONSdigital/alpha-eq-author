@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Select, ChoiceField, ValidationError, Textarea, CheckboxInput
-from .models import Survey, Questionnaire
+from .models import Survey, Questionnaire, Question
 
 
 SURVEY_STORE = (
@@ -53,10 +53,10 @@ class QuestionnaireForm(ModelForm):
     class Meta:
         model = Questionnaire
         fields = ('title', 'questionnaire_id',  'overview')
-        exclude = {'reviewed'}
+        exclude = {'reviewed', 'introduction_text'}
         labels = {
-            'title': 'Questionnaire title (some supporting copy here)',
-            'questionnaire_id': 'Questionnaire id (some supporting copy here)',
+            'title': 'Questionnaire title',
+            'questionnaire_id': 'Questionnaire id',
             'overview': 'Provide a description of your Questionnaire'
         }
         widgets = {
