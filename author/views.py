@@ -15,6 +15,9 @@ class LoginRequiredMixin(object):
 class WelcomeView(LoginRequiredMixin, TemplateView):
     template_name = 'welcome.html'
 
+    def get(self, request, *args, **kwargs):
+        return redirect(reverse("survey:index"))
+
 
 class LogoutView(TemplateView):
     def get(self, request):
