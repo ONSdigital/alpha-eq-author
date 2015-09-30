@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import SurveyList, SurveyCreate, QuestionnaireCreate, QuestionCreate, QuestionnaireReview
+from .views import SurveyList, SurveyCreate, QuestionnaireCreate, QuestionCreate, QuestionnaireReview, QuestionnairePublish
 from .views import QuestionnaireDetail, QuestionnaireAPIDetail
 
 urlpatterns = [
@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^questionnaire/(?P<slug>[-\w]+)/$', QuestionnaireDetail.as_view(), name='questionnaire-summary'),
     url(r'^question/(?P<questionnaire_slug>[-\w]+)/$', QuestionCreate.as_view(), name='create-question'),
     url(r'^questionnaire/(?P<slug>[-\w]+)/review', QuestionnaireReview.as_view(), name='review-questionnaire'),
+    url(r'^questionnaire/(?P<slug>[-\w]+)/publish', QuestionnairePublish.as_view(), name='publish-questionnaire'),
     url(r'$', SurveyList.as_view(), name='index'),
 ]

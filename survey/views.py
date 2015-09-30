@@ -74,6 +74,16 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
     model = Question
     fields = ['title', 'description', 'help_text', 'error_text']
 
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['questionnaire_slug'])
+        if questionnaire.published:
+            return self.form_invalid(self, form)
+
+        return super(QuestionCreate, self).post(request, *args, **kwargs)
+
     def form_valid(self, form):
         questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['questionnaire_slug'])
         form.instance.questionnaire = questionnaire
@@ -96,4 +106,18 @@ class QuestionnaireReview(LoginRequiredMixin, View):
             return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug'] }))
 
         return Http404()
+
+
+class QuestionnairePublish(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['slug'])
+
+        if questionnaire is None:
+            return Http404()
+
+        if questionnaire.reviewed:
+            questionnaire.published = True
+            questionnaire.save()
+
+            return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug'] }))
 
