@@ -42,4 +42,4 @@ class LoginTest(TestCase):
         self.assertTrue(login)
 
         response = self.client.get(reverse('welcome'), follow=True)
-        self.assertContains(response, 'welcome')
+        self.assertContains(response, 'Surveys')
