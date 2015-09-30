@@ -1,9 +1,12 @@
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, View
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 from .models import Survey, Questionnaire, Question
-from .forms import SurveyForm, QuestionnaireForm
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.conf import settings
+
+from .forms import SurveyForm, QuestionnaireForm
+
 from author.views import LoginRequiredMixin
 
 
@@ -28,6 +31,7 @@ class QuestionnaireDetail(LoginRequiredMixin, DetailView):
         context = super(QuestionnaireDetail, self).get_context_data(**kwargs)
         context['survey_runner_url'] = settings.SURVEY_RUNNER_URL
         return context
+
 
 class QuestionnaireAPIDetail(DetailView):
     model = Questionnaire
@@ -73,7 +77,23 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['questionnaire_slug'])
         form.instance.questionnaire = questionnaire
-        return super(QuestionCreate, self).form_valid(form)
+        result = super(QuestionCreate, self).form_valid(form)
+        if result:
+            questionnaire.reviewed = False
+            questionnaire.save()
+        return result
 
     def get_success_url(self):
         return reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['questionnaire_slug'] })
+
+
+class QuestionnaireReview(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['slug'])
+        if questionnaire is not None and not questionnaire.reviewed:
+            questionnaire.reviewed = True
+            questionnaire.save()
+            return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug'] }))
+
+        return Http404()
+

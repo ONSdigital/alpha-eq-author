@@ -14,6 +14,7 @@ class Questionnaire(models.Model):
     title = models.CharField(max_length=120)
     overview = models.TextField(max_length=3000)
     survey = models.ForeignKey(Survey)
+    reviewed = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.title
