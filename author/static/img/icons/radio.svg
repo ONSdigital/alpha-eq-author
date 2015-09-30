@@ -6,7 +6,7 @@
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="radio" sketch:type="MSArtboardGroup">
-            <rect id="Rectangle-1-Copy-2" stroke="#000000" stroke-width="2" sketch:type="MSShapeGroup" x="0" y="0" width="228" height="228" rx="8"></rect>
+            <rect id="Rectangle-1-Copy-2" stroke="#9B9B9B" stroke-width="4" sketch:type="MSShapeGroup" x="2" y="2" width="225" height="225" rx="8"></rect>
             <g id="Imported-Layers" sketch:type="MSLayerGroup" transform="translate(20.000000, 56.000000)"></g>
             <g id="Group" sketch:type="MSLayerGroup" transform="translate(69.000000, 70.000000)" fill="#000000">
                 <path d="M13.4328358,26.0261194 C20.3749254,26.0261194 26.0261194,20.3749254 26.0261194,13.4328358 C26.0261194,6.49074627 20.3749254,0.839552239 13.4328358,0.839552239 C6.49074627,0.839552239 0.839552239,6.49074627 0.839552239,13.4328358 C0.839552239,20.3749254 6.49074627,26.0261194 13.4328358,26.0261194 L13.4328358,26.0261194 Z M13.4328358,5.87686567 C17.5997015,5.87686567 20.988806,9.26597015 20.988806,13.4328358 C20.988806,17.5997015 17.5997015,20.988806 13.4328358,20.988806 C9.26597015,20.988806 5.87686567,17.5997015 5.87686567,13.4328358 C5.87686567,9.26597015 9.26597015,5.87686567 13.4328358,5.87686567 L13.4328358,5.87686567 Z" id="Fill-1" sketch:type="MSShapeGroup"></path>

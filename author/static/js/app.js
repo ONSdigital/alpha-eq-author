@@ -71,7 +71,10 @@ $(function() { // dom is ready
     if ($(".question")) {
       $(".splash").fadeOut();
       $(".form-canvas").addClass("active");
+    } else if (!$(".question")) {
+      $(".splash").fadeIn();
     }
+
   });
 
   /* remove a question from the canvas */
@@ -80,10 +83,31 @@ $(function() { // dom is ready
     $(this).closest(".question").fadeOut();
   });
 
+  /* duplicate a question */
+
+  $("body").on("click", ".duplicate", function() {
+    $(this).closest(".question").clone().insertBefore($(this).closest(
+      ".question"));
+  });
+
+  /* take the content from the RTE and mirror in textarea for form submission */
+
+  $("#q-intro").html($(".q-intro").html());
+
+  $("body").on("keyup, keydown, focus", ".q-intro", function() {
+    var introtxt = $(".q-intro").html();
+    $("#q-intro").html(introtxt);
+  });
+
+  $(".clear").click(function() {
+    $("#q-intro, .q-intro").html($(".q-intro").text());
+  });
+
+
   /* max/minimise a question */
 
-  $("body").on("click", ".accordion", function() {
-    $(this).parent().parent().parent().find(".question-container").slideToggle();
+  $("body").on("click", ".question-toolbar", function() {
+    $(this).closest(".question").find(".question-container").slideToggle();
   });
 
   /* make the questions re-orderable */
@@ -94,7 +118,7 @@ $(function() { // dom is ready
 
   $("body").on("keyup", "#q-title-auth", function() {
     var keyed = $(this).val();
-    $(".question-title").text(keyed);
+    $(this).closest(".question").find(".order").text(keyed);
   });
 
 });

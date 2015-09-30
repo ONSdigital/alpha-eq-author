@@ -15,7 +15,6 @@ body, html {
 @mixin globalshadow() {
   box-shadow: inset 0px 3px 0px 0px rgba(87,136,170,0.23);
   background: white;
-  padding:60px;
   border-radius: 3px;
   border:1px solid $keyline;
 }
@@ -281,7 +280,7 @@ p.pwd-toggle i, p.pwd-remind i {
 }
 
 p.error {
-  display:none;
+  /*display:none;*/
   color:red;
   text-align: left;
   text-transform: capitalize;
@@ -425,9 +424,10 @@ label {
   @include globalshadow;
   position: relative;
   min-height: 800px;
+  padding:40px 20px 20px 20px;
 }
 
-.application h1 {
+.application h1, .application h2, .application h3 {
   font-weight: 200;
   margin:0 0 1.5rem 0;
 }
@@ -436,6 +436,21 @@ label {
   margin-bottom: 1.25rem;
   color:$appbodytxt;
   font-size: 18px;
+}
+
+p.instruction {
+  font-size: 14px;
+  margin: 5px 0 10px 0;
+  color: #999;
+}
+
+.application .save, .application .preview {
+  width: 100%;
+  margin: 10px 0 5px 0;
+}
+
+.preview {
+  background: #999;
 }
 
 ul.breadcrumb {
@@ -512,8 +527,13 @@ aside.step {
 .authoring-tools {
   position: fixed;
   width:200px;
-  top:280px;
+  top:320px;
 }
+
+.authoring-tools h5 {
+  margin-bottom:0;
+}
+
 
 .authoring-tools ul {
   list-style-type: none;
@@ -536,14 +556,35 @@ aside.step {
 .form-canvas {
   border-radius: 5px;
   border:3px dashed $keyline;
-  padding: 10px;
+  margin:15px 0;
   counter-reset: order 0;
 }
 
 .form-canvas.active {
   border-radius: 0;
   border:0 transparent;
-  padding: 10px
+}
+
+#q-intro {
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+
+.q-intro {
+  margin:20px 0;
+  border: 1px solid $keyline;
+  padding: 20px;
+  border-radius:3px;
+  box-shadow: inset 0px 0px 2px #666;
+}
+
+.clear {
+  position: absolute;
+  top:90px;
+  right: 15px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .question-list {
@@ -561,17 +602,20 @@ aside.step {
 }
 
 .question-toolbar {
-  background: #555;
-  color: #fff;
+  background: #f8f8f8;
+  border-bottom: $keyline;
+  color: #555;
   margin: -10px;
   padding: 10px;
   cursor: move;
   position: relative;
+  min-height: 38px;
+  box-shadow: 0px 1px 1px #ebebeb;
 }
 
 .question-title {
   font-size:11px;
-  background:#666;
+  background:rgba(0,0,0,0.025);
   margin: 10px -10px -10px -10px;
   padding:10px;
 }
@@ -583,24 +627,30 @@ aside.step {
 }
 
 .toolbar-actions i {
-  margin: 0 5px
+  margin: 0 5px;
+  vertical-align: middle;
 }
 
 .input-settings {
   display: none;
 }
 
-.close, .accordion {
+.close, .accordion, .duplicate {
   cursor: pointer;
   margin: 5px;
 }
 
-.boom {
-  background:red!important;
-}
-
 .order:before {
 	counter-increment: order 1;
-	content: "Question: " counter(order, decimal);
+	content: "Q" counter(order, decimal) " ) ";
   display: inline-block;
+  width:30px;
+  height: 24px;
+  line-height: 24px;
+  font-size:12px;
+  color: #666;
+  text-align: center;
+  font-weight: 600;
+  border-radius: 140px;
+  margin-right: 5px
 }

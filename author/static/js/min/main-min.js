@@ -1,0 +1,1 @@
+(function(){var n;n=function(){function n(){}return n.prototype.initialize=function(){var n;return n=new MediumEditor(".q-intro",{buttonLabels:"fontawesome",buttons:["bold","italic","underline"]})},n}(),$(function(){var t;return t=new n,t.initialize()})}).call(this);

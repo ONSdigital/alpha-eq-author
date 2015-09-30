@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 {% block title %}Setup a new Survey{% endblock %}
+{% load staticfiles %}
+{% block css %}
+  {{ block.super }}
+  <link href="{% static "css/editor.css" %}" rel="stylesheet"/>
+{% endblock css %}
 {% block base_body %}
   {{ block.super }}
 {% include "includes/navigation.html" %}
-{% load staticfiles %}
+
 <div class="wrapper">
   <section class="row application">
     <div class="large-12">
@@ -14,10 +19,15 @@
         <li>Authoring</li>
       </ul>
       <main class="clearfix">
-      <h1>Add a Question to XXX</h1>
-      <div class="large-6 columns">
+
+      <div class="large-9 columns">
+        <h2>Questionnaire Builder</h2>
           <fieldset>
             <form id="makequestionnaire">
+              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i>
+</span>
+                <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</ul></div>
+                <textarea id="q-intro"></textarea>
               <div class="form-canvas">
                 <img src="/static/img/icons/splash.svg" class="splash">
                 <ul class="question-list"></ul>
@@ -25,10 +35,11 @@
             </form>
         </fieldset>
       </div>
-      <div class="large-3 large-offset-2 columns end">
+      <div class="large-3 columns end">
 
         <div class="authoring-tools">
-          <h4>Question types</h4>
+          <h5>Question types</h5>
+          <p class="instruction">Click to add a new question</p>
           <ul>
             <li class="add-text-field"><img src="/static/img/icons/text.svg"></li>
             <li class="inactive"><img src="/static/img/icons/check.svg"></li>
@@ -37,7 +48,8 @@
             <li class="inactive"><img src="/static/img/icons/grid.svg"></li>
             <li class="inactive"><img src="/static/img/icons/slider.svg"></li>
           </ul>
-          <input type="submit" class="button small radius" id="" value="Save">
+          <input type="submit" class="button small radius save" id="" value="Save">
+          <a class="button small radius preview">Preview</a>
         </div>
       </div>
       </main>
@@ -45,3 +57,10 @@
   </section>
 </div>
 {% endblock base_body%}
+
+
+{% block body_js %}
+  {{ block.super }}
+  <script src="{% static "js/plugin.js" %}"></script>
+  <script src="{% static "js/main.js" %}"></script>
+{% endblock body_js %}
