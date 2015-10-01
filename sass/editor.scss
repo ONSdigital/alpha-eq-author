@@ -382,14 +382,14 @@
         cursor: pointer; }
         .medium-editor-placeholder:after .mediumInsert .mediumInsert-placeholder .mediumInsert-images a.mediumInsert-imageRemove {
           right: 0;
-          background-image: url(../images/remove.png); }
+          /*background-image: url(../images/remove.png);*/ }
         .medium-editor-placeholder:after .mediumInsert .mediumInsert-placeholder .mediumInsert-images a.mediumInsert-imageResizeSmaller {
           right: 31px;
-          background-image: url(../images/resize-smaller.png); }
+          /*background-image: url(../images/resize-smaller.png); */}
         .medium-editor-placeholder:after .mediumInsert .mediumInsert-placeholder .mediumInsert-images a.mediumInsert-imageResizeBigger {
           right: 31px;
-          background-image: url(../images/resize-smaller.png);
-          background-image: url(../images/resize-bigger.png); }
+          /*background-image: url(../images/resize-smaller.png);
+          background-image: url(../images/resize-bigger.png);*/ }
       .medium-editor-placeholder:after .mediumInsert .mediumInsert-placeholder .mediumInsert-images:first-child:after {
         content: "\a";
         white-space: pre; }
