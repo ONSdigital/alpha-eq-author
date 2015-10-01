@@ -60,6 +60,65 @@ $(function() { // dom is ready
     }
   });
 
+  /* add form inputs to the canvas */
 
+  $(".add-text-field").click(function() {
+    $.get('/static/form-snippets/text.html', function(data) {
+      $(".question-container").slideUp();
+      $(".question-list").append(data).hide().fadeIn(1000);
+    }, 'text');
+
+    if ($(".question")) {
+      $(".splash").fadeOut();
+      $(".form-canvas").addClass("active");
+    } else if (!$(".question")) {
+      $(".splash").fadeIn();
+    }
+
+  });
+
+  /* remove a question from the canvas */
+
+  $("body").on("click", ".close", function() {
+    $(this).closest(".question").fadeOut();
+  });
+
+  /* duplicate a question */
+
+  $("body").on("click", ".duplicate", function() {
+    $(this).closest(".question").clone().insertBefore($(this).closest(
+      ".question"));
+  });
+
+  /* take the content from the RTE and mirror in textarea for form submission */
+
+  $("#q-intro").html($(".q-intro").html());
+
+  $("body").on("keyup, keydown, focus", ".q-intro", function() {
+    var introtxt = $(".q-intro").html();
+    $("#q-intro").html(introtxt);
+  });
+
+  $(".clear").click(function() {
+    $("#q-intro, .q-intro").html($(".q-intro").text());
+  });
+
+
+  /* max/minimise a question */
+
+  $("body").on("click", ".question-toolbar", function() {
+    $(this).closest(".question").find(".question-container").slideToggle();
+  });
+
+  /* make the questions re-orderable */
+
+  $(".question-list").sortable().disableSelection();
+
+  // set the title of the toolbar
+
+  $("body").on("keyup", "#q-title-auth", function() {
+    var keyed = $(this).val();
+    $(this).closest(".question").find(".order").text(keyed);
+  });
 
 });
