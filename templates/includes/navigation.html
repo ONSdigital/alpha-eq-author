@@ -2,9 +2,8 @@
   <div>
     <h1><a href="/" tabindex="1" title="return to homepage">Survey Builder</a></h1>
     <nav>
-      <a href="#" tabindex="2" title="dashboard page">Dashboard</a>
-      <a href="#" tabindex="3" title="survey page" class="current">Surveys</a>
-      <a href="#" tabindex="4" title="support page">Support</a>
+      <a href="{% url 'survey:index'  %}" tabindex="2" title="dashboard page">Dashboard</a>
+      <a href="{% url 'survey:index'  %}" tabindex="3" title="survey page" {% if request.path == '/surveys/' %} class="current" {% endif %} >Surveys</a>
     </nav>
     <ul class="user-menu" title="Settings &amp; Sign Out">
       <li class="open-settings"><a href="#" tabindex="5">{{ user.get_full_name }}</a></li>
@@ -17,3 +16,10 @@
     </ul>
   </div>
 </header>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}

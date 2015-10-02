@@ -1,29 +1,55 @@
 {% extends "base.html" %}
+{% block title %}Survey List{% endblock %}
 {% block base_body %}
-    <section class="row fullvh">
-        <div>
-            <h2>Surveys</h2>
-            <p>
-                <a href="{%  url 'survey:create' %}">Add new survey</a>
-            </p>
-            <p>
-                <ul>
-                    {% for survey in object_list %}
-                        <li>{{ survey.title}}</li>
-                            <ul>
-                            {%  for questionnaire in survey.questionnaire_set.all %}
-                                <li><a href="{%  url 'survey:questionnaire-summary' questionnaire.questionnaire_id %}">{{ questionnaire.title }}</a></li>
-                            {% endfor %}
-                            <li>
-                                <a href="{%  url 'survey:create-questionnaire' survey.survey_id %}">Add new questionnaire</a>
-                            </li>
-                        </ul>
+    {{ block.super }}
+    {% include "includes/navigation.html" %}
+    {% load staticfiles %}
+    <div class="wrapper">
+    <section class="row application clearfix">
+        <div class="large-12">
+            <ul class="breadcrumb">
+                <li><a href="{% url 'welcome' %}" title="">Home</a></li>
+                <li>Surveys</li>
+            </ul>
+            <main>
+                <h1>Surveys</h1>
+                <p>
+                    <a href="{%  url 'survey:create' %}" class="button small radius push-9">Setup a new survey</a>
+                </p>
+                {% for survey in object_list %}
+                <h3>{{ survey.title }}</h3>
+                <hr />
+                <p>
+                    <a href="{% url 'survey:create-questionnaire' survey.survey_id %}" class="button small radius secondary push-9">Add a new questionnaire</a>
+                </p>
+                {% if survey.questionnaire_set.all %}
+                <table>
+                  <thead>
+                  <th width="100%">
+                    Questionnaire
+                  </th>
+                  <th>
+                  </th>
+                  </thead>
+                  <tbody>
+                  {% for questionnaire in survey.questionnaire_set.all %}
+                      <tr>
+                          <td><a href="{% url 'survey:questionnaire-summary' questionnaire.questionnaire_id %}">{{ questionnaire.title }}</a></td>
+                          <td>
+                            {% if not questionnaire.published %}
+                                <a href="{% url 'survey:questionnaire-builder' questionnaire.id %}" >Edit</a>
+                            {% endif %}
+                          </td>
+                      </tr>
+                  {% endfor %}
 
-                    {% endfor %}
-                </ul>
-            </p>
+                  </tbody>
+                </table>
+                {% endif %}
+                {% endfor %}
 
+            </p>
+            </main>
         </div>
     </section>
-{% endblock base_body%}
-
+{% endblock base_body %}

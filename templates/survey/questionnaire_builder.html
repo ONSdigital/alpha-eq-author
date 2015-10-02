@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Setup a new Survey{% endblock %}
+{% load staticfiles %}
+{% block css %}
+  {{ block.super }}
+  <link href="{% static "css/editor.css" %}" rel="stylesheet"/>
+{% endblock css %}
+{% block base_body %}
+  {{ block.super }}
+{% include "includes/navigation.html" %}
+
+
+
+<div class="wrapper">
+
+
+ <div>
+  <section class="row application">
+    <div class="large-12">
+      <ul class="breadcrumb">
+        <li><a href="" title="">Home</a></li>
+        <li><a href="" title="">Surveys</a></li>
+        <li><a href="" title="">This Survey</a></li>
+        <li>Authoring</li>
+      </ul>
+      <main class="clearfix">
+
+      <div class="large-9 columns">
+        <h2>Questionnaire Builder</h2>
+          {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+            </div>
+            {% endif %}
+          <fieldset>
+            <form id="makequestionnaire" method="POST" action="." name="questionnaire-builder">
+              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i>
+</span>
+             <!--   <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</u></div>
+                <textarea id="q-intro"></textarea>-->
+              <div class="form-canvas active">
+                <img src="/static/img/icons/splash.svg" class="splash hide">
+                <ul class="question-list">
+                  {% for f in formset.management_form %}
+                      {{f}}
+                  {% endfor %}
+                  {% for form in formset %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                  {% endfor %}
+                  {% for dict in formset.errors %}
+                    {% for error in dict.values %}
+                      {{ error }}
+                    {% endfor %}
+                  {% endfor %}
+                  {% csrf_token %}
+                  {% for f in formset %}
+                  <li class="add-text-field question">
+                    <div class="question-toolbar">
+                      <span class="order"></span>
+                      <div class="toolbar-actions">
+                        <i class="accordion fa fa-angle-down"></i>
+                        <i class="duplicate fa fa-files-o"></i>
+                        <i class="close fa fa-times-circle"></i>
+                      </div>
+                    </div>
+                    <div class="question-container">
+                    <fieldset>
+                      <label for="q-title-auth">
+                        Title
+                        {{f.title}}
+                      </label>
+                      <label for="question-body">
+                        Question body
+                        {{f.description}}
+                      </label>
+                      <label for="question-help">
+                        Help text
+                        {{f.help_text}}
+                      </label>
+                      <div class="input-settings-box">
+                        <div class="input-settings">
+                          <i class="fa fa-cog"></i>
+                          <h5>Settings</h5>
+                          <span>Make this question required</span>
+                          <input type="checkbox" value="required">
+                          <p>Routing</p>
+                          <span>If
+                            <select>
+                              <option>
+                            </option></select>
+                          </span>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                  </li>
+                  {% endfor %}
+
+
+                </ul>
+              </div>
+        </fieldset>
+      </div>
+      <div class="large-3 columns end">
+
+        <div class="authoring-tools">
+          <h5>Question types</h5>
+          <p class="instruction">Click to add a new question</p>
+          <ul class="q-types">
+            <li class="add-text-field"><img src="/static/img/icons/text.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/check.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/radio.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/select.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/grid.svg"></li>
+            <li class="inactive"><img src="/static/img/icons/slider.svg"></li>
+          </ul>
+          <input type="submit" class="button small radius save" id="" value="Save">
+          <a class="button small radius preview">Preview</a>
+          <a class="button small radius reset">Reset</a>
+        </form>
+
+          {% if survey_runner_url %}
+            <a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True" class="button small radius preview">Preview</a>
+          {% endif %}
+        </div>
+      </div>
+      </main>
+    </div>
+  </section>
+</div>
+{% endblock base_body%}
+
+
+{% block body_js %}
+
+  {{ block.super }}
+  <script src="{% static "js/plugin.js" %}"></script>
+  <script src="{% static "js/main.js" %}"></script>
+
+{% endblock body_js %}

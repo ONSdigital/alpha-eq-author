@@ -106,8 +106,10 @@ class QuestionnaireTestCase(TestCase):
         self.assertTrue(questionnaire_set[0].reviewed)
 
         # now add a question
-        response = QuestionnaireTestCase.client.post(reverse("survey:create-question", kwargs={'questionnaire_slug': '3'}), {'title': 'Test Question 6', 'description': 'question description 6', 'help_text': 'question help text 6', 'error_text' : 'question error text 6'}, follow=True)
+        questionnaire = Questionnaire.objects.get(questionnaire_id=3)
+        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), {'question_set-INITIAL_FORMS': '0', 'question_set-TOTAL_FORMS': '1', 'question_set-MIN_NUM_FORMS' : '0', 'question_set-MAX_NUM_FORMS': '1000', 'question_set-0-title': 'Test Question 6', 'question_set-0-description': 'question description 6', 'question_set-0-help_text': 'question help text 6', 'question_set-0-id': '', 'question_set-0-questionnaire': questionnaire.id}, follow=True)
         self.assertEqual(200, response.status_code)
+        self.assertContains(response, 'This successfully updated')
 
         # and check the reviewed status is false
         response = QuestionnaireTestCase.client.get(reverse('survey:index'))
@@ -121,10 +123,12 @@ class QuestionnaireTestCase(TestCase):
         response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
         self.assertEqual(200, response.status_code)
 
+        questionnaire = Questionnaire.objects.get(questionnaire_id=3)
         # add a question to questionnaire
-        response = QuestionnaireTestCase.client.post(reverse("survey:create-question", kwargs={'questionnaire_slug': '3'}), {'title': 'Test Question 6', 'description': 'question description 6', 'help_text': 'question help text 6', 'error_text' : 'question error text 6'}, follow=True)
+        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), {'question_set-INITIAL_FORMS': '1', 'question_set-TOTAL_FORMS': '1', 'question_set-MIN_NUM_FORMS' : '0', 'question_set-MAX_NUM_FORMS': '1000', 'question_set-0-title': 'Test Question 6', 'question_set-0-description': 'question description 6', 'question_set-0-help_text': 'question help text 6', 'question_set-0-id': '1', 'question_set-0-questionnaire': questionnaire.id}, follow=True)
         self.assertEqual(200, response.status_code)
 
+        response = QuestionnaireTestCase.client.get(reverse("survey:questionnaire-summary", kwargs={'slug': '3'}),follow=True)
         # check we cannot make it live
         self.assertNotContains(response, 'publish')
 
@@ -135,7 +139,7 @@ class QuestionnaireTestCase(TestCase):
         self.assertContains(response, 'publish')
 
         response = QuestionnaireTestCase.client.get(reverse("survey:publish-questionnaire", kwargs={'slug':'3'}), follow=True)
-        self.assertContains(response, 'online')
+        self.assertContains(response, 'View live')
         self.assertNotContains(response, 'add')
 
 

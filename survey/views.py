@@ -1,5 +1,8 @@
 from django.views.generic import ListView, CreateView, DetailView, View
 from django.core.urlresolvers import reverse
+from django.contrib import messages
+from extra_views import InlineFormSetView
+from django.forms.models import inlineformset_factory
 from django.shortcuts import redirect
 from .models import Survey, Questionnaire, Question
 from django.http import JsonResponse, Http404
@@ -44,8 +47,7 @@ class QuestionnaireAPIDetail(DetailView):
         rtn_obj['questions'] = []
         for question in context['object'].question_set.all():
             quest_obj = {'title':question.title,
-                         'help_text': question.help_text,
-                         'error_text': question.error_text}
+                         'help_text': question.help_text}
             rtn_obj['questions'].append(quest_obj)
         return rtn_obj
 
@@ -68,34 +70,6 @@ class QuestionnaireCreate(LoginRequiredMixin, CreateView):
 
 class QuestionList(LoginRequiredMixin, ListView):
     model = Question
-
-
-class QuestionCreate(LoginRequiredMixin, CreateView):
-    model = Question
-    fields = ['title', 'description', 'help_text', 'error_text']
-
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-
-        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['questionnaire_slug'])
-        if questionnaire.published:
-            return self.form_invalid(self, form)
-
-        return super(QuestionCreate, self).post(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['questionnaire_slug'])
-        form.instance.questionnaire = questionnaire
-        result = super(QuestionCreate, self).form_valid(form)
-        if result:
-            questionnaire.reviewed = False
-            questionnaire.save()
-        return result
-
-    def get_success_url(self):
-        return reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['questionnaire_slug']})
-
 
 class QuestionnaireReview(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
@@ -122,4 +96,32 @@ class QuestionnairePublish(LoginRequiredMixin, View):
             questionnaire.save()
 
             return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug']}))
+
+
+class QuestionnaireBuilder(LoginRequiredMixin, InlineFormSetView):
+    model = Questionnaire
+    inline_model = Question
+    template_name = 'survey/questionnaire_builder.html'
+    success_message = "This successfully updated"
+    extra = 1
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_formset()
+
+        questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
+        if questionnaire.published:
+            return self.formset_invalid(self, form)
+
+        return super(QuestionnaireBuilder, self).post(request, *args, **kwargs)
+
+    def formset_valid(self, formset):
+        questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
+        formset.instance.questionnaire = questionnaire
+        result = super(QuestionnaireBuilder, self).formset_valid(formset)
+        if result:
+            questionnaire.reviewed = False
+            questionnaire.save()
+            messages.success(self.request, self.success_message);
+        return result
 

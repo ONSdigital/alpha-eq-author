@@ -1,47 +1,62 @@
 {% extends "base.html" %}
+{% block title %}Survey List{% endblock %}
 {% block base_body %}
-    <section class="row fullvh">
-        <div>
-            <h1>{{ questionnaire.survey }}</h1>
+    {{ block.super }}
+    {% include "includes/navigation.html" %}
+    {% load staticfiles %}
+    <div class="wrapper">
+    <section class="row application clearfix">
+        <div class="large-12">
+            <ul class="breadcrumb">
+                <li><a href="{% url 'welcome' %}" title="">Home</a></li>
+                <li>Surveys</li>
+                <li>{{ questionnaire.survey }}</li>
+
+            </ul>
+            <main>
+              <div class="button-bar push-8">
+                <ul class="button-group round">
+                  {% if survey_runner_url %}
+                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True" class="tiny button secondary">Preview</a></li>
+                  {% endif %}
+                  {% if questionnaire.published %}
+                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}" class="tiny button secondary">View live</a></li>
+                  {% endif %}
+                  {%  if not questionnaire.reviewed %}
+                  <li>
+                      <a class="tiny button secondary" href="{% url 'survey:review-questionnaire' slug=questionnaire.questionnaire_id %}">Review</a>
+                  </li>
+                  {%  else  %}
+                  <li class="tiny button secondary success">Reviewed  </li>
+                  {%  endif %}
+                  {% if questionnaire.reviewed and not questionnaire.published %}
+                  <li>
+                      <a class="tiny button secondary" href="{% url 'survey:publish-questionnaire' slug=questionnaire.questionnaire_id %}">Publish</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+
+
+
+
+
+
+
+
 
             <h2>{{ questionnaire.title }}</h2>
 
             <p>{{ questionnaire.overview }}</p>
 
-            <p></p>
             <ul>
                 {% for question in questionnaire.question_set.all %}
                     <li>{{ question.title }}</li>
                 {% endfor %}
-                {% if not questionnaire.published %}
-                <li>
-                    <a href="{% url 'survey:create-question' questionnaire.questionnaire_id %}">Add new question</a>
-                </li>
-                {% endif %}
-                <li>
-                    {% if survey_runner_url %}
-                        <a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True">Preview</a>
-                    {% endif %}
-                </li>
-                {%  if not questionnaire.reviewed %}
-                <li>
-                    <a href="{% url 'survey:review-questionnaire' slug=questionnaire.questionnaire_id %}">Review</a>
-                </li>
-                {%  else  %}
-                <li>Reviewed <input type="checkbox" {% if questionnaire.reviewed %}checked="checked" {% endif %}
-                                    disabled="disabled"/></li>
-                {%  endif %}
-                {% if questionnaire.reviewed and not questionnaire.published %}
-                <li>
-                    <a href="{% url 'survey:publish-questionnaire' slug=questionnaire.questionnaire_id %}">Publish</a>
-                </li>
-                {% endif %}
-                {% if questionnaire.published %}
-                <li>
-                    <a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}">View online survey</a>
-                </li>
-                {% endif %}
+
+
             </ul>
+
         </div>
     </section>
 {% endblock base_body %}

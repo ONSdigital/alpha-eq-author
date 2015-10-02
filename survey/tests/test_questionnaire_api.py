@@ -14,13 +14,13 @@ class QuestionnaireAPITestCase(TestCase):
             create_surveys()
             create_questionnaires()
             # first questionnaire has three questions
-            Question.objects.create(title="Test Question 1", questionnaire=Questionnaire.objects.get(questionnaire_id='1'), description='question description 1', help_text='question help text 1', error_text='question error text 1')
-            Question.objects.create(title="Test Question 2", questionnaire=Questionnaire.objects.get(questionnaire_id='1'), description='question description 2', help_text='question help text 2', error_text='question error text 2')
-            Question.objects.create(title="Test Question 3", questionnaire=Questionnaire.objects.get(questionnaire_id='1'), description='question description 3', help_text='question help text 3', error_text='question error text 3')
+            Question.objects.create(title="Test Question 1", questionnaire=Questionnaire.objects.get(questionnaire_id='1'), description='question description 1', help_text='question help text 1')
+            Question.objects.create(title="Test Question 2", questionnaire=Questionnaire.objects.get(questionnaire_id='1'), description='question description 2', help_text='question help text 2')
+            Question.objects.create(title="Test Question 3", questionnaire=Questionnaire.objects.get(questionnaire_id='1'), description='question description 3', help_text='question help text 3')
 
             # whilst the second questionnaire has two questions
-            Question.objects.create(title="Test Question 4", questionnaire=Questionnaire.objects.get(questionnaire_id='2'), description='question description 4', help_text='question help text 4', error_text='question error text 4')
-            Question.objects.create(title="Test Question 5", questionnaire=Questionnaire.objects.get(questionnaire_id='2'), description='question description 5', help_text='question help text 5', error_text='question error text 5')
+            Question.objects.create(title="Test Question 4", questionnaire=Questionnaire.objects.get(questionnaire_id='2'), description='question description 4', help_text='question help text 4')
+            Question.objects.create(title="Test Question 5", questionnaire=Questionnaire.objects.get(questionnaire_id='2'), description='question description 5', help_text='question help text 5')
 
         def test_render_to_json_object_matches_schema(self):
             ques_1 = Questionnaire.objects.get(questionnaire_id='1')
