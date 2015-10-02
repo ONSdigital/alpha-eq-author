@@ -444,13 +444,21 @@ p.instruction {
   color: #999;
 }
 
-.application .save, .application .preview {
+.application .save, .application .preview, .application .reset {
   width: 100%;
   margin: 10px 0 5px 0;
 }
 
+.application .button:hover {
+  background: #444;
+}
+
 .preview {
   background: #999;
+}
+
+.reset {
+  background: coral
 }
 
 ul.breadcrumb {
@@ -548,6 +556,10 @@ aside.step {
   cursor: pointer;
 }
 
+.authoring-tools ul li:not(:first-child) {
+  pointer-events: none;
+}
+
 .authoring-tools ul li.inactive img {
   opacity: 0.2;
   cursor: not-allowed;
@@ -558,7 +570,10 @@ aside.step {
   border:3px dashed $keyline;
   margin:15px 0;
   counter-reset: order 0;
+  min-height:500px;
 }
+
+.highlight { outline: 2px solid limegreen; border:0;   }
 
 .form-canvas.active {
   border-radius: 0;

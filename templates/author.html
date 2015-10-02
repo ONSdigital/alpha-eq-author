@@ -24,10 +24,9 @@
         <h2>Questionnaire Builder</h2>
           <fieldset>
             <form id="makequestionnaire">
-              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i>
-</span>
+              <!--<h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i></span>
                 <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</u></div>
-                <textarea id="q-intro"></textarea>
+                <textarea id="q-intro"></textarea>-->
               <div class="form-canvas">
                 <img src="/static/img/icons/splash.svg" class="splash">
                 <ul class="question-list"></ul>
@@ -40,7 +39,7 @@
         <div class="authoring-tools">
           <h5>Question types</h5>
           <p class="instruction">Click to add a new question</p>
-          <ul>
+          <ul class="q-types">
             <li class="add-text-field"><img src="/static/img/icons/text.svg"></li>
             <li class="inactive"><img src="/static/img/icons/check.svg"></li>
             <li class="inactive"><img src="/static/img/icons/radio.svg"></li>
@@ -50,6 +49,7 @@
           </ul>
           <input type="submit" class="button small radius save" id="" value="Save">
           <a class="button small radius preview">Preview</a>
+          <a class="button small radius reset">Reset</a>
         </div>
       </div>
       </main>

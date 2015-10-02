@@ -46,7 +46,8 @@ $(function() { // dom is ready
   //});
 
   $("#id_title, #id_questionnaire-id, #id_overview").blur(function() {
-    if ($("#id_title").val() !== "" && $("#id_questionnaire_id").val() !== "" && $(
+    if ($("#id_title").val() !== "" && $("#id_questionnaire_id").val() !==
+      "" && $(
         "#id_overview").val() !== "") {
       $('#dosetup').prop("disabled", false);
     } else {
@@ -77,10 +78,44 @@ $(function() { // dom is ready
 
   });
 
+  /* drag/drop add to canvas */
+
+  $(".q-types li:first-child").draggable({ /* just first one for now */
+    opacity: 0.7,
+    helper: "clone"
+  });
+
+
+  $(".form-canvas").droppable({
+    hoverClass: "highlight",
+    accept: ".q-types li",
+    drop: function() {
+      $.get('/static/form-snippets/text.html', function(data) {
+        $(".question-container").slideUp();
+        $(".question-list").append(data).hide().fadeIn(1000);
+      }, 'text');
+      if ($(".question")) {
+        $(".splash").fadeOut();
+        $(".form-canvas").addClass("active");
+      } else if (!$(".question")) {
+        $(".splash").fadeIn();
+      }
+    }
+
+  });
+
   /* remove a question from the canvas */
 
   $("body").on("click", ".close", function() {
     $(this).closest(".question").fadeOut();
+  });
+
+  /* remove a question from the canvas */
+
+  $(".reset").click(function() {
+    if (confirm('Are you sure you want to remove all questions?')) {
+      $(".question").remove();
+    }
   });
 
   /* duplicate a question */
