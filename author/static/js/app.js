@@ -71,21 +71,21 @@ $(function() { // dom is ready
   //  }
   //});
 
-  $("#id_title, #id_questionnaire-id, #id_overview").blur(function() {
-    if ($("#id_title").val() !== "" && $("#id_questionnaire_id").val() !==
-      "" && $(
-        "#id_overview").val() !== "") {
-      $('#dosetup').prop("disabled", false);
-    } else {
-      $('#dosetup').prop("disabled", true);
-    }
-  });
+ // $("#id_title, #id_questionnaire-id, #id_overview").blur(function() {
+ //   if ($("#id_title").val() !== "" && $("#id_questionnaire_id").val() !==
+ //    "" && $(
+ //      "#id_overview").val() !== "") {
+ //   $('#dosetup').prop("disabled", false);
+ // } else {
+ //     $('#dosetup').prop("disabled", true);
+ //   }
+ //});
 
-  $(".user-prompt").click(function() {
-    if ($('#dosetup').prop("disabled") === true) {
-      alert('Make sure all fields are complete');
-    }
-  });
+ //$(".user-prompt").click(function() {
+ //  if ($('#dosetup').prop("disabled") === true) {
+ //   alert('Make sure all fields are complete');
+ //  }
+ // });
 
   /* add form inputs to the canvas */
 

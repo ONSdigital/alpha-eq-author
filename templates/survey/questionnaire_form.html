@@ -4,6 +4,19 @@
   {{ block.super }}
 {% include "includes/navigation.html" %}
 {% load staticfiles %}
+
+<-- temp fix for demo -->
+<style>
+label {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #888;
+  display: block;
+  margin: 0px 0 0px 0;
+}
+</style>
+
 <div class="wrapper">
   <section class="row application clearfix">
     <div class="large-12">
@@ -20,7 +33,7 @@
             <form id="addquestionnaire" method="post">{% csrf_token %}
                 {{ form.as_p }}
               <div class="right user-prompt">
-                <input type="submit" class="button small radius" id="dosetup" value="Proceed" disabled="true">
+                <input type="submit" class="button small radius" id="dosetup" value="Proceed">
               </div>
             </form>
         </fieldset>
