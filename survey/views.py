@@ -94,18 +94,20 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
         return result
 
     def get_success_url(self):
-        return reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['questionnaire_slug'] })
+        return reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['questionnaire_slug']})
 
 
 class QuestionnaireReview(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
-        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['slug'])
-        if questionnaire is not None and not questionnaire.reviewed:
-            questionnaire.reviewed = True
-            questionnaire.save()
-            return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug'] }))
 
-        return Http404()
+        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['slug'])
+        if questionnaire is not None:
+            if not questionnaire.reviewed:
+                questionnaire.reviewed = True
+                questionnaire.save()
+            return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug']}))
+
+        raise Http404
 
 
 class QuestionnairePublish(LoginRequiredMixin, View):
@@ -113,11 +115,11 @@ class QuestionnairePublish(LoginRequiredMixin, View):
         questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['slug'])
 
         if questionnaire is None:
-            return Http404()
+            raise Http404
 
         if questionnaire.reviewed:
             questionnaire.published = True
             questionnaire.save()
 
-            return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug'] }))
+            return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug']}))
 
