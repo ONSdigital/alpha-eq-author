@@ -36,10 +36,9 @@
             {% endif %}
           <fieldset>
             <form id="makequestionnaire" method="POST" action="." name="questionnaire-builder">
-              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i>
-</span>
-             <!--   <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</u></div>
-                <textarea id="q-intro"></textarea>-->
+{#              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i></span>#}
+{#               <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</u></div>#}
+{#                <textarea id="q-intro"></textarea>#}
               <div class="form-canvas active">
                 <img src="/static/img/icons/splash.svg" class="splash hide">
                 <ul class="question-list">
@@ -136,9 +135,10 @@
 
 
 {% block body_js %}
-
+{% comment %}
   {{ block.super }}
   <script src="{% static "js/plugin.js" %}"></script>
   <script src="{% static "js/main.js" %}"></script>
+{% endcomment %}
 
 {% endblock body_js %}
