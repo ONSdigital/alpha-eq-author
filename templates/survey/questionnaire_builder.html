@@ -18,10 +18,10 @@
   <section class="row application">
     <div class="large-12">
       <ul class="breadcrumb">
-        <li><a href="" title="">Home</a></li>
-        <li><a href="" title="">Surveys</a></li>
-        <li><a href="" title="">This Survey</a></li>
-        <li>Authoring</li>
+        <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
+        <li><a href="{%  url 'survey:index' %}" title="">Surveys</a></li>
+        <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
+        <li>Authoring {{  questionnaire.title  }}</li>
       </ul>
       <main class="clearfix">
 
@@ -36,10 +36,9 @@
             {% endif %}
           <fieldset>
             <form id="makequestionnaire" method="POST" action="." name="questionnaire-builder">
-              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i>
-</span>
-             <!--   <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</u></div>
-                <textarea id="q-intro"></textarea>-->
+{#              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i></span>#}
+{#               <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</u></div>#}
+{#                <textarea id="q-intro"></textarea>#}
               <div class="form-canvas active">
                 <img src="/static/img/icons/splash.svg" class="splash hide">
                 <ul class="question-list">
@@ -111,7 +110,7 @@
           <h5>Question types</h5>
           <p class="instruction">Click to add a new question</p>
           <ul class="q-types">
-            <li class="add-text-field"><img src="/static/img/icons/text.svg"></li>
+            <li {% comment %}class="add-text-field"{% endcomment %} class="inactive"><img src="/static/img/icons/text.svg"></li>
             <li class="inactive"><img src="/static/img/icons/check.svg"></li>
             <li class="inactive"><img src="/static/img/icons/radio.svg"></li>
             <li class="inactive"><img src="/static/img/icons/select.svg"></li>
@@ -119,8 +118,9 @@
             <li class="inactive"><img src="/static/img/icons/slider.svg"></li>
           </ul>
           <input type="submit" class="button small radius save" id="" value="Save">
-          <a class="button small radius preview">Preview</a>
-          <a class="button small radius reset">Reset</a>
+            <a href={%  url 'survey:index' %} class="button small radius preview">Close</a
+         {% comment %} <a class="button small radius preview">Preview</a>
+          <a class="button small radius reset">Reset</a>{% endcomment %}
         </form>
 
           {% if survey_runner_url %}
@@ -136,9 +136,10 @@
 
 
 {% block body_js %}
-
+{% comment %}
   {{ block.super }}
   <script src="{% static "js/plugin.js" %}"></script>
   <script src="{% static "js/main.js" %}"></script>
+{% endcomment %}
 
 {% endblock body_js %}
