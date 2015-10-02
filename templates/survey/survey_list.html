@@ -1,55 +1,105 @@
 {% extends "base.html" %}
 {% block title %}Survey List{% endblock %}
 {% block base_body %}
-    {{ block.super }}
-    {% include "includes/navigation.html" %}
-    {% load staticfiles %}
-    <div class="wrapper">
-    <section class="row application clearfix">
+{{ block.super }}
+{% include "includes/navigation.html" %}
+{% load staticfiles %}
+<div class="wrapper">
+    <div class="row application clearfix">
         <div class="large-12">
             <ul class="breadcrumb">
                 <li><a href="{% url 'welcome' %}" title="">Home</a></li>
                 <li>Surveys</li>
             </ul>
-            <main>
-                <h1>Surveys</h1>
-                <p>
-                    <a href="{%  url 'survey:create' %}" class="button small radius push-9">Setup a new survey</a>
-                </p>
+                <div class="row">
+                    <div class="small-6 columns">
+                        <h1>Surveys</h1>
+                    </div>
+                    {% if object_list %}
+                    <div class="small-6 columns right">
+                        <a href="{%  url 'survey:create' %}" class="button small radius right">Setup a new survey</a>
+                    </div>
+                    {% endif %}
+                </div>
+
                 {% for survey in object_list %}
                 <h3>{{ survey.title }}</h3>
-                <hr />
-                <p>
-                    <a href="{% url 'survey:create-questionnaire' survey.survey_id %}" class="button small radius secondary push-9">Add a new questionnaire</a>
-                </p>
+                <hr/>
                 {% if survey.questionnaire_set.all %}
-                <table>
-                  <thead>
-                  <th width="100%">
-                    Questionnaire
-                  </th>
-                  <th>
-                  </th>
-                  </thead>
-                  <tbody>
-                  {% for questionnaire in survey.questionnaire_set.all %}
-                      <tr>
-                          <td><a href="{% url 'survey:questionnaire-summary' questionnaire.questionnaire_id %}">{{ questionnaire.title }}</a></td>
-                          <td>
-                            {% if not questionnaire.published %}
-                                <a href="{% url 'survey:questionnaire-builder' questionnaire.id %}" >Edit</a>
-                            {% endif %}
-                          </td>
-                      </tr>
-                  {% endfor %}
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <h4>Questionnaire</h4>
+                        </div>
+                        <div class="small-6 columns">
+                            <a href="{% url 'survey:create-questionnaire' survey.survey_id %}" class="button small radius secondary right">Add a new questionnaire</a>
+                        </div>
+                    </div>
+                    {% for questionnaire in survey.questionnaire_set.all %}
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <a href="{% url 'survey:questionnaire-summary' questionnaire.questionnaire_id %}">
+                                {{ questionnaire.title }}</a></div>
+                        <div class="small-6 columns">
+                            <div class="button-bar right">
+                                <ul class="button-group round">
+                                    {% if not questionnaire.reviewed %}
+                                    <li>
+                                        <a class="tiny button secondary"
+                                           href="{% url 'survey:review-questionnaire' slug=questionnaire.questionnaire_id %}">Review</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="tiny button secondary success">Reviewed</li>
+                                    {% endif %}
 
-                  </tbody>
+                                    {% if questionnaire.published %}
+                                    <li>
+                                        <a class="tiny button secondary success" href="#">Published</a></li>
+                                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}"
+                                           class="tiny button secondary">View live</a></li>
+                                    {% else %}
+                                    <li>
+                                        <a class="tiny button secondary" href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True"
+                                           class="tiny button secondary">Preview</a></li>
+
+                                    {% endif %}
+                                    {% if questionnaire.reviewed and not questionnaire.published %}
+                                    <li>
+                                        <a class="tiny button secondary"
+                                           href="{% url 'survey:publish-questionnaire' slug=questionnaire.questionnaire_id %}">Publish</a>
+                                    </li>
+                                    {% endif %}
+
+                                    {% if not questionnaire.published %}
+                                    <li>
+                                        <a class="tiny button secondary"
+                                           href="{% url 'survey:questionnaire-builder' questionnaire.id %}">Edit</a>
+                                    </li>
+                                    {% endif %}
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p></p>
+                    <p></p>
+                    {% endfor %}
+
+                    </tbody>
                 </table>
                 {% endif %}
+                {% empty %}
+                <div class="row">
+                    <div class="small-8 columns">
+                        <h3>Hi there!</h3>
+                        <p>Welcome to the eQ Authoring tool.  This tool allows you to create questionnaires for your surveys.</p>
+                        <p>As you don't have any surveys at the moment, let's get started by clicking the 'Setup a new survey' button below.</p>
+                        <p><a href="{%  url 'survey:create' %}" class="button large radius">Setup a new survey</a></p>
+                    </div>
+                </div>
                 {% endfor %}
 
-            </p>
+                </p>
             </main>
         </div>
     </section>
-{% endblock base_body %}
+    {% endblock base_body %}

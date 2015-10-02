@@ -16,6 +16,12 @@ from author.views import LoginRequiredMixin
 class SurveyList(LoginRequiredMixin, ListView):
     model = Survey
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(SurveyList, self).get_context_data(**kwargs)
+        context['survey_runner_url'] = settings.SURVEY_RUNNER_URL
+        return context
+
 
 class SurveyCreate(LoginRequiredMixin, CreateView):
     model = Survey
@@ -79,7 +85,7 @@ class QuestionnaireReview(LoginRequiredMixin, View):
             if not questionnaire.reviewed:
                 questionnaire.reviewed = True
                 questionnaire.save()
-            return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug']}))
+            return redirect(self.request.META['HTTP_REFERER'])
 
         raise Http404
 
@@ -95,7 +101,7 @@ class QuestionnairePublish(LoginRequiredMixin, View):
             questionnaire.published = True
             questionnaire.save()
 
-            return redirect(reverse("survey:questionnaire-summary", kwargs={'slug': self.kwargs['slug']}))
+            return redirect(self.request.META['HTTP_REFERER'])
 
 
 class QuestionnaireBuilder(LoginRequiredMixin, InlineFormSetView):

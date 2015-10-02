@@ -14,28 +14,6 @@
 
             </ul>
             <main>
-              <div class="button-bar push-8">
-                <ul class="button-group round">
-                  {% if survey_runner_url %}
-                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True" class="tiny button secondary">Preview</a></li>
-                  {% endif %}
-                  {% if questionnaire.published %}
-                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}" class="tiny button secondary">View live</a></li>
-                  {% endif %}
-                  {%  if not questionnaire.reviewed %}
-                  <li>
-                      <a class="tiny button secondary" href="{% url 'survey:review-questionnaire' slug=questionnaire.questionnaire_id %}">Review</a>
-                  </li>
-                  {%  else  %}
-                  <li class="tiny button secondary success">Reviewed  </li>
-                  {%  endif %}
-                  {% if questionnaire.reviewed and not questionnaire.published %}
-                  <li>
-                      <a class="tiny button secondary" href="{% url 'survey:publish-questionnaire' slug=questionnaire.questionnaire_id %}">Publish</a>
-                  </li>
-                  {% endif %}
-                </ul>
-              </div>
 
 
 
