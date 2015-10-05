@@ -68,6 +68,11 @@ class QuestionnaireCreate(LoginRequiredMixin, CreateView):
     model = Questionnaire
     form_class = QuestionnaireForm
 
+    def render_to_response(self, context, **response_kwargs):
+        survey = Survey.objects.get(survey_id=self.kwargs['survey_slug'])
+        context['survey'] = survey
+        return super(QuestionnaireCreate, self).render_to_response(context, **response_kwargs)
+
     def form_valid(self, form):
         survey = Survey.objects.get(survey_id=self.kwargs['survey_slug'])
         form.instance.survey = survey
