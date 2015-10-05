@@ -317,6 +317,10 @@ button.disabled:hover, button[disabled]:hover, .button.disabled:hover, .button[d
   background: #777;
 }
 
+button.tiny, .button.tiny {
+  margin: 0;
+}
+
 select {
   padding:10px;
   height: auto;
@@ -333,6 +337,39 @@ label {
   color: #888;
   display: block;
   margin: 20px 0 40px 0;
+}
+
+.survey-list {
+  margin: 0 0 60px 0;
+}
+
+.survey-list td, .survey-list th {
+  padding: 15px
+}
+
+.survey-list th {
+  background: #888;
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.survey-list th:nth-child(2) {
+  width:300px;
+  text-align: right;
+}
+
+hr {
+  margin-bottom: 40px
+}
+
+.tab-container {
+  padding:15px
+}
+
+.action-btns {
+  text-align: right;
+  float: right;
 }
 
 /* error */
@@ -450,7 +487,6 @@ p.instruction {
 }
 
 .application .button:hover {
-  background: #444;
 }
 
 .preview {
