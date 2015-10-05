@@ -9,6 +9,7 @@ body, html {
   width: 100%;
   height: 100%;
   -webkit-font-smoothing: antialiased;
+  overflow-y: auto;
 }
 
 /* mixins */
@@ -28,7 +29,7 @@ body {
 }
 
 .wrapper {
-  padding:160px 0;
+  padding:130px 0;
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -39,6 +40,8 @@ h1, h2, h3, h4, h5, h6, p {
 
 .fullvh {
   height: 100%;
+  min-height: 650px;
+  overflow-y: auto;
 }
 
 /* header and app toolbar */
@@ -219,7 +222,7 @@ ul.user-menu li:first-child:after {
   display: block;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -65%);
+  transform: translate(-50%, -55%);
 }
 
 .signin-container img {
@@ -246,13 +249,14 @@ ul.user-menu li:first-child:after {
   border: 1px solid $keyline;
   box-shadow: inset 0px 3px 0px 0px rgba(87,136,170,0.23);
   border-radius: 3px;
-  padding: 20px;
+  padding: 20px 20px 30px 20px;
 }
 
 .signin h1 {
   text-align: center;
   font-size: 32px;
   font-weight: 200;
+  margin:0;
 }
 
  .pwd-container, .pwd-funcs {
@@ -263,7 +267,7 @@ ul.user-menu li:first-child:after {
 .signin input[type=submit] {
   position: absolute;
   right: 0;
-  top: 3px;
+  top: -5px;
 }
 
 p.pwd-toggle, p.pwd-remind {
@@ -317,6 +321,10 @@ button.disabled:hover, button[disabled]:hover, .button.disabled:hover, .button[d
   background: #777;
 }
 
+button.tiny, .button.tiny {
+  margin: 0;
+}
+
 select {
   padding:10px;
   height: auto;
@@ -327,12 +335,45 @@ select {
 }
 
 label {
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
   font-weight: 700;
   color: #888;
   display: block;
-  margin: 20px 0 40px 0;
+  margin: 20px 0;
+}
+
+.survey-list {
+  margin: 0 0 60px 0;
+}
+
+.survey-list td, .survey-list th {
+  padding: 15px
+}
+
+.survey-list th {
+  background: #888;
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.survey-list th:nth-child(2) {
+  width:300px;
+  text-align: right;
+}
+
+hr {
+  margin-bottom: 40px
+}
+
+.tab-container {
+  padding:15px
+}
+
+.action-btns {
+  text-align: right;
+  float: right;
 }
 
 /* error */
@@ -450,7 +491,6 @@ p.instruction {
 }
 
 .application .button:hover {
-  background: #444;
 }
 
 .preview {
@@ -533,9 +573,9 @@ aside.step {
 /* authoring pages */
 
 .authoring-tools {
-  position: fixed;
+  /*position: fixed;*/
   width:200px;
-  top:320px;
+  /*top:320px;*/
 }
 
 .authoring-tools h5 {

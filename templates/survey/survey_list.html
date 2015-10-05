@@ -12,34 +12,36 @@
                 <li>Surveys</li>
             </ul>
                 <div class="row">
-                    <div class="small-6 columns">
-                        <h1>Surveys</h1>
+                    <div class="small-6 columns large-collapse">
+                        <h1>Your Surveys</h1>
                     </div>
                     {% if object_list %}
-                    <div class="small-6 columns right">
+                    <div class="small-6 columns large-collapse right">
                         <a href="{%  url 'survey:create' %}" class="button small radius right">Setup a new survey</a>
                     </div>
                     {% endif %}
+                    <hr>
                 </div>
 
                 {% for survey in object_list %}
-                <h3>{{ survey.title }}</h3>
-                <hr/>
+
                 {% if survey.questionnaire_set.all %}
+
                     <div class="row">
-                        <div class="small-6 columns">
-                            <h4>Questionnaire</h4>
-                        </div>
-                        <div class="small-6 columns">
-                            <a href="{% url 'survey:create-questionnaire' survey.survey_id %}" class="button small radius secondary right">Add a new questionnaire</a>
-                        </div>
+                      <div class="large-8 large-collapse columns"><b>{{ survey.title }}</b></div>
+                      <div class="large-4 large-collapse columns"><a href="{% url 'survey:create-questionnaire' survey.survey_id %}" class="button small radius secondary right">Add a questionnaire to this survey</a></div>
                     </div>
-                    {% for questionnaire in survey.questionnaire_set.all %}
-                    <div class="row">
-                        <div class="small-6 columns">
-                                {{ questionnaire.title }}</div>
-                        <div class="small-6 columns">
-                            <div class="button-bar right">
+                    <div class="row tab-container">
+                      <table class="large-12 survey-list">
+                        <tr>
+                          <th>Questionnaire Title</th>
+                          <th>Actions</th>
+                        </tr>
+                        {% for questionnaire in survey.questionnaire_set.all %}
+                        <tr>
+                        <td>{{ questionnaire.title }}</td>
+                        <td class="action-btns">
+                            <div class="button-bar">
                                 <ul class="button-group round">
                                     {% if not questionnaire.reviewed %}
                                     <li>
@@ -76,15 +78,17 @@
                                     {% endif %}
 
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <p></p>
-                    <p></p>
-                    {% endfor %}
+                                </div>
+                            </td>
+                          </tr>
+                            {% endfor %}
+                        </table>
 
-                    </tbody>
-                </table>
+                      </div>
+
+
+
+
                 {% endif %}
                 {% empty %}
                 <div class="row">
