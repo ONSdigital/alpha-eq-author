@@ -48,11 +48,14 @@ class QuestionnaireAPIDetail(DetailView):
 
     def get_data(self, context):
         rtn_obj = {}
+        rtn_obj['title'] = context['object'].survey.title
+        rtn_obj['questionnaire_id'] = context['object'].questionnaire_id
         rtn_obj['questionnaire_title'] = context['object'].title
         rtn_obj['overview'] = context['object'].overview
         rtn_obj['questions'] = []
         for question in context['object'].question_set.all():
             quest_obj = {'title':question.title,
+                         'description':question.description,
                          'help_text': question.help_text}
             rtn_obj['questions'].append(quest_obj)
         return rtn_obj
