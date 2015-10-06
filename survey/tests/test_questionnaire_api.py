@@ -30,3 +30,14 @@ class QuestionnaireAPITestCase(TestCase):
             import json
             questionnaire = json.loads(response.content)
             self.assertEqual(3, len(questionnaire['questions']))
+
+        def test_questionnaire_ordering_correct(self):
+            ques_1 = Questionnaire.objects.get(questionnaire_id='1')
+            response = QuestionnaireAPITestCase.client.get(reverse("survey:questionnaire-api", kwargs={'slug': ques_1.pk}), follow=True)
+
+            self.assertEqual(200, response.status_code)
+            import json
+            questionnaire = json.loads(response.content)
+            self.assertEqual('Test Question 1', questionnaire['questions'][0]['title'])
+            self.assertEqual('Test Question 2', questionnaire['questions'][1]['title'])
+            self.assertEqual('Test Question 3', questionnaire['questions'][2]['title'])

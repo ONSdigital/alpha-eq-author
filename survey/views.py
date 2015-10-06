@@ -53,7 +53,7 @@ class QuestionnaireAPIDetail(DetailView):
         rtn_obj['questionnaire_title'] = context['object'].title
         rtn_obj['overview'] = context['object'].overview
         rtn_obj['questions'] = []
-        for question in context['object'].question_set.all():
+        for question in context['object'].question_set.all().order_by('id'):
             quest_obj = {'title':question.title,
                          'description':question.description,
                          'help_text': question.help_text}
