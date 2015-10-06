@@ -38,11 +38,12 @@ $(function() { // dom is ready
     $.post('/login/', $('#dosignin').serialize(), function(response) {
       if (response.errors) {
         $('.pwd-container label').addClass("wrong");
+        $('#password').val("")
         $('.signin-error').fadeIn();
         setTimeout(function() {
           $('.pwd-container label').removeClass("wrong");
           $('.signin-error').fadeOut();
-          $('#password').val("").focus();
+          $('#password').focus();
         }, 4000);
       } else {
         $('.pwd-container').addClass("correct");
