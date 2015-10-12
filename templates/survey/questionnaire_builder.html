@@ -2,20 +2,123 @@
 {% block title %}Setup a new Survey{% endblock %}
 {% load staticfiles %}
 {% block css %}
-  {{ block.super }}
-  <link href="{% static "css/editor.css" %}" rel="stylesheet"/>
+   <style>
+	.dropzone ul[dnd-list],
+	.dropzone ul[dnd-list] > li {
+		position: relative;
+	}
+	.dropzone ul[dnd-list] {
+		min-height: 42px;
+	}
+	.dropzone .dndPlaceholder {
+	    background-color: #ddd;
+	    min-height: 42px;
+	    display: block;
+	    position: relative;
+	}
+	.dropzone .group-element {
+		min-height: 100px;
+	    margin: 10px;
+	}
+
+	.dropzone .group-element .column {
+	    float: left;
+	    width: 50%;
+	}
+   </style>
 {% endblock css %}
 {% block base_body %}
   {{ block.super }}
 {% include "includes/navigation.html" %}
 
+<div class="wrapper" ng-app="builder">
+
+  <section class="row application" ng-controller="BuilderController as builderCtrl">
+
+    {% verbatim %}
+
+			<script type="text/ng-template" id="list.html">
+			    <ul dnd-list="list">
+			        <li ng-repeat="item in list"
+			            dnd-draggable="item"
+			            dnd-effect-allowed="move"
+			            dnd-moved="list.splice($index, 1)"
+			            dnd-selected="models.selected = item"
+			            ng-class="{selected: models.selected === item}"
+			            ng-include="item.type + '.html'">
+			        </li>
+			    </ul>
+			</script>
+
+			<!-- This template is responsible for rendering a group element. It uses
+			     the above list template to render each group column -->
+			<script type="text/ng-template" id="group.html">
+			    <div class="group-element box box-blue">
+			        <h3>Question Group {{item.id}}</h3>
+			        <div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
+			        <div class="clearfix"></div>
+			    </div>
+			</script>
+
+			<!-- Template for a normal list item -->
+			<script type="text/ng-template" id="item.html">
+			    <div class="item">Item {{item.id}}</div>
+			</script>
+
+			<!-- Template for a text question -->
+			<script type="text/ng-template" id="text_question.html">
+
+				<div class="text_question">
+					<label>Question Text</label>
+					<input type="text" ng-model="item.question_text">
+					<label>Question Help</label>
+					<input type="text" ng-model="item.question_help">
+					<label>Question Error</label>
+					<input type="text" ng-model="item.question_error">
+					<div class="clearfix"></div>
+				</div>
+			</script>
+
+			<!-- Template for a text question -->
+			<script type="text/ng-template" id="new_question_type.html">
+				<div class="text_question">
+					<label>Grid Question Type Text</label>
+					<input type="text" ng-model="item.question_text">
+					<label>Question Help</label>
+					<input type="text" ng-model="item.question_help">
+					<label>Question Error</label>
+					<input type="text" ng-model="item.question_error">
+					<input type="text" ng-model="item.newfield">
+					<div class="clearfix"></div>
+				</div>
+			</script>
+
+			<!-- Radio button Question -->
+			<script type="text/ng-template" id="radio_question.html">
+				<div class="radio_question" ng-controller="RadioQuestionController as ctrl">
+				<label>Question Text</label>
+				<input type="text" ng-model="item.question_text">
+				<label>Question Help</label>
+				<input type="text" ng-model="item.question_help">
+				<label>Question Error</label>
+				<input type="text" ng-model="item.question_error">
+				<ul dnd-list="item.answers">
+					<li 	ng-repeat="answer in item.answers"
+						dnd-draggable="answer"
+						dnd-effect-allowed="move"
+						dnd-moved="item.answers.splice($index, 1)">
+
+						<input type="text" ng-model="answer.value">
+					</li>
+					<li ng-click="addOption(item)">Add Answer</li>
+				</ul>
+				</div>
+			</script>
 
 
-<div class="wrapper">
 
+    {% endverbatim %}
 
- <div>
-  <section class="row application">
     <div class="large-12">
       <ul class="breadcrumb">
         <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
@@ -34,90 +137,42 @@
             {% endfor %}
             </div>
             {% endif %}
-          <fieldset>
-            <form id="makequestionnaire" method="POST" action="." name="questionnaire-builder">
-{#              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i></span>#}
-{#               <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</u></div>#}
-{#                <textarea id="q-intro"></textarea>#}
-              <div class="form-canvas active">
-                <img src="/static/img/icons/splash.svg" class="splash hide">
-                <ul class="question-list">
-                  {% for f in formset.management_form %}
-                      {{f}}
-                  {% endfor %}
-                  {% for form in formset %}
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
-                  {% endfor %}
-                  {% for dict in formset.errors %}
-                    {% for error in dict.values %}
-                      {{ error }}
-                    {% endfor %}
-                  {% endfor %}
-                  {% csrf_token %}
-                  {% for f in formset %}
-                  <li class="add-text-field question">
-                    <div class="question-toolbar">
-                      <span class="order"></span>
-                      <div class="toolbar-actions">
-                        <i class="accordion fa fa-angle-down"></i>
-                        <i class="duplicate fa fa-files-o"></i>
-                        <i class="close fa fa-times-circle"></i>
-                      </div>
-                    </div>
-                    <div class="question-container">
-                    <fieldset>
-                      <label for="q-title-auth">
-                        Title
-                        {{f.title}}
-                      </label>
-                      <label for="question-body">
-                        Question body
-                        {{f.description}}
-                      </label>
-                      <label for="question-help">
-                        Help text
-                        {{f.help_text}}
-                      </label>
-                      <div class="input-settings-box">
-                        <div class="input-settings">
-                          <i class="fa fa-cog"></i>
-                          <h5>Settings</h5>
-                          <span>Make this question required</span>
-                          <input type="checkbox" value="required">
-                          <p>Routing</p>
-                          <span>If
-                            <select>
-                              <option>
-                            </option></select>
-                          </span>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
-                  </li>
-                  {% endfor %}
+
+        {% verbatim %}
+		    <div class="row">
+		        <div ng-repeat="list in models.dropzones">
+		            <div class="dropzone">
+		                <div ng-include="'list.html'"></div>
+		            </div>
+		        </div>
+		    </div>
 
 
-                </ul>
-              </div>
-        </fieldset>
+        {% endverbatim %}
       </div>
       <div class="large-3 columns end">
-
         <div class="authoring-tools">
           <h5>Question types</h5>
           <p class="instruction">Click to add a new question</p>
+          {% verbatim %}
           <ul class="q-types">
-            <li {% comment %}class="add-text-field"{% endcomment %} class="inactive"><img src="/static/img/icons/text.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/check.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/radio.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/select.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/grid.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/slider.svg"></li>
+            <li ng-repeat="item in models.templates"
+                dnd-draggable="item"
+                dnd-effect-allowed="copy"
+                dnd-copied="item.id = item.id + 1"
+                >
+                <img ng-src="{{ item.icon }}"/>
+            </li>
           </ul>
-          <input type="submit" class="button small radius save" id="" value="Save">
+          <div>
+              <!-- If you use [] as referenced list, the dropped elements will be lost -->
+              <h3>Trashcan</h3>
+              <ul dnd-list="[]">
+                  <li><img src="/static/img/icons/trashcan.jpg"></li>
+              </ul>
+          </div>
+          {% endverbatim %}
+          <input type="submit" class="button small radius save" id="" value="Save" ng-click="saveQuestionnaire(models.dropzones)">
             <a href={%  url 'survey:index' %} class="button small radius preview">Close</a
          {% comment %} <a class="button small radius preview">Preview</a>
           <a class="button small radius reset">Reset</a>{% endcomment %}
@@ -136,10 +191,11 @@
 
 
 {% block body_js %}
-{% comment %}
   {{ block.super }}
   <script src="{% static "js/plugin.js" %}"></script>
   <script src="{% static "js/main.js" %}"></script>
-{% endcomment %}
+  <script src="{% static "js/angular.js" %}"></script>
+  <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
+  <script src="{% static "js/builder.js" %}"></script>
 
 {% endblock body_js %}
