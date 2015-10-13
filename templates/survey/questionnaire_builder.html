@@ -25,6 +25,15 @@
 	    float: left;
 	    width: 50%;
 	}
+
+	.trashcan ul {
+		list-style: none;
+		width: 100px;
+	}
+
+	.trashcan .dndPlaceholder {
+		display: none;
+	}
 </style>
 {% endblock css %}
 {% block base_body %}
@@ -169,10 +178,10 @@
             </li>
           </ul>
 			<label><input type="checkbox" ns-checked="models.preview" ng-model="models.preview">Preview</label>
-          <div>
+          <div class="trashcan">
               <!-- If you use [] as referenced list, the dropped elements will be lost -->
-              <ul dnd-list="[]" class="q-types">
-                  <li><img src="/static/img/icons/trash.svg"></li>
+              <ul dnd-list="[]">
+                  <li style="display:block; width:100%"><img src="/static/img/icons/trash.svg" style="width:100%"></li>
               </ul>
           </div>
           {% endverbatim %}

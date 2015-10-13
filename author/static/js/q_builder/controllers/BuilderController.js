@@ -34,9 +34,12 @@
             };
 
             $scope.dropCallback = function(event, index, item) {
-                console.log('Item of type: ' + item.type);
-
-                return $scope.newItem(item);
+                // check whether we have dropped a new or existing item
+                if ( ! item.hasOwnProperty('questionReference')) {
+                    return $scope.newItem(item);
+                } else {
+                    return item;
+                }
             };
 
             $scope.newItem = function(item) {
