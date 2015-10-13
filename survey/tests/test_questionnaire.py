@@ -92,34 +92,34 @@ class QuestionnaireTestCase(TestCase):
         questionnaire = Questionnaire.objects.get(questionnaire_id='1')
         self.assertTrue(questionnaire.reviewed)
 
-    def test_reviewed_false_after_add_question(self):
-        # add a new questionnaire to survey 1
-        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
-        self.assertEqual(200, response.status_code)
-
-        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '3'}), follow=True, HTTP_REFERER=reverse('survey:index'))
-        questionnaire = Questionnaire.objects.get(questionnaire_id='3')
-        self.assertTrue(questionnaire.reviewed)
-
-        # check the reviewed status is true
-        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
-        survey = response.context['object_list'][0]
-        self.assertEqual(Survey.objects.get(survey_id='1'), survey)
-        questionnaire_set = survey.questionnaire_set.all()
-        self.assertTrue(questionnaire_set[0].reviewed)
-
-        # now add a question
-        questionnaire = Questionnaire.objects.get(questionnaire_id=3)
-        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), {'question_set-INITIAL_FORMS': '0', 'question_set-TOTAL_FORMS': '1', 'question_set-MIN_NUM_FORMS' : '0', 'question_set-MAX_NUM_FORMS': '1000', 'question_set-0-title': 'Test Question 6', 'question_set-0-description': 'question description 6', 'question_set-0-help_text': 'question help text 6', 'question_set-0-id': '', 'question_set-0-questionnaire': questionnaire.id}, follow=True)
-        self.assertEqual(200, response.status_code)
-        self.assertContains(response, 'This successfully updated')
-
-        # and check the reviewed status is false
-        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
-        survey = response.context['object_list'][0]
-        self.assertEqual(Survey.objects.get(survey_id='1'), survey)
-        questionnaire_set = survey.questionnaire_set.all()
-        self.assertFalse(questionnaire_set[0].reviewed)
+    # def test_reviewed_false_after_add_question(self):
+    #     # add a new questionnaire to survey 1
+    #     response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
+    #     self.assertEqual(200, response.status_code)
+    #
+    #     response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '3'}), follow=True, HTTP_REFERER=reverse('survey:index'))
+    #     questionnaire = Questionnaire.objects.get(questionnaire_id='3')
+    #     self.assertTrue(questionnaire.reviewed)
+    #
+    #     # check the reviewed status is true
+    #     response = QuestionnaireTestCase.client.get(reverse('survey:index'))
+    #     survey = response.context['object_list'][0]
+    #     self.assertEqual(Survey.objects.get(survey_id='1'), survey)
+    #     questionnaire_set = survey.questionnaire_set.all()
+    #     self.assertTrue(questionnaire_set[0].reviewed)
+    #
+    #     # now add a question
+    #     questionnaire = Questionnaire.objects.get(questionnaire_id=3)
+    #     response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), {'question_set-INITIAL_FORMS': '0', 'question_set-TOTAL_FORMS': '1', 'question_set-MIN_NUM_FORMS' : '0', 'question_set-MAX_NUM_FORMS': '1000', 'question_set-0-title': 'Test Question 6', 'question_set-0-description': 'question description 6', 'question_set-0-help_text': 'question help text 6', 'question_set-0-id': '', 'question_set-0-questionnaire': questionnaire.id}, follow=True)
+    #     self.assertEqual(200, response.status_code)
+    #     self.assertContains(response, 'This successfully updated')
+    #
+    #     # and check the reviewed status is false
+    #     response = QuestionnaireTestCase.client.get(reverse('survey:index'))
+    #     survey = response.context['object_list'][0]
+    #     self.assertEqual(Survey.objects.get(survey_id='1'), survey)
+    #     questionnaire_set = survey.questionnaire_set.all()
+    #     self.assertFalse(questionnaire_set[0].reviewed)
 
     def test_published_a_questionnaire(self):
         # add a new questionnaire to survey 1

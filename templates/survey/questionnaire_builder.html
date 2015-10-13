@@ -2,7 +2,7 @@
 {% block title %}Setup a new Survey{% endblock %}
 {% load staticfiles %}
 {% block css %}
-   <style>
+<style>
 	.dropzone ul[dnd-list],
 	.dropzone ul[dnd-list] > li {
 		position: relative;
@@ -25,95 +25,79 @@
 	    float: left;
 	    width: 50%;
 	}
-   </style>
+</style>
 {% endblock css %}
 {% block base_body %}
   {{ block.super }}
 {% include "includes/navigation.html" %}
 
-<div class="wrapper" ng-app="builder">
+<div class="wrapper" ng-app="QBuilder">
 
   <section class="row application" ng-controller="BuilderController as builderCtrl">
 
+	{# This template represents a dnd list and is used by other templates. #}
+    {# Changing this can cause pain #}
     {% verbatim %}
+	<script type="text/ng-template" id="list.html">
+		<ul dnd-list="list"
+			dnd-drop="dropCallback(event, index, item)">
+			<li ng-repeat="item in list"
+				dnd-draggable="item"
+				dnd-effect-allowed="move"
+				dnd-moved="list.splice($index, 1)"
+				dnd-selected="models.selected = item"
+				ng-class="{selected: models.selected === item}"
+				ng-include="item.type + '.html'">
+			</li>
+		</ul>
+	</script>
 
-			<script type="text/ng-template" id="list.html">
-			    <ul dnd-list="list">
-			        <li ng-repeat="item in list"
-			            dnd-draggable="item"
-			            dnd-effect-allowed="move"
-			            dnd-moved="list.splice($index, 1)"
-			            dnd-selected="models.selected = item"
-			            ng-class="{selected: models.selected === item}"
-			            ng-include="item.type + '.html'">
-			        </li>
-			    </ul>
-			</script>
+	<!-- This template is responsible for rendering a group element. It uses
+		 the above list template to render each group column -->
+	<script type="text/ng-template" id="group.html">
+		<div class="group-element box box-blue">
+			<h3>Question Group {{item.id}}</h3>
+			<div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
+			<div class="clearfix"></div>
+		</div>
+	</script>
 
-			<!-- This template is responsible for rendering a group element. It uses
-			     the above list template to render each group column -->
-			<script type="text/ng-template" id="group.html">
-			    <div class="group-element box box-blue">
-			        <h3>Question Group {{item.id}}</h3>
-			        <div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
-			        <div class="clearfix"></div>
-			    </div>
-			</script>
+	<!-- Template for a text question -->
+	<script type="text/ng-template" id="text_question.html">
+		<div class="text_question">
+			<label>Question Text</label>
+			<input type="text" ng-model="item.questionText">
+			<label>Question Help</label>
+			<input type="text" ng-model="item.questionHelp">
+			<label>Question Error</label>
+			<input type="text" ng-model="item.questionError">
+			<div class="clearfix"></div>
+		</div>
+	</script>
 
-			<!-- Template for a normal list item -->
-			<script type="text/ng-template" id="item.html">
-			    <div class="item">Item {{item.id}}</div>
-			</script>
+	<!-- Radio button Question -->
+	<script type="text/ng-template" id="radio_question.html">
+		<div class="radio_question" ng-controller="RadioQuestionController as ctrl">
+		<label>Question Text</label>
+		<input type="text" ng-model="item.questionText">
+		<label>Question Help</label>
+		<input type="text" ng-model="item.questionHelp">
+		<label>Question Error</label>
+		<input type="text" ng-model="item.questionError">
+		<ul dnd-list="item.parts">
+			<li 	ng-repeat="part in item.parts"
+				dnd-draggable="part"
+				dnd-effect-allowed="move"
+				dnd-moved="item.parts.splice($index, 1)">
 
-			<!-- Template for a text question -->
-			<script type="text/ng-template" id="text_question.html">
-
-				<div class="text_question">
-					<label>Question Text</label>
-					<input type="text" ng-model="item.question_text">
-					<label>Question Help</label>
-					<input type="text" ng-model="item.question_help">
-					<label>Question Error</label>
-					<input type="text" ng-model="item.question_error">
-					<div class="clearfix"></div>
-				</div>
-			</script>
-
-			<!-- Template for a text question -->
-			<script type="text/ng-template" id="new_question_type.html">
-				<div class="text_question">
-					<label>Grid Question Type Text</label>
-					<input type="text" ng-model="item.question_text">
-					<label>Question Help</label>
-					<input type="text" ng-model="item.question_help">
-					<label>Question Error</label>
-					<input type="text" ng-model="item.question_error">
-					<input type="text" ng-model="item.newfield">
-					<div class="clearfix"></div>
-				</div>
-			</script>
-
-			<!-- Radio button Question -->
-			<script type="text/ng-template" id="radio_question.html">
-				<div class="radio_question" ng-controller="RadioQuestionController as ctrl">
-				<label>Question Text</label>
-				<input type="text" ng-model="item.question_text">
-				<label>Question Help</label>
-				<input type="text" ng-model="item.question_help">
-				<label>Question Error</label>
-				<input type="text" ng-model="item.question_error">
-				<ul dnd-list="item.answers">
-					<li 	ng-repeat="answer in item.answers"
-						dnd-draggable="answer"
-						dnd-effect-allowed="move"
-						dnd-moved="item.answers.splice($index, 1)">
-
-						<input type="text" ng-model="answer.value">
-					</li>
-					<li ng-click="addOption(item)">Add Answer</li>
-				</ul>
-				</div>
-			</script>
+				<input type="text" ng-model="part.name" placeholder="name">
+				<input type="text" ng-model="part.label" placeholder="label">
+				<input type="text" ng-model="part.value" placeholder="value">
+			</li>
+			<li ng-click="addOption(item)">Add Answer</li>
+		</ul>
+		</div>
+	</script>
 
 
 
@@ -185,6 +169,12 @@
       </div>
       </main>
     </div>
+
+	  {% verbatim %}
+	  <div class="debug">
+		  <pre>{{ models.dropzones | json }}</pre>
+	  </div>
+	  {% endverbatim %}
   </section>
 </div>
 {% endblock base_body%}
@@ -196,6 +186,9 @@
   <script src="{% static "js/main.js" %}"></script>
   <script src="{% static "js/angular.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
-  <script src="{% static "js/builder.js" %}"></script>
+  <script src="{% static "js/q_builder/config.js" %}"></script>
+  <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
+  <script src="{% static "js/q_builder/controllers/RadioQuestionController.js" %}"></script>
+  <script src="{% static "js/q_builder/app.js" %}"></script>
 
 {% endblock body_js %}

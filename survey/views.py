@@ -127,9 +127,13 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
             questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
-            questionnaire.questionnaire_json = json.loads(request.body)
-            questionnaire.save()
-            return JsonResponse({'success':'Yippee!'})
+            if questionnaire.published:
+                return JsonResponse({'error':'Already Published!'})
+            else:
+                questionnaire.questionnaire_json = json.loads(request.body)
+                questionnaire.reviewed = False
+                questionnaire.save()
+                return JsonResponse({'success':'Yippee!'})
 
         return JsonResponse({'error':'Nope!'})
 
