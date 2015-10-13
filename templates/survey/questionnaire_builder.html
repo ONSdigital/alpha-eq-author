@@ -64,38 +64,58 @@
 
 	<!-- Template for a text question -->
 	<script type="text/ng-template" id="text_question.html">
-		<div class="text_question">
+		<div>
+			<div class="text_question" ng-hide="models.preview">
+				<label>Question Text</label>
+				<input type="text" ng-model="item.questionText">
+				<label>Question Help</label>
+				<input type="text" ng-model="item.questionHelp">
+				<label>Question Error</label>
+				<input type="text" ng-model="item.questionError">
+				<div class="clearfix"></div>
+			</div>
+			<div class="text_question_preview" ng-show="models.preview">
+				<div>{{ item.questionText }}</div>
+				<div>{{ item.questionHelp }}</div>
+				<input type="text">
+				<div>{{ item.questionError }}</div>
+			</div>
+		</div>
+	</script>
+
+	<!-- Radio button Question -->
+	<script type="text/ng-template" id="radio_question.html">
+		<div>
+			<div class="radio_question" ng-controller="RadioQuestionController as ctrl" ng-hide="models.preview">
 			<label>Question Text</label>
 			<input type="text" ng-model="item.questionText">
 			<label>Question Help</label>
 			<input type="text" ng-model="item.questionHelp">
 			<label>Question Error</label>
 			<input type="text" ng-model="item.questionError">
-			<div class="clearfix"></div>
-		</div>
-	</script>
+			<ul dnd-list="item.parts">
+				<li 	ng-repeat="part in item.parts"
+					dnd-draggable="part"
+					dnd-effect-allowed="move"
+					dnd-moved="item.parts.splice($index, 1)">
 
-	<!-- Radio button Question -->
-	<script type="text/ng-template" id="radio_question.html">
-		<div class="radio_question" ng-controller="RadioQuestionController as ctrl">
-		<label>Question Text</label>
-		<input type="text" ng-model="item.questionText">
-		<label>Question Help</label>
-		<input type="text" ng-model="item.questionHelp">
-		<label>Question Error</label>
-		<input type="text" ng-model="item.questionError">
-		<ul dnd-list="item.parts">
-			<li 	ng-repeat="part in item.parts"
-				dnd-draggable="part"
-				dnd-effect-allowed="move"
-				dnd-moved="item.parts.splice($index, 1)">
 
-				<input type="text" ng-model="part.name" placeholder="name">
-				<input type="text" ng-model="part.label" placeholder="label">
-				<input type="text" ng-model="part.value" placeholder="value">
-			</li>
-			<li ng-click="addOption(item)">Add Answer</li>
-		</ul>
+					<input type="text" ng-model="part.name" placeholder="name">
+					<input type="text" ng-model="part.label" placeholder="label">
+					<input type="text" ng-model="part.value" placeholder="value">
+				</li>
+				<li ng-click="addOption(item)">Add Answer</li>
+			</ul>
+			</div>
+			<div class="radio_question_preview" ng-show="models.preview">
+				<div>{{ item.questionText }}</div>
+				<div>{{ item.questionHelp }}</div>
+				<label ng-repeat="part in item.parts">
+					<input type="radio" name="item.id"> {{ part.label }}
+				</label><br />
+				<div>{{ item.questionError }}</div>
+
+			</div>
 		</div>
 	</script>
 
@@ -148,11 +168,11 @@
                 <img ng-src="{{ item.icon }}"/>
             </li>
           </ul>
+			<label><input type="checkbox" ns-checked="models.preview" ng-model="models.preview">Preview</label>
           <div>
               <!-- If you use [] as referenced list, the dropped elements will be lost -->
-              <h3>Trashcan</h3>
-              <ul dnd-list="[]">
-                  <li><img src="/static/img/icons/trashcan.jpg"></li>
+              <ul dnd-list="[]" class="q-types">
+                  <li><img src="/static/img/icons/trash.svg"></li>
               </ul>
           </div>
           {% endverbatim %}
