@@ -17,17 +17,21 @@
                     {type: "group", id: 1, columns: [[]], dndType: 'item'},
                 ],
                 dropzones: {
-                    questionnaire: []
+                    questionList: []
                 }
             };
 
             // Load the initial questionnaire state
             $http.get(window.location).success(function(data) {
-                $scope.models.dropzones = data;
+                $scope.models.dropzones.questionList = data.questionList;
+                $scope.models.questionnaire_meta = data.meta;
             });
 
-            $scope.saveQuestionnaire = function(questionnaire) {
-                $http.post(window.location, questionnaire, function(data) {
+            $scope.saveQuestionnaire = function() {
+                $http.post(window.location, {
+                    'meta' : $scope.models.questionnaire_meta,
+                    'questionList' : $scope.models.dropzones.questionList
+                }, function(data) {
                     // This needs to be a flash message or something
                     alert('Saved!');
                 });

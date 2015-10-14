@@ -2,6 +2,7 @@
 {% block title %}Setup a new Survey{% endblock %}
 {% load staticfiles %}
 {% block css %}
+  {{ block.super }}
 <style>
 	.dropzone ul[dnd-list],
 	.dropzone ul[dnd-list] > li {
@@ -147,7 +148,6 @@
       <main class="clearfix">
 
       <div class="large-9 columns">
-        <h2>Questionnaire Builder</h2>
           {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -157,6 +157,12 @@
             {% endif %}
 
         {% verbatim %}
+		  	<div>
+				<h3 contenteditable ng-model="models.questionnaire_meta.title"></h3>
+				<p contenteditable ng-model="models.questionnaire_meta.overview"></p>
+
+			</div>
+
 		    <div class="row">
 		        <div ng-repeat="list in models.dropzones">
 		            <div class="dropzone">
@@ -190,7 +196,7 @@
               </ul>
           </div>
           {% endverbatim %}
-          <input type="submit" class="button small radius save" id="" value="Save" ng-click="saveQuestionnaire(models.dropzones)">
+          <input type="submit" class="button small radius save" id="" value="Save" ng-click="saveQuestionnaire()">
             <a href={%  url 'survey:index' %} class="button small radius preview">Close</a
          {% comment %} <a class="button small radius preview">Preview</a>
           <a class="button small radius reset">Reset</a>{% endcomment %}
@@ -221,6 +227,7 @@
   <script src="{% static "js/angular.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
   <script src="{% static "js/q_builder/config.js" %}"></script>
+  <script src="{% static "js/q_builder/directives.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/RadioQuestionController.js" %}"></script>
   <script src="{% static "js/q_builder/app.js" %}"></script>

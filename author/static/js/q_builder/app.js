@@ -1,6 +1,7 @@
 (function() {
     angular.module("QBuilder", [
         'dndLists',
+        'contenteditable',
         'QBuilderConfig',
         'BuilderController',
         'RadioQuestionController'

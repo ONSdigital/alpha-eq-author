@@ -130,7 +130,13 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
             if questionnaire.published:
                 return JsonResponse({'error':'Already Published!'})
             else:
-                questionnaire.questionnaire_json = json.loads(request.body)
+                jsonData = json.loads(request.body);
+                questionMeta = jsonData['meta']
+
+                questionnaire.title = questionMeta['title']
+                questionnaire.overview = questionMeta['overview']
+
+                questionnaire.questionnaire_json = jsonData['questionList']
                 questionnaire.reviewed = False
                 questionnaire.save()
                 return JsonResponse({'success':'Yippee!'})
@@ -141,7 +147,20 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
         if request.is_ajax():
             questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
             if questionnaire:
-                return JsonResponse(questionnaire.questionnaire_json);
+                questionList = questionnaire.questionnaire_json
+                if not questionList:
+                    questionList = []
+
+                jsonResponse = {
+                    'meta': {
+                        'title': questionnaire.title,
+                        'overview': questionnaire.overview,
+                        'questionnaire_id' : questionnaire.questionnaire_id
+                    },
+                    'questionList' : questionList
+                }
+
+                return JsonResponse(jsonResponse);
             else:
                 return JsonResponse({})
         else:
