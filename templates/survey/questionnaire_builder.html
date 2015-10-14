@@ -143,7 +143,7 @@
         <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
         <li><a href="{%  url 'survey:index' %}" title="">Surveys</a></li>
         <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
-        <li>Authoring {{  questionnaire.title  }}</li>
+        <li>Authoring {% verbatim %}{{  models.questionnaire_meta.title }}{% endverbatim %}</li>
       </ul>
       <main class="clearfix">
 

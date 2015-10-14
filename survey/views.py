@@ -166,4 +166,10 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
         else:
             return super(QuestionnaireBuilder, self).get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(QuestionnaireBuilder, self).get_context_data(**kwargs)
 
+        context['questionnaire'] = Questionnaire.objects.get(id=self.kwargs['pk'])
+
+        return context
+        return context
