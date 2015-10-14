@@ -12,9 +12,9 @@
                 selected: null,
 
                 templates: [
-                    {type: "text_question", id: 1, icon: '/static/img/icons/text.svg'},
-                    {type: "radio_question", id: 1, icon: '/static/img/icons/radio.svg'},
-                    {type: "group", id: 1, columns: [[]]},
+                    {type: "text_question", id: 1, icon: '/static/img/icons/text.svg', dndType:'item'},
+                    {type: "radio_question", id: 1, icon: '/static/img/icons/radio.svg', dndType:'item'},
+                    {type: "group", id: 1, columns: [[]], dndType: 'item'},
                 ],
                 dropzones: {
                     questionnaire: []
@@ -44,31 +44,36 @@
 
             $scope.newItem = function(item) {
 
+                question = {
+                    questionText : '',
+                    questionHelp : '',
+                    questionError : '',
+                    questionReference : '',
+                    children : [],
+                    validation : {
+                        required: true
+                    },
+                    displayProperties : {},
+                    displayConditions : [],
+                    skipConditions : [],
+                    branchConditions : [],
+                    parts : []
+                };
                 // FUGLY
                 switch(item.type) {
                     case 'radio_question':
-                        item.questionType = 'MultipleChoice';
+                        question.questionType = 'MultipleChoice';
                         break;
                     case 'text_question':
-                        item.questionType = 'InputText';
+                        question.questionType = 'InputText';
                         break;
                 }
 
-                item.questionText = '';
-                item.questionHelp = '';
-                item.questionError = '';
-                item.questionReference = '';
-                item.children = [];
-                item.validation = {
-                    required: true
-                };
-                item.displayProperties = {};
-                item.displayConditions = [];
-                item.skipConditions = [];
-                item.branchConditions = [];
-                item.parts = [];
+                // set the type for drag and drop
+                question.type = item.type;
+                question.dndType = 'item';
 
-                return item;
+                return question;
             }
 
             $scope.$watch('models.dropzones', function(model) {
