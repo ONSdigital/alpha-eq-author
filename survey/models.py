@@ -20,17 +20,5 @@ class Questionnaire(models.Model):
     published = models.BooleanField(default=False)
     questionnaire_json = jsonfield.JSONField()
 
-
-    def __unicode__(self):
-        return self.title
-
-
-class Question(models.Model):
-    title = models.CharField(max_length=120)
-    description = models.TextField(max_length=500)
-    help_text = models.CharField(max_length=120)
-    questionnaire = models.ForeignKey(Questionnaire)
-    question_type = models.TextField(max_length=120)
-
     def __unicode__(self):
         return self.title
