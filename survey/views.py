@@ -1,13 +1,9 @@
 import json
-from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, View, TemplateView
 from django.core.urlresolvers import reverse
-from django.contrib import messages
-from extra_views import InlineFormSetView
-from django.forms.models import inlineformset_factory
 from django.shortcuts import redirect
-from .models import Survey, Questionnaire, Question
+from .models import Survey, Questionnaire
 from django.http import JsonResponse, Http404, HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -58,11 +54,12 @@ class QuestionnaireAPIDetail(DetailView):
         rtn_obj['questionnaire_title'] = context['object'].title
         rtn_obj['overview'] = context['object'].overview
         rtn_obj['questions'] = []
-        for question in context['object'].question_set.all().order_by('id'):
-            quest_obj = {'title':question.title,
-                         'description':question.description,
-                         'help_text': question.help_text}
-            rtn_obj['questions'].append(quest_obj)
+        for question in context['object'].questionnaire_json:
+            if 'dndType' in question.keys():
+                del question['dndType']
+            if 'type' in question.keys():
+                del question['type']
+            rtn_obj['questions'].append(question)
         return rtn_obj
 
     def render_to_response(self, context, **response_kwargs):
@@ -86,9 +83,6 @@ class QuestionnaireCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse("survey:index")
 
-
-class QuestionList(LoginRequiredMixin, ListView):
-    model = Question
 
 class QuestionnaireReview(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
