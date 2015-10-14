@@ -2,20 +2,141 @@
 {% block title %}Setup a new Survey{% endblock %}
 {% load staticfiles %}
 {% block css %}
-  {{ block.super }}
-  <link href="{% static "css/editor.css" %}" rel="stylesheet"/>
+<style>
+	.dropzone ul[dnd-list],
+	.dropzone ul[dnd-list] > li {
+		position: relative;
+	}
+	.dropzone ul[dnd-list] {
+		min-height: 42px;
+	}
+	.dropzone .dndPlaceholder {
+	    background-color: #ddd;
+	    min-height: 42px;
+	    display: block;
+	    position: relative;
+	}
+	.dropzone .group-element {
+		min-height: 100px;
+	    margin: 10px;
+	}
+
+	.dropzone .group-element .column {
+	    float: left;
+	    width: 50%;
+	}
+
+	.trashcan ul {
+		list-style: none;
+		width: 100px;
+	}
+
+	.trashcan .dndPlaceholder {
+		display: none;
+	}
+</style>
 {% endblock css %}
 {% block base_body %}
   {{ block.super }}
 {% include "includes/navigation.html" %}
 
+<div class="wrapper" ng-app="QBuilder">
+
+  <section class="row application" ng-controller="BuilderController as builderCtrl">
+
+	{# This template represents a dnd list and is used by other templates. #}
+    {# Changing this can cause pain #}
+    {% verbatim %}
+	<script type="text/ng-template" id="list.html">
+		<ul dnd-list="list"
+			dnd-drop="dropCallback(event, index, item)"
+			dnd-allowed-types="['item']">
+
+			<li ng-repeat="item in list"
+				dnd-draggable="item"
+				dnd-effect-allowed="move"
+				dnd-moved="list.splice($index, 1)"
+				dnd-selected="models.selected = item"
+				ng-class="{selected: models.selected === item}"
+				ng-include="item.type + '.html'"
+				dnd-type="item.dndType">
+			</li>
+		</ul>
+	</script>
+
+	<!-- This template is responsible for rendering a group element. It uses
+		 the above list template to render each group column -->
+	<script type="text/ng-template" id="group.html">
+		<div class="group-element box box-blue">
+			<h3>Question Group {{item.id}}</h3>
+			<div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
+			<div class="clearfix"></div>
+		</div>
+	</script>
+
+	<!-- Template for a text question -->
+	<script type="text/ng-template" id="text_question.html">
+		<div>
+			<div class="text_question" ng-hide="models.preview">
+				<label>Question Text</label>
+				<input type="text" ng-model="item.questionText">
+				<label>Question Help</label>
+				<input type="text" ng-model="item.questionHelp">
+				<label>Question Error</label>
+				<input type="text" ng-model="item.questionError">
+				<div class="clearfix"></div>
+			</div>
+			<div class="text_question_preview" ng-show="models.preview">
+				<div>{{ item.questionText }}</div>
+				<div>{{ item.questionHelp }}</div>
+				<input type="text">
+				<div>{{ item.questionError }}</div>
+			</div>
+		</div>
+	</script>
+
+	<!-- Radio button Question -->
+	<script type="text/ng-template" id="radio_question.html">
+		<div>
+			<div class="radio_question" ng-controller="RadioQuestionController as ctrl" ng-hide="models.preview">
+			<label>Question Text</label>
+			<input type="text" ng-model="item.questionText">
+			<label>Question Help</label>
+			<input type="text" ng-model="item.questionHelp">
+			<label>Question Error</label>
+			<input type="text" ng-model="item.questionError">
+			<ul dnd-list="item.parts"
+				dnd-allowed-types="['part']">
+				<li ng-repeat="part in item.parts"
+					dnd-draggable="part"
+					dnd-effect-allowed="move"
+				    dnd-type="'part'"
+					dnd-moved="item.parts.splice($index, 1)">
 
 
-<div class="wrapper">
+					<input type="text" ng-model="part.name" placeholder="name">
+					<input type="text" ng-model="part.label" placeholder="label">
+					<input type="text" ng-model="part.value" placeholder="value">
+				</li>
+				<li ng-click="addOption(item)">Add Answer</li>
+			</ul>
+			</div>
+			<div class="radio_question_preview" ng-show="models.preview">
+				<div>{{ item.questionText }}</div>
+				<div>{{ item.questionHelp }}</div>
+				<label ng-repeat="part in item.parts">
+					<input type="radio" name="item.id"> {{ part.label }}
+				</label><br />
+				<div>{{ item.questionError }}</div>
+
+			</div>
+		</div>
+	</script>
 
 
- <div>
-  <section class="row application">
+
+    {% endverbatim %}
+
     <div class="large-12">
       <ul class="breadcrumb">
         <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
@@ -34,90 +155,42 @@
             {% endfor %}
             </div>
             {% endif %}
-          <fieldset>
-            <form id="makequestionnaire" method="POST" action="." name="questionnaire-builder">
-{#              <h6>Questionnaire Introduction</h6><span class="clear">clear formatting <i class="fa fa-times"></i></span>#}
-{#               <div class="q-intro">Click here to enter your survey introduction. You can make text <b>bold</b> <i>italic</i> or <u>underlined</u></div>#}
-{#                <textarea id="q-intro"></textarea>#}
-              <div class="form-canvas active">
-                <img src="/static/img/icons/splash.svg" class="splash hide">
-                <ul class="question-list">
-                  {% for f in formset.management_form %}
-                      {{f}}
-                  {% endfor %}
-                  {% for form in formset %}
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
-                  {% endfor %}
-                  {% for dict in formset.errors %}
-                    {% for error in dict.values %}
-                      {{ error }}
-                    {% endfor %}
-                  {% endfor %}
-                  {% csrf_token %}
-                  {% for f in formset %}
-                  <li class="add-text-field question">
-                    <div class="question-toolbar">
-                      <span class="order"></span>
-                      <div class="toolbar-actions">
-                        <i class="accordion fa fa-angle-down"></i>
-                        <i class="duplicate fa fa-files-o"></i>
-                        <i class="close fa fa-times-circle"></i>
-                      </div>
-                    </div>
-                    <div class="question-container">
-                    <fieldset>
-                      <label for="q-title-auth">
-                        Title
-                        {{f.title}}
-                      </label>
-                      <label for="question-body">
-                        Question body
-                        {{f.description}}
-                      </label>
-                      <label for="question-help">
-                        Help text
-                        {{f.help_text}}
-                      </label>
-                      <div class="input-settings-box">
-                        <div class="input-settings">
-                          <i class="fa fa-cog"></i>
-                          <h5>Settings</h5>
-                          <span>Make this question required</span>
-                          <input type="checkbox" value="required">
-                          <p>Routing</p>
-                          <span>If
-                            <select>
-                              <option>
-                            </option></select>
-                          </span>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
-                  </li>
-                  {% endfor %}
+
+        {% verbatim %}
+		    <div class="row">
+		        <div ng-repeat="list in models.dropzones">
+		            <div class="dropzone">
+		                <div ng-include="'list.html'"></div>
+		            </div>
+		        </div>
+		    </div>
 
 
-                </ul>
-              </div>
-        </fieldset>
+        {% endverbatim %}
       </div>
       <div class="large-3 columns end">
-
         <div class="authoring-tools">
           <h5>Question types</h5>
           <p class="instruction">Click to add a new question</p>
+          {% verbatim %}
           <ul class="q-types">
-            <li {% comment %}class="add-text-field"{% endcomment %} class="inactive"><img src="/static/img/icons/text.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/check.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/radio.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/select.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/grid.svg"></li>
-            <li class="inactive"><img src="/static/img/icons/slider.svg"></li>
+            <li ng-repeat="item in models.templates"
+                dnd-draggable="item"
+                dnd-effect-allowed="copy"
+                dnd-copied="item.id = item.id + 1"
+                dnd-type="item.dndType">
+                <img ng-src="{{ item.icon }}"/>
+            </li>
           </ul>
-          <input type="submit" class="button small radius save" id="" value="Save">
+			<label><input type="checkbox" ns-checked="models.preview" ng-model="models.preview">Preview</label>
+          <div class="trashcan">
+              <!-- If you use [] as referenced list, the dropped elements will be lost -->
+              <ul dnd-list="[]">
+                  <li style="display:block; width:100%"><img src="/static/img/icons/trash.svg" style="width:100%"></li>
+              </ul>
+          </div>
+          {% endverbatim %}
+          <input type="submit" class="button small radius save" id="" value="Save" ng-click="saveQuestionnaire(models.dropzones)">
             <a href={%  url 'survey:index' %} class="button small radius preview">Close</a
          {% comment %} <a class="button small radius preview">Preview</a>
           <a class="button small radius reset">Reset</a>{% endcomment %}
@@ -130,16 +203,26 @@
       </div>
       </main>
     </div>
+
+	  {% verbatim %}
+	  <div class="debug">
+		  <pre>{{ models.dropzones | json }}</pre>
+	  </div>
+	  {% endverbatim %}
   </section>
 </div>
 {% endblock base_body%}
 
 
 {% block body_js %}
-{% comment %}
   {{ block.super }}
   <script src="{% static "js/plugin.js" %}"></script>
   <script src="{% static "js/main.js" %}"></script>
-{% endcomment %}
+  <script src="{% static "js/angular.js" %}"></script>
+  <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
+  <script src="{% static "js/q_builder/config.js" %}"></script>
+  <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
+  <script src="{% static "js/q_builder/controllers/RadioQuestionController.js" %}"></script>
+  <script src="{% static "js/q_builder/app.js" %}"></script>
 
 {% endblock body_js %}

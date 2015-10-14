@@ -1,12 +1,17 @@
-from django.views.generic import ListView, CreateView, DetailView, View
+import json
+from django.core.serializers.json import DjangoJSONEncoder
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, CreateView, DetailView, View, TemplateView
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from extra_views import InlineFormSetView
 from django.forms.models import inlineformset_factory
 from django.shortcuts import redirect
 from .models import Survey, Questionnaire, Question
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+
 
 from .forms import SurveyForm, QuestionnaireForm
 
@@ -112,30 +117,34 @@ class QuestionnairePublish(LoginRequiredMixin, View):
             return redirect(self.request.META['HTTP_REFERER'])
 
 
-class QuestionnaireBuilder(LoginRequiredMixin, InlineFormSetView):
-    model = Questionnaire
-    inline_model = Question
+class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
     template_name = 'survey/questionnaire_builder.html'
-    success_message = "This successfully updated"
-    extra = 1
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(QuestionnaireBuilder, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_formset()
+        if request.is_ajax():
+            questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
+            if questionnaire.published:
+                return JsonResponse({'error':'Already Published!'})
+            else:
+                questionnaire.questionnaire_json = json.loads(request.body)
+                questionnaire.reviewed = False
+                questionnaire.save()
+                return JsonResponse({'success':'Yippee!'})
 
-        questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
-        if questionnaire.published:
-            return self.formset_invalid(self, form)
+        return JsonResponse({'error':'Nope!'})
 
-        return super(QuestionnaireBuilder, self).post(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
+            if questionnaire:
+                return JsonResponse(questionnaire.questionnaire_json);
+            else:
+                return JsonResponse({})
+        else:
+            return super(QuestionnaireBuilder, self).get(request, *args, **kwargs)
 
-    def formset_valid(self, formset):
-        questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
-        formset.instance.questionnaire = questionnaire
-        result = super(QuestionnaireBuilder, self).formset_valid(formset)
-        if result:
-            questionnaire.reviewed = False
-            questionnaire.save()
-            messages.success(self.request, self.success_message);
-        return result
 
