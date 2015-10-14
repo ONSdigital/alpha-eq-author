@@ -139,9 +139,9 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
                 questionnaire.questionnaire_json = jsonData['questionList']
                 questionnaire.reviewed = False
                 questionnaire.save()
-                return JsonResponse({'success':'Yippee!'})
+                return JsonResponse({'success':'Your questionnaire has been saved!'})
 
-        return JsonResponse({'error':'Nope!'})
+        return JsonResponse({'error':'Your questionnaire could not be saved!'})
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
@@ -166,4 +166,10 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
         else:
             return super(QuestionnaireBuilder, self).get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super(QuestionnaireBuilder, self).get_context_data(**kwargs)
 
+        context['questionnaire'] = Questionnaire.objects.get(id=self.kwargs['pk'])
+
+        return context
+        return context

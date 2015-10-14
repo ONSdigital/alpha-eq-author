@@ -7,7 +7,7 @@
 
     angular.module('BuilderController', [])
         .controller("BuilderController", function($scope, $http) {
-
+            $scope.messages = [];
             $scope.models = {
                 selected: null,
 
@@ -31,9 +31,9 @@
                 $http.post(window.location, {
                     'meta' : $scope.models.questionnaire_meta,
                     'questionList' : $scope.models.dropzones.questionList
-                }, function(data) {
-                    // This needs to be a flash message or something
-                    alert('Saved!');
+                }).success(function(data) {
+                    $scope.messages = [];
+                    $scope.messages.push(data);
                 });
             };
 

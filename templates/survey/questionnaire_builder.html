@@ -143,20 +143,20 @@
         <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
         <li><a href="{%  url 'survey:index' %}" title="">Surveys</a></li>
         <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
-        <li>Authoring {{  questionnaire.title  }}</li>
+        <li>Authoring {% verbatim %}{{  models.questionnaire_meta.title }}{% endverbatim %}</li>
       </ul>
       <main class="clearfix">
 
-      <div class="large-9 columns">
-          {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-            {% endfor %}
-            </div>
-            {% endif %}
-
         {% verbatim %}
+
+      <div class="large-9 columns">
+            <div class="messages">
+				<div ng-repeat="message in messages">
+					<div ng-show="message.success"><span class="success">{{message.success}}</span></div>
+					<div ng-show="message.error"><span class="error">{{message.error}}</span></div>
+				</div>
+            </div>
+
 		  	<div>
 				<h3 contenteditable ng-model="models.questionnaire_meta.title"></h3>
 				<p contenteditable ng-model="models.questionnaire_meta.overview"></p>
