@@ -50,25 +50,28 @@ header {
   position: fixed;
   width:100%;
   height: 72px;
-  z-index: 100;
+  z-index: 800;
 }
 
 header > div {
   position: relative;
   background: #FFFFFF;
-  box-shadow: inset 0px -1px 0px 0px rgba(0,0,0,0.11);
+  box-shadow: inset 0px -1px 0px 0px rgba(0, 0, 0, 0.21), 0px 1px 4px 0px rgba(0, 0, 0, 0.19);
   z-index: 100;
 }
 
 header h1 {
-  text-indent: -100000px;
-  overflow-x: hidden;
-  background: url(/static/img/logo.svg) no-repeat;
-  background-size: 149px auto;
-  display: inline-block;
-  position: absolute;
-  top:14px;
-  left:18px;
+text-indent: -100000px;
+overflow-x: hidden;
+background: url(/static/img/logo.svg) no-repeat center center;
+background-size: 149px auto;
+display: inline-block;
+position: absolute;
+top: 0;
+left: 18px;
+height: 72px;
+margin: 0;
+padding: 0;
 }
 
 header h1 a {
@@ -104,9 +107,9 @@ header ul.user-menu {
   top:0;
   background: transparent;
   width: 250px;
-  line-height: 74px;
+  line-height: 72px;
   padding-left: 20px;
-  border-left:1px solid #fff;
+  border-left:1px solid transparent;
   cursor:pointer;
   display: block;
   transition: background .2s;
@@ -340,7 +343,7 @@ label {
   font-weight: 700;
   color: #888;
   display: block;
-  margin: 20px 0;
+  margin: 20px 0 10px 0;
 }
 
 .survey-list {
@@ -573,31 +576,41 @@ aside.step {
 /* authoring pages */
 
 .authoring-tools {
-  /*position: fixed;*/
-  width:200px;
-  /*top:320px;*/
+  width:100%;
+  padding:20px;
 }
 
 .authoring-tools h5 {
   margin-bottom:0;
+  color:white;
 }
 
 
 .authoring-tools ul {
   list-style-type: none;
   margin: 0;
-  font-size: 0;
 }
 
 .authoring-tools ul li {
-  display: inline-block;
-  width: 45%;
-  margin: 5px;
+  display: block;
+  width: 100%;
+  padding:10px;
+  margin: 5px 0 5px 0;
   cursor: pointer;
+  font-size: 14px;
+  color:white;
+  border-radius: 5px;
+  transition: all .3s;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.authoring-tools ul li:hover {
+  background:rgba(0,0,0,0.4);
+  cursor:move;
 }
 
 .authoring-tools ul li:not(:first-child) {
-  pointer-events: none;
+  /*pointer-events: none;*/
 }
 
 .authoring-tools ul li.inactive img {
@@ -708,4 +721,111 @@ aside.step {
   font-weight: 600;
   border-radius: 140px;
   margin-right: 5px
+}
+
+/* survey builder */
+
+.debug { display: none }
+
+input:focus::-webkit-input-placeholder {
+   color: transparent;
+}
+
+input:focus:-moz-placeholder { /* Firefox 18- */
+   color: transparent;
+}
+
+input:focus::-moz-placeholder {  /* Firefox 19+ */
+   color: transparent;
+}
+
+input:focus:-ms-input-placeholder {
+   color: transparent;
+}
+
+.dropzone ul[dnd-list],
+.dropzone ul[dnd-list] > li {
+  position: relative;
+}
+.dropzone ul[dnd-list] {
+  min-height: 42px;
+}
+.dropzone .dndPlaceholder {
+    background-color: #ddd;
+    min-height: 42px;
+    display: block;
+    position: relative;
+}
+.dropzone .group-element {
+  min-height: 100px;
+    margin: 10px;
+}
+
+.dropzone .group-element .column {
+    float: left;
+    width: 50%;
+}
+
+.trashcan ul {
+  list-style: none;
+  width: 100px;
+}
+
+.trashcan .dndPlaceholder {
+  display: none;
+}
+
+ul.question-list, ul.question-list ul {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+
+ul.question-list li {
+  padding:20px 0;
+  margin:20px 0 10px 0;
+  background: white;
+  border-bottom:2px solid #555;
+}
+
+ul.question-list li ul li {
+  border-bottom:none;
+  margin:0;
+}
+
+ul.tab-toggle {
+  list-style-type: none;
+  display:table;
+  width:100%;
+  table-layout: fixed;
+}
+
+ul.tab-toggle li {
+  display:table-cell;
+  text-align: center;
+  background: #e6e6e6;
+}
+
+ul.tab-toggle li.active {
+  background: #888;
+  color:white
+}
+
+.builder-canvas {
+  width:calc(100% - 260px)
+}
+
+.tool-panel {
+  height: calc(100vh - 72px);
+padding-top: 0;
+background: #4d4d4d;
+width: 250px;
+position: fixed;
+z-index: 200;
+right: 0;
+top: 72px
+}
+
+.set-responses {
+  display: none;
 }
