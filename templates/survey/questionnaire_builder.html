@@ -86,6 +86,8 @@
 				<label>Question Error</label>
 				<input type="text" ng-model="item.questionError">
 				<div class="clearfix"></div>
+                <label>Required</label>
+                <input type="checkbox" ng-model="item.validation.required" ng-checked="item.validation.required"/>
 			</div>
 			<div class="text_question_preview" ng-show="models.preview">
 				<div>{{ item.questionText }}</div>
@@ -121,6 +123,8 @@
 			<input type="text" ng-model="item.questionHelp">
 			<label>Question Error</label>
 			<input type="text" ng-model="item.questionError">
+            <label>Required</label>
+            <input type="checkbox" ng-model="item.validation.required" ng-checked="item.validation.required"/>
 			<ul dnd-list="item.parts"
 				dnd-allowed-types="['part']">
 				<li ng-repeat="part in item.parts"
