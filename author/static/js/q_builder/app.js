@@ -1,5 +1,6 @@
 (function() {
     angular.module("QBuilder", [
+        'ngSanitize',
         'dndLists',
         'contenteditable',
         'QBuilderConfig',
