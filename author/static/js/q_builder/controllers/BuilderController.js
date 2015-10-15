@@ -14,6 +14,7 @@
                 templates: [
                     {type: "text_question", id: 1, icon: '/static/img/icons/text.svg', dndType:'item'},
                     {type: "radio_question", id: 1, icon: '/static/img/icons/radio.svg', dndType:'item'},
+                    {type: "rich_text_block", id: 1, icon: '/static/img/icons/richtext.png', dndType:'item'},
                     {type: "group", id: 1, columns: [[]], dndType: 'item'},
                 ],
                 dropzones: {
@@ -70,6 +71,9 @@
                         break;
                     case 'text_question':
                         question.questionType = 'InputText';
+                        break;
+                    case 'rich_text_block':
+                        question.questionType = 'TextBlock';
                         break;
                 }
 

@@ -96,6 +96,21 @@
 		</div>
 	</script>
 
+
+  <!-- Template for a rich text block -->
+	<script type="text/ng-template" id="rich_text_block.html">
+		<div>
+			<div class="text_question" ng-hide="models.preview">
+				<label>Your Text</label>
+                <textarea ng-model="item.questionText"></textarea>
+				<div class="clearfix"></div>
+			</div>
+			<div class="text_question_preview" ng-show="models.preview">
+				<div ng-bind-html="item.questionText"></div>
+			</div>
+		</div>
+	</script>
+
 	<!-- Radio button Question -->
 	<script type="text/ng-template" id="radio_question.html">
 		<div>
@@ -225,6 +240,7 @@
   <script src="{% static "js/plugin.js" %}"></script>
   <script src="{% static "js/main.js" %}"></script>
   <script src="{% static "js/angular.js" %}"></script>
+  <script src="{% static "js/angular-sanitize.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
   <script src="{% static "js/q_builder/config.js" %}"></script>
   <script src="{% static "js/q_builder/directives.js" %}"></script>
