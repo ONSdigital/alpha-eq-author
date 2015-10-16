@@ -3,6 +3,8 @@ from .models import Survey, Questionnaire
 
 
 SURVEY_STORE = (
+    ("01","Social Survey"),
+    ("02", "Census 2021"),
     ("002", "Survey of Research and Development Carried Out in the UK",),
     ("007", "Low Carbon and Renewable Energy Economy Survey",),
     ("009", "Monthly Business Survey",),
