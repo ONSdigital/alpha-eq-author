@@ -38,6 +38,11 @@ the procfile and run your django wsgi application.
 
     $ heroku run python manage.py migrate
 
+
+## Deployment via Docker compose
+1. docker-compose build
+2. docker-compose up
+
 ## Further Reading
 
 - [Gunicorn](https://warehouse.python.org/project/gunicorn/)
