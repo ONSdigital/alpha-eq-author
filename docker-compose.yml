@@ -1,0 +1,26 @@
+author:
+  build: .
+  ports:
+   - "8000:8000"
+  volumes:
+   - .:/opt/eq-author
+  environment:
+    - SURVEY_RUNNER_URL=http://localhost:8080/
+    - DATABASE_URL=postgres://author:password@postgres:5432/author
+  links:
+    - postgres
+postgres:
+  image: postgres:9.3.10
+  volumes:
+    - ./create_database.sql:/docker-entrypoint-initdb.d/create_database.sql
+survey-runner:
+  image: onsdigital/eq-survey-runner:latest
+  ports:
+    - "8080:8080"
+  environment:
+    - SURVEY_REGISTRY_URL=http://author:8000
+  links:
+   - cassandra
+   - author
+cassandra:
+  image: spotify/cassandra

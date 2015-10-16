@@ -1,0 +1,4 @@
+
+CREATE USER author WITH PASSWORD 'password';
+CREATE DATABASE author;
+GRANT ALL PRIVILEGES ON DATABASE author TO author;
