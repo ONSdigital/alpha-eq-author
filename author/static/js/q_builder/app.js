@@ -3,6 +3,7 @@
         'ngSanitize',
         'dndLists',
         'contenteditable',
+        'wysiwygEditor',
         'QBuilderConfig',
         'BuilderController',
         'RadioQuestionController'

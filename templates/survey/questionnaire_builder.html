@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Setup a new Survey{% endblock %}
 {% load staticfiles %}
-
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static "css/simditor.css" %}">
+{% endblock css %}
 {% block base_body %}
   {{ block.super }}
 {% include "includes/navigation.html" %}
@@ -72,7 +75,7 @@
 		<div>
 			<div class="text_question" ng-hide="models.preview">
 				<label>Your Text</label>
-                <textarea ng-model="item.questionText"></textarea>
+        <textarea ng-model="item.questionText" wysiwyg-editor></textarea>
 				<div class="clearfix"></div>
 			</div>
 			<div class="text_question_preview" ng-show="models.preview">
@@ -255,6 +258,12 @@
   {{ block.super }}
   <script src="{% static "js/plugin.js" %}"></script>
   <script src="{% static "js/main.js" %}"></script>
+  {# Simditor #}
+  <script src="{% static "js/module.js" %}"></script>
+  <script src="{% static "js/hotkeys.js" %}"></script>
+  <script src="{% static "js/uploader.js" %}"></script>
+  <script src="{% static "js/simditor.js" %}"></script>
+  {# Angular #}
   <script src="{% static "js/angular.js" %}"></script>
   <script src="{% static "js/angular-sanitize.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
@@ -263,5 +272,6 @@
   <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/RadioQuestionController.js" %}"></script>
   <script src="{% static "js/q_builder/app.js" %}"></script>
+
 
 {% endblock body_js %}
