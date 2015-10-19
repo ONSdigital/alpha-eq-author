@@ -40,7 +40,7 @@
           dndType: 'item'
         }, ],
         dropzones: {
-          questionnaire: []
+          questionList: []
         }
       };
 

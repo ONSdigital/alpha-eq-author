@@ -21,7 +21,7 @@
   			dnd-drop="dropCallback(event, index, item)"
   			dnd-allowed-types="['item']"
         ng-class="{dragTarget: dragging && dragging.dndType == 'item'}">
-        <li class="start-panel" ng-show="models.dropzones.questionList.length == 0"><i class="fa fa-file-o"></i>Questionnaire empty. Drag a question here to continue.</li>
+        <li class="start-panel" ng-show="list.length == 0"><i class="fa fa-file-o"></i>Questionnaire empty. Drag a question here to continue.</li>
         <li ng-repeat="item in list"
   				dnd-draggable="item"
   				dnd-effect-allowed="move"
@@ -32,7 +32,6 @@
           dnd-type="item.dndType">
   			</li>
   		</ul>
-      {{ models.dropzones.questionList.length }}
   	</script>
 
 	<!-- This template is responsible for rendering a group element. It uses
