@@ -928,15 +928,15 @@ aside.step {
   margin-right: 5px;
 }
 
-/* survey builder */
-[contenteditable]:hover:not(:focus) {
+/* editable headings */
+.q-title-editable[contenteditable]:hover:not(:focus) {
   outline: 1px dotted green;
   box-sizing: border-box;
   position: relative;
   transition: all 0.2s;
 }
 
-[contenteditable]:hover:not(:focus):before {
+.q-title-editable[contenteditable]:hover:not(:focus):before {
   content: "\f040";
   font-family: FontAwesome;
   font-style: normal;
@@ -951,7 +951,7 @@ aside.step {
   vertical-align: middle;
 }
 
-[contenteditable]:hover:not(:focus):after {
+.q-title-editable[contenteditable]:hover:not(:focus):after {
   content: "(Click to edit)";
   font-size: 90%;
   display: inline-block;
@@ -959,11 +959,11 @@ aside.step {
   color: #369;
 }
 
-[contenteditable]:focus {
+.q-title-editable[contenteditable]:focus {
   background: #eee;
 }
 
-[contenteditable]:blur {
+.q-title-editable[contenteditable]:blur {
   outline: none;
 }
 
