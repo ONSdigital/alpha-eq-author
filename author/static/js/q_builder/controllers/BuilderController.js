@@ -24,6 +24,12 @@
           icon: 'fa-dot-circle-o',
           dndType: 'item'
         }, {
+          type: "rich_text_block",
+          description: "Rich text field",
+          id: 1,
+          icon: 'fa-dot-circle-o',
+          dndType: 'item'
+        }, {
           type: "group",
           description: "Question Group",
           icon: 'fa-th',

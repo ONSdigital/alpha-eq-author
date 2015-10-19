@@ -8,7 +8,7 @@
 
 <div class="wrapper" ng-app="QBuilder">
 
-  <section class="row application" ng-controller="BuilderController as builderCtrl">
+  <section class="application" ng-controller="BuilderController as builderCtrl">
 
     {# This template represents a dnd list and is used by other templates. #}
       {# Changing this can cause pain #}
@@ -18,7 +18,7 @@
   			dnd-drop="dropCallback(event, index, item)"
   			dnd-allowed-types="['item']"
         ng-class="{dragTarget: dragging && dragging.dndType == 'item'}">
-        <li class="start-panel" ng-if="!models.dropzones.questionList.length"><i class="fa fa-file-o"></i>Questionnaire empty. Drag a question here to continue.</li>
+        <li class="start-panel" ng-show="models.dropzones.questionList.length == 0"><i class="fa fa-file-o"></i>Questionnaire empty. Drag a question here to continue.</li>
         <li ng-repeat="item in list"
   				dnd-draggable="item"
   				dnd-effect-allowed="move"
@@ -29,7 +29,7 @@
           dnd-type="item.dndType">
   			</li>
   		</ul>
-
+      {{ models.dropzones.questionList.length }}
   	</script>
 
 	<!-- This template is responsible for rendering a group element. It uses
@@ -43,27 +43,28 @@
 	</script>
 
   <!-- Template for a text question -->
-  	<script type="text/ng-template" id="text_question.html">
-  		<div>
-  			<div class="text_question" ng-hide="models.preview">
-  				<label>Question Text</label>
-  				<input type="text" ng-model="item.questionText">
-  				<label>Question Help</label>
-  				<input type="text" ng-model="item.questionHelp">
-  				<label>Question Error</label>
-  				<input type="text" ng-model="item.questionError">
-  				<div class="clearfix"></div>
-                  <label>Required</label>
-                  <input type="checkbox" ng-model="item.validation.required" ng-checked="item.validation.required"/>
-  			</div>
-  			<div class="text_question_preview" ng-show="models.preview">
-  				<div>{{ item.questionText }}</div>
-  				<div>{{ item.questionHelp }}</div>
-  				<input type="text">
-  				<div>{{ item.questionError }}</div>
-  			</div>
-  		</div>
-  	</script>
+	<script type="text/ng-template" id="text_question.html">
+		<div class="question-block"><!--{{$index + 1}}-->
+			<div class="text_question" ng-hide="models.preview">
+			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)"></i>
+
+        <h5><i class="fa fa-font"></i> Text Question</h5>
+				<label>Question</label>
+				<input type="text" ng-model="item.questionText" placeholder="E.g - How many people does your company employ?">
+				<label>Question Help/Instruction Text</label>
+				<input type="text" ng-model="item.questionHelp" placeholder="E.g - Please include all staff members including contractors">
+				<label>Error Text for Respondent</label>
+				<input type="text" ng-model="item.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
+				<div class="clearfix"></div>
+			</div>
+			<div class="text_question_preview" ng-show="models.preview">
+				<div><b>{{ item.questionText }}<span ng-if="!item.questionText.length">Add a question</span></b></div>
+				<div>{{ item.questionHelp }}<span ng-if="!item.questionHelp.length">Add some help/instruction text</span></div>
+				<input type="text">
+				<!--<div>{{ item.questionError }}</div>-->
+			</div>
+		</div>
+	</script>
 
 
   <!-- Template for a rich text block -->
@@ -140,105 +141,111 @@
 	</script>
 
 
-    {% endverbatim %}
+  {% endverbatim %}
 
     <div class="large-12">
-      <ul class="breadcrumb">
-        <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
-        <li><a href="{%  url 'survey:index' %}" title="">Surveys</a></li>
-        <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
-        <li>Authoring {% verbatim %}{{  models.questionnaire_meta.title }}{% endverbatim %}</li>
-      </ul>
-      <main class="clearfix">
 
-        {% verbatim %}
+      <section class="clearfix builder-canvas">
 
-      <div class="large-9 columns">
+        <div class="large-10 large-offset-1 columns">
 
+          <div class="row">
 
-		  	<div>
-				      <h3 contenteditable ng-model="models.questionnaire_meta.title"></h3>
-				      <!--<p contenteditable ng-model="models.questionnaire_meta.overview"></p>-->
+            <ul class="breadcrumb">
+              <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
+              <li><a href="{%  url 'survey:index' %}" title="">Surveys</a></li>
+              <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
+              <li>Authoring {% verbatim %}{{ models.questionnaire_meta.title }}{% endverbatim %}</li>
+            </ul>
+
+          <div>
+
+            <h3 contenteditable ng-model="models.questionnaire_meta.title"></h3>
+            <!-- havent figured out where this lives yet <p contenteditable ng-model="models.questionnaire_meta.overview"></p>-->
+
+          </div>
+
+          {% verbatim %}
+
+            <div ng-repeat="list in models.dropzones">
+                <div class="dropzone">
+                    <div ng-include="'list.html'"></div>
+                </div>
+            </div>
         </div>
-
-		    <div class="row">
-		        <div ng-repeat="list in models.dropzones">
-		            <div class="dropzone">
-		                <div ng-include="'list.html'"></div>
-		            </div>
-		        </div>
-		    </div>
 
 
         {% endverbatim %}
       </div>
+    </section>
+
 
       <div class="tool-panel">
-				<div class="authoring-tools">
-					<h5>Question types</h5>
-					<p class="instruction">Drag a question to the canvas</p>
-					{% verbatim %}
-					<ul class="q-types ng-cloak">
-						<li ng-repeat="item in models.templates"
-								dnd-draggable="item"
-								dnd-effect-allowed="copy"
-								dnd-copied="item.id = item.id + 1"
-								dnd-type="item.dndType"
+        <div class="authoring-tools">
+          <h5>Question types</h5>
+          <p class="instruction">Drag a question to the canvas</p>
+          {% verbatim %}
+          <ul class="q-types ng-cloak">
+            <li ng-repeat="item in models.templates"
+                dnd-draggable="item"
+                dnd-effect-allowed="copy"
+                dnd-copied="item.id = item.id + 1"
+                dnd-type="item.dndType"
                 dnd-dragstart="dragStartCallback(item)"
                 dnd-dragend="dragEndCallback(item)">
-								<!--<img ng-src="{{ item.icon }}"/>-->
-								<i class="fa {{ item.icon }}"></i>
-								<span ng-bind="item.description">Loading...</span>
-						</li>
-					</ul>
+                <!--<img ng-src="{{ item.icon }}"/>-->
+                <i class="fa {{ item.icon }}"></i>
+                <span ng-bind="item.description">Loading...</span>
+            </li>
+          </ul>
 
           <section class="preview-settings">
           <h5>Design View</h5>
           <span class="viewlabel" title="This mode is for setting and designing your Questionnaire structure and content">Authoring</span>
             <div class="switch round tiny previewtoggle">
-  						<input id="exampleRadioSwitch3" type="checkbox" ns-checked="models.preview" ng-model="models.preview">
-  						<label for="exampleRadioSwitch3"></label>
-  					</div>
+              <input id="exampleRadioSwitch3" type="checkbox" ns-checked="models.preview" ng-model="models.preview">
+              <label for="exampleRadioSwitch3"></label>
+            </div>
           <span class="viewlabel" title="A basic preview of how the questionnaire will function for your respondent. NB - Not the same as full Preview - TBC">Collection</span>
          </section>
-					<!-- hide til can figure out how to make this friendly :D <div class="trashcan"
-							If you use [] as referenced list, the dropped elements will be lost
-							<ul dnd-list="[]">
-									<li style="display:block; width:100%"><img src="/static/img/icons/trash.svg" style="width:100%"></li>
-							</ul>
-					</div>-->
-					{% endverbatim %}
-					<input type="submit" class="button small radius save" id="" value="Save Questionnaire" ng-click="saveQuestionnaire(models.dropzones)">
-						<a href={%  url 'survey:index' %} class="button small radius preview">Back to Dashboard</a>
+          <!-- hide til can figure out how to make this friendly :D <div class="trashcan"
+              If you use [] as referenced list, the dropped elements will be lost
+              <ul dnd-list="[]">
+                  <li style="display:block; width:100%"><img src="/static/img/icons/trash.svg" style="width:100%"></li>
+              </ul>
+          </div>-->
+          {% endverbatim %}
+          <input type="submit" class="button small radius save" id="" value="Save Questionnaire" ng-click="saveQuestionnaire(models.dropzones)">
+            <a href={%  url 'survey:index' %} class="button small radius preview">Back to Dashboard</a>
 
         {% verbatim %}
 
             <div class="messages">
-        				<div ng-repeat="message in messages">
-        					<div ng-show="message.success"><span class="success"><i class="fa fa-check"></i>{{message.success}}</span></div>
-        					<div ng-show="message.error"><span class="error">{{message.error}}</span></div>
-        				</div>
+                <div ng-repeat="message in messages">
+                  <div ng-show="message.success"><span class="success"><i class="fa fa-check"></i>{{message.success}}</span></div>
+                  <div ng-show="message.error"><span class="error">{{message.error}}</span></div>
+                </div>
             </div>
 
         {% endverbatim %}
 
-				 {% comment %} <a class="button small radius preview">Preview</a>
-					<a class="button small radius reset">Reset</a>{% endcomment %}
-				</form>
+         {% comment %} <a class="button small radius preview">Preview</a>
+          <a class="button small radius reset">Reset</a>{% endcomment %}
+        </form>
 
-					{% if survey_runner_url %}
-						<a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True" class="button small radius preview">Preview</a>
-					{% endif %}
-				</div>
-			</div>
+          {% if survey_runner_url %}
+            <a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True" class="button small radius preview">Preview</a>
+          {% endif %}
+        </div>
+      </div>
 
+  </div>
 
-
-	  {% verbatim %}
-	  <div class="debug">
-		  <pre>{{ models.dropzones | json }}</pre>
-	  </div>
-	  {% endverbatim %}
+    {% verbatim %}
+    <div class="debug">
+      <pre>{{ models.dropzones | json }}</pre>
+    </div>
+    {% endverbatim %}
   </section>
 </div>
 {% endblock base_body%}
