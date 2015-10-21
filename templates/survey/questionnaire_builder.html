@@ -96,47 +96,38 @@
 			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)"></i>
 			<h5><!--({{$index + 1}})--><i class="fa fa-list-ul"></i> Multiple Choice Question</h5>
 
-        <!-- tabs -->
-
-        <div class="tab-container">
-          <input id="tab1" type="radio" name="tabs" checked>
-          <label for="tab1">Question Settings</label>
-          <input id="tab2" type="radio" name="tabs">
-          <label for="tab2">Available Responses</label>
-          <ul class="tab-content">
-            <li id="content1">
-              <!-- question settings -->
-              <label>Question</label>
-  						<input type="text" ng-model="item.questionText" placeholder="E.g - Which of these options do you agree with?">
-  						<label>Question Help/Instruction Text</label>
-  						<input type="text" ng-model="item.questionHelp" placeholder="E.g - Please select one option from the list below">
-  						<label>Error Text for Respondent</label>
-  						<input type="text" ng-model="item.questionError" placeholder="E.g - This question is required">
-            </li>
-            <li id="content2">
-              <!-- responses -->
-              <ul dnd-list="item.parts"
-      					dnd-allowed-types="['part']">
-      					<li ng-repeat="part in item.parts"
-      						dnd-draggable="part"
-      						dnd-effect-allowed="move"
-      					    dnd-type="'part'"
-      						dnd-moved="item.parts.splice($index, 1)">
-      						<input type="text" ng-model="part.name" placeholder="Enter the response option for the respondent" class="icon-append">
-                    <span class="list-actions">
-                      <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
-                      <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
-                    </span>
-      						<input type="hidden" ng-model="part.label" placeholder="label">
-      						<input type="hidden" ng-model="part.value" placeholder="value">
-      					</li>
-      				</ul>
-      				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response option for the Respondent</a></span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- end tabs -->
+        <tabset template-url="{% endverbatim %}{% static "js/q_builder/templates/tabset.html" %}{% verbatim %}"><!-- class tab-container -->
+          <tab heading="Question Settings">
+            <label>Question</label>
+						<input type="text" ng-model="item.questionText" placeholder="E.g - Which of these options do you agree with?">
+						<label>Question Help/Instruction Text</label>
+						<input type="text" ng-model="item.questionHelp" placeholder="E.g - Please select one option from the list below">
+						<label>Error Text for Respondent</label>
+						<input type="text" ng-model="item.questionError" placeholder="E.g - This question is required">
+          </tab>
+          <tab heading="Available Responses">
+            <ul dnd-list="item.parts"
+    					dnd-allowed-types="['part']">
+    					<li ng-repeat="part in item.parts"
+    						dnd-draggable="part"
+    						dnd-effect-allowed="move"
+    					    dnd-type="'part'"
+    						dnd-moved="item.parts.splice($index, 1)">
+                <input type="text" ng-model="part.name" placeholder="Enter the response option for the respondent" class="icon-append">
+                  <span class="list-actions">
+                    <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
+                    <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
+                  </span>
+                <input type="hidden" ng-model="part.label" placeholder="label">
+                <input type="hidden" ng-model="part.value" placeholder="value">
+    					</li>
+    				</ul>
+    				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
+          </tab>
+          <tab heading="Tab three">
+            <h3>Stuff and things</h3>
+          </tab>
+        </tabset>
 
 			</div>
 
@@ -279,7 +270,9 @@
   <script src="{% static "js/angular-sanitize.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
   <script src="{% static "js/q_builder/config.js" %}"></script>
-  <script src="{% static "js/q_builder/directives.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/ContentEditable.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/WysiwygEditor.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/Tabs.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/RadioQuestionController.js" %}"></script>
   <script src="{% static "js/q_builder/app.js" %}"></script>
