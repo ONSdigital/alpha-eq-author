@@ -5,7 +5,7 @@
          * Angular application-level configuration
          */
 
-        .config(['$httpProvider', function($httpProvider) {
+        .config(['$httpProvider', '$provide', function($httpProvider, $provide) {
 
             /**
              * CSRF Fields

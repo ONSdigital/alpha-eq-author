@@ -35,7 +35,7 @@
   				dnd-selected="models.selected = item"
   				ng-class="{selected: models.selected === item}"
   				ng-include="item.type + '.html'"
-          dnd-type="item.dndType">
+          dnd-type="item.dndType" class="my-repeat-animation">
   			</li>
   		</ul>
   	</script>
@@ -54,7 +54,7 @@
 	<script type="text/ng-template" id="text_question.html">
 		<div class="question-block"><!--{{$index + 1}}-->
 			<div class="text_question" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)"></i>
+			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
 
         <h5><i class="fa fa-font"></i> Text Question</h5>
 				<label>Question</label>
@@ -78,6 +78,7 @@
   <!-- Template for a rich text block -->
 	<script type="text/ng-template" id="rich_text_block.html">
 		<div>
+    <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
 			<div class="text_question" ng-hide="models.preview">
 				<label>Your Text</label>
         <textarea ng-model="item.questionText" wysiwyg-editor></textarea>
@@ -93,46 +94,38 @@
 	<script type="text/ng-template" id="radio_question.html">
 		<div class="question-block">
 			<div class="radio_question" ng-controller="RadioQuestionController as ctrl" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)"></i>
+			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
 			<h5><!--({{$index + 1}})--><i class="fa fa-list-ul"></i> Multiple Choice Question</h5>
 
-        <!-- tabs -->
-
-        <div class="tab-container">
-          <input id="tab1" type="radio" name="tabs" checked>
-          <label for="tab1">Question Settings</label>
-          <input id="tab2" type="radio" name="tabs">
-          <label for="tab2">Available Responses</label>
-          <ul class="tab-content">
-            <li id="content1">
-              <!-- question settings -->
-              <label>Question</label>
-  						<input type="text" ng-model="item.questionText" placeholder="E.g - Which of these options do you agree with?">
-  						<label>Question Help/Instruction Text</label>
-  						<input type="text" ng-model="item.questionHelp" placeholder="E.g - Please select one option from the list below">
-  						<label>Error Text for Respondent</label>
-  						<input type="text" ng-model="item.questionError" placeholder="E.g - This question is required">
-            </li>
-            <li id="content2">
-              <!-- responses -->
-              <ul dnd-list="item.parts"
-      					dnd-allowed-types="['part']">
-      					<li ng-repeat="part in item.parts"
-      						dnd-draggable="part"
-      						dnd-effect-allowed="move"
-      					    dnd-type="'part'"
-      						dnd-moved="item.parts.splice($index, 1)">
-      						<input type="text" ng-model="part.name" placeholder="Enter the choice for the respondent">
-      						<input type="hidden" ng-model="part.label" placeholder="label">
-      						<input type="hidden" ng-model="part.value" placeholder="value">
-      					</li>
-      				</ul>
-      				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- end tabs -->
+        <tabset template-url="{% endverbatim %}{% static "js/q_builder/templates/tabset.html" %}{% verbatim %}"><!-- class tab-container -->
+          <tab heading="Question Settings">
+            <label>Question</label>
+						<input type="text" ng-model="item.questionText" placeholder="E.g - Which of these options do you agree with?">
+						<label>Question Help/Instruction Text</label>
+						<input type="text" ng-model="item.questionHelp" placeholder="E.g - Please select one option from the list below">
+						<label>Error Text for Respondent</label>
+						<input type="text" ng-model="item.questionError" placeholder="E.g - This question is required">
+          </tab>
+          <tab heading="Available Responses">
+            <ul dnd-list="item.parts"
+    					dnd-allowed-types="['part']">
+    					<li ng-repeat="part in item.parts"
+    						dnd-draggable="part"
+    						dnd-effect-allowed="move"
+    					    dnd-type="'part'"
+    						dnd-moved="item.parts.splice($index, 1)">
+                <input type="text" ng-model="part.name" placeholder="Enter the response option for the respondent" class="icon-append">
+                  <span class="list-actions">
+                    <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
+                    <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
+                  </span>
+                <input type="hidden" ng-model="part.label" placeholder="label">
+                <input type="hidden" ng-model="part.value" placeholder="value">
+    					</li>
+    				</ul>
+    				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
+          </tab>
+        </tabset>
 
 			</div>
 
@@ -208,13 +201,15 @@
           </ul>
 
           <section class="preview-settings">
-          <h5>Design View</h5>
-          <span class="viewlabel" title="This mode is for setting and designing your Questionnaire structure and content">Authoring</span>
-            <div class="switch round tiny previewtoggle">
-              <input id="exampleRadioSwitch3" type="checkbox" ns-checked="models.preview" ng-model="models.preview">
-              <label for="exampleRadioSwitch3"></label>
-            </div>
-          <span class="viewlabel" title="A basic preview of how the questionnaire will function for your respondent. NB - Not the same as full Preview - TBC">Collection</span>
+          <h5>Preview Mode</h5>
+            <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ns-checked="models.preview" ng-model="models.preview">
+                <label class="onoffswitch-label" for="myonoffswitch">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
+
          </section>
           <!-- hide til can figure out how to make this friendly :D <div class="trashcan"
               If you use [] as referenced list, the dropped elements will be lost
@@ -270,10 +265,14 @@
   <script src="{% static "js/simditor.js" %}"></script>
   {# Angular #}
   <script src="{% static "js/angular.js" %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js"></script>
   <script src="{% static "js/angular-sanitize.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
   <script src="{% static "js/q_builder/config.js" %}"></script>
-  <script src="{% static "js/q_builder/directives.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/ContentEditable.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/WysiwygEditor.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/confirmdialog.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/Tabs.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/RadioQuestionController.js" %}"></script>
   <script src="{% static "js/q_builder/app.js" %}"></script>
