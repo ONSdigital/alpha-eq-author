@@ -202,13 +202,15 @@
           </ul>
 
           <section class="preview-settings">
-          <h5>Design View</h5>
-          <span class="viewlabel" title="This mode is for setting and designing your Questionnaire structure and content">Authoring</span>
-            <div class="switch round tiny previewtoggle">
-              <input id="exampleRadioSwitch3" type="checkbox" ns-checked="models.preview" ng-model="models.preview">
-              <label for="exampleRadioSwitch3"></label>
-            </div>
-          <span class="viewlabel" title="A basic preview of how the questionnaire will function for your respondent. NB - Not the same as full Preview - TBC">Collection</span>
+          <h5>Preview Mode</h5>
+            <div class="onoffswitch">
+              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ns-checked="models.preview" ng-model="models.preview">
+                <label class="onoffswitch-label" for="myonoffswitch">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
+              
          </section>
           <!-- hide til can figure out how to make this friendly :D <div class="trashcan"
               If you use [] as referenced list, the dropped elements will be lost
