@@ -50,6 +50,26 @@
     {% block body_js %}
     <script src="{% static "js/app.js" %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdn.supportkit.io/supportkit.min.js"></script>
+    <script>
+      SupportKit.init({appToken: '2rzudlt14wycksdennxtpqz5k',
+      givenName: '{{ user.first_name }}',
+      surname: '{{ user.last_name }}',
+      email: '{{ user.email }}',
+      emailCaptureEnabled: true,
+      customText: {
+        headerText: 'ONS eQ Feedback',
+        inputPlaceholder: 'Type a message...',
+        sendButtonText: 'Send',
+        introText: 'Please provide us with your comments. If you want a response, enter your email by clicking the cog and we\'ll get back to you',
+        settingsText: 'You can leave us your email so that we can get back to you this way.',
+        settingsReadOnlyText: 'We\'ll get back to you at this email address if we missed you.',
+        settingsInputPlaceholder: 'Your email address',
+        settingsSaveButtonText: 'Save',
+        settingsHeaderText: 'Email Settings',
+        settingsNotificationText: 'In case we\'re slow to respond you can <a href="#" data-ui-settings-link>leave us your email</a>.'
+    }});
+    </script>
     {% endblock body_js %}
 
     {# Init Foundation #}
