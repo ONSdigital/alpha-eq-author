@@ -116,12 +116,16 @@
       						dnd-effect-allowed="move"
       					    dnd-type="'part'"
       						dnd-moved="item.parts.splice($index, 1)">
-      						<input type="text" ng-model="part.name" placeholder="Enter the choice for the respondent">
+      						<input type="text" ng-model="part.name" placeholder="Enter the response option for the respondent" class="icon-append">
+                    <span class="list-actions">
+                      <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
+                      <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
+                    </span>
       						<input type="hidden" ng-model="part.label" placeholder="label">
       						<input type="hidden" ng-model="part.value" placeholder="value">
       					</li>
       				</ul>
-      				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
+      				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response option for the Respondent</a></span>
             </li>
           </ul>
         </div>
@@ -210,7 +214,7 @@
                   <span class="onoffswitch-switch"></span>
                 </label>
               </div>
-              
+
          </section>
           <!-- hide til can figure out how to make this friendly :D <div class="trashcan"
               If you use [] as referenced list, the dropped elements will be lost
