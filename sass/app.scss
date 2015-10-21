@@ -956,6 +956,26 @@ label.onoffswitch-label, input[type="checkbox"] + label.onoffswitch-label  {
   display: none;
 }
 
+input[type="text"].icon-append {
+  width: calc(100% - 80px);
+  display: inline-block;
+  margin-right: 12px;
+}
+
+.list-actions .fa {
+  margin:0 8px;
+  color:rgba(0,0,0,0.3);
+  transition: color .3s ease;
+}
+
+.list-actions .fa:hover {
+  color:rgba(0,0,0,1);
+}
+
+.list-actions .removeitem {
+  cursor: pointer;
+}
+
 .close,
 .accordion,
 .duplicate {
