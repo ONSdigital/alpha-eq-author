@@ -1548,3 +1548,21 @@ ul.tab-content > li {
     -webkit-user-select: text;
     user-select: text;
 }
+
+/* Add animation */
+.my-repeat-animation.ng-enter.ng-enter-active,
+.my-repeat-animation.ng-leave {
+    opacity: 1;
+    -webkit-transition: opacity 300ms linear;
+    -moz-transition: opacity 300ms linear;
+    transition: opacity 300ms linear;
+}
+
+/* Remove animation */
+.my-repeat-animation.ng-leave.ng-leave-active,
+.my-repeat-animation.ng-enter {
+    opacity: 0;
+    -webkit-transition: opacity 300ms linear;
+    -moz-transition: opacity 300ms linear;
+    transition: opacity 300ms linear;
+}
