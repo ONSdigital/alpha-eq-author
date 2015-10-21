@@ -78,11 +78,13 @@
   <!-- Template for a rich text block -->
 	<script type="text/ng-template" id="rich_text_block.html">
 		<div>
-    <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
+    <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
 			<div class="text_question" ng-hide="models.preview">
-				<label>Your Text</label>
-        <textarea ng-model="item.questionText" wysiwyg-editor></textarea>
-				<div class="clearfix"></div>
+        <div dnd-nodrag>
+  				<label>Your Text</label>
+          <textarea ng-model="item.questionText" wysiwyg-editor></textarea>
+  				<div class="clearfix"></div>
+        </div>
 			</div>
 			<div class="text_question_preview" ng-show="models.preview">
 				<div ng-bind-html="item.questionText"></div>
