@@ -66,6 +66,15 @@
         });
       };
 
+      $scope.endEdit = function() {
+        $http.post(window.location, {
+          'unlock':'true'
+        }).success(function(data) {
+          $scope.messages = [];
+          $scope.messages.push(data);
+        });
+      };
+
       $scope.dropCallback = function(event, index, item) {
         // check whether we have dropped a new or existing item
         if (!item.hasOwnProperty('questionReference')) {

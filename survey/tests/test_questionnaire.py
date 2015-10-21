@@ -1,3 +1,4 @@
+import json
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from survey.models import Survey, Questionnaire
@@ -9,6 +10,9 @@ class QuestionnaireTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.client = login(user="questionnaire-user", email="questionnaire-user@example.com", password="password")
+        f = open('survey/tests/resources/survey.json')
+        cls.contents = f.read()
+
 
     def setUp(self):
         create_surveys()
@@ -92,34 +96,33 @@ class QuestionnaireTestCase(TestCase):
         questionnaire = Questionnaire.objects.get(questionnaire_id='1')
         self.assertTrue(questionnaire.reviewed)
 
-    # def test_reviewed_false_after_add_question(self):
-    #     # add a new questionnaire to survey 1
-    #     response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
-    #     self.assertEqual(200, response.status_code)
-    #
-    #     response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '3'}), follow=True, HTTP_REFERER=reverse('survey:index'))
-    #     questionnaire = Questionnaire.objects.get(questionnaire_id='3')
-    #     self.assertTrue(questionnaire.reviewed)
-    #
-    #     # check the reviewed status is true
-    #     response = QuestionnaireTestCase.client.get(reverse('survey:index'))
-    #     survey = response.context['object_list'][0]
-    #     self.assertEqual(Survey.objects.get(survey_id='1'), survey)
-    #     questionnaire_set = survey.questionnaire_set.all()
-    #     self.assertTrue(questionnaire_set[0].reviewed)
-    #
-    #     # now add a question
-    #     questionnaire = Questionnaire.objects.get(questionnaire_id=3)
-    #     response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), {'question_set-INITIAL_FORMS': '0', 'question_set-TOTAL_FORMS': '1', 'question_set-MIN_NUM_FORMS' : '0', 'question_set-MAX_NUM_FORMS': '1000', 'question_set-0-title': 'Test Question 6', 'question_set-0-description': 'question description 6', 'question_set-0-help_text': 'question help text 6', 'question_set-0-id': '', 'question_set-0-questionnaire': questionnaire.id}, follow=True)
-    #     self.assertEqual(200, response.status_code)
-    #     self.assertContains(response, 'This successfully updated')
-    #
-    #     # and check the reviewed status is false
-    #     response = QuestionnaireTestCase.client.get(reverse('survey:index'))
-    #     survey = response.context['object_list'][0]
-    #     self.assertEqual(Survey.objects.get(survey_id='1'), survey)
-    #     questionnaire_set = survey.questionnaire_set.all()
-    #     self.assertFalse(questionnaire_set[0].reviewed)
+    def test_reviewed_false_after_add_question(self):
+        # add a new questionnaire to survey 1
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '3'}), follow=True, HTTP_REFERER=reverse('survey:index'))
+        questionnaire = Questionnaire.objects.get(questionnaire_id='3')
+        self.assertTrue(questionnaire.reviewed)
+
+        # check the reviewed status is true
+        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
+        survey = response.context['object_list'][0]
+        self.assertEqual(Survey.objects.get(survey_id='1'), survey)
+        questionnaire_set = survey.questionnaire_set.all()
+        self.assertTrue(questionnaire_set[0].reviewed)
+
+        # now add a question
+        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response,"Your questionnaire has been saved")
+
+        # and check the reviewed status is false
+        response = QuestionnaireTestCase.client.get(reverse('survey:index'))
+        survey = response.context['object_list'][0]
+        self.assertEqual(Survey.objects.get(survey_id='1'), survey)
+        questionnaire_set = survey.questionnaire_set.all()
+        self.assertFalse(questionnaire_set[0].reviewed)
 
     def test_published_a_questionnaire(self):
         # add a new questionnaire to survey 1
@@ -128,8 +131,9 @@ class QuestionnaireTestCase(TestCase):
 
         questionnaire = Questionnaire.objects.get(questionnaire_id=3)
         # add a question to questionnaire
-        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), {'question_set-INITIAL_FORMS': '1', 'question_set-TOTAL_FORMS': '1', 'question_set-MIN_NUM_FORMS' : '0', 'question_set-MAX_NUM_FORMS': '1000', 'question_set-0-title': 'Test Question 6', 'question_set-0-description': 'question description 6', 'question_set-0-help_text': 'question help text 6', 'question_set-0-id': '1', 'question_set-0-questionnaire': questionnaire.id}, follow=True)
+        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(200, response.status_code)
+        self.assertContains(response,"Your questionnaire has been saved")
 
         response = QuestionnaireTestCase.client.get(reverse("survey:questionnaire-summary", kwargs={'slug': '3'}),follow=True)
         # check we cannot make it live
@@ -146,5 +150,87 @@ class QuestionnaireTestCase(TestCase):
 
         questionnaire = Questionnaire.objects.get(questionnaire_id='3')
         self.assertTrue(questionnaire.published)
+
+    def test_locked_questionnaire(self):
+        # add a new questionnaire to survey 1
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        questionnaire = Questionnaire.objects.get(questionnaire_id=3)
+
+        # lock the questionnaire
+        response = QuestionnaireTestCase.client.get(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+
+        # add a question to questionnaire
+        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response,"Your questionnaire has been saved")
+
+        # log in as a new user
+        new_user = login(user="new-user", email="new-user@example.com", password="password")
+
+        # check we can't modify the questionnaire
+        response = new_user.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response,"Locked for editing")
+
+    def test_unlocked_questionnaire(self):
+        # add a new questionnaire to survey 1
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        questionnaire = Questionnaire.objects.get(questionnaire_id=3)
+
+        # lock the questionnaire
+        response = QuestionnaireTestCase.client.get(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+
+        # add a question to questionnaire
+        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, "Your questionnaire has been saved")
+
+        # log in as a new user
+        new_user = login(user="new-user", email="new-user@example.com", password="password")
+
+        # check we can't modify the questionnaire
+        response = new_user.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, "Locked for editing")
+
+        # unlock the questionnaire
+        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), '{"unlock":"true"}', content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, "Unlocked")
+
+        # check the new user can modify it now
+        response = new_user.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, "Your questionnaire has been saved")
+
+    def test_user_cannot_not_unlock_another_users_questionnaire(self):
+        # add a new questionnaire to survey 1
+        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
+        self.assertEqual(200, response.status_code)
+
+        questionnaire = Questionnaire.objects.get(questionnaire_id=3)
+
+        # lock the questionnaire
+        response = QuestionnaireTestCase.client.get(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+
+        # add a question to questionnaire
+        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, "Your questionnaire has been saved")
+
+        # log in as a new user
+        new_user = login(user="new-user", email="new-user@example.com", password="password")
+
+        # attempt to unlock the questionnaire
+        response = new_user.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), '{"unlock":"true"}', content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, "Locked for editing")
 
 

@@ -71,12 +71,18 @@
                                     {% endif %}
 
                                     {% if not questionnaire.published %}
-                                    <li>
-                                        <a class="tiny button secondary"
-                                           href="{% url 'survey:questionnaire-builder' questionnaire.id %}">Edit</a>
-                                    </li>
+                                        {% if questionnaire.locked_by and questionnaire.locked_by != user.username%}
+                                            <li>
+                                                <a class="tiny button secondary"
+                                                   href="#" onclick="alert('Locked by {{ questionnaire.locked_by}}')"}>Locked</a>
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                <a class="tiny button secondary"
+                                                   href="{% url 'survey:questionnaire-builder' questionnaire.id %}" >Edit</a>
+                                            </li>
+                                        {% endif %}
                                     {% endif %}
-
                                 </ul>
                                 </div>
                             </td>

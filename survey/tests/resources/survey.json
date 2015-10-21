@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "title": "title",
+    "overview": "overview",
+    "questionnaire_id": "id"
+  },
+  "questionList": [
+    {
+      "questionType": "MultipleChoice",
+      "questionError": "",
+      "questionText": "",
+      "displayConditions": [],
+      "questionReference": "",
+      "skipConditions": [],
+      "parts": [
+        {
+          "type": "option",
+          "name": "red",
+          "value": "trf",
+          "label": ""
+        }
+      ],
+      "dndType": "item",
+      "branchConditions": [],
+      "displayProperties": {},
+      "questionHelp": "",
+      "validation": {
+        "required": true
+      },
+      "type": "radio_question",
+      "children": []
+    }
+  ]
+}

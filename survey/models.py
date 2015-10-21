@@ -19,6 +19,11 @@ class Questionnaire(models.Model):
     reviewed = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
     questionnaire_json = jsonfield.JSONField()
+    locked_on = models.DateField(null=True, default=None)
+    locked_by = models.TextField(max_length=120 , null=True, default=None)
+
+    def is_locked(self, username):
+        return self.locked_by and not self.locked_by == username
 
     def __unicode__(self):
         return self.title
