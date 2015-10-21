@@ -1,10 +1,11 @@
 (function() {
     angular.module("QBuilder", [
+        'QBuilderConfig',
         'ngSanitize',
         'dndLists',
         'contenteditable',
         'wysiwygEditor',
-        'QBuilderConfig',
+        'tabs',
         'BuilderController',
         'RadioQuestionController'
     ]);

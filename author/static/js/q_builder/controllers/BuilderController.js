@@ -90,6 +90,14 @@
         switch (item.type) {
           case 'radio_question':
             question.questionType = 'MultipleChoice';
+            question.parts = [
+              {
+                  type: 'option',
+                  name: '',
+                  label: '',
+                  value: ''
+              }
+            ];
             break;
           case 'text_question':
             question.questionType = 'InputText';
