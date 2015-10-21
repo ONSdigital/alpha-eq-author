@@ -27,7 +27,7 @@
           type: "rich_text_block",
           description: "Rich text field",
           id: 1,
-          icon: 'fa-dot-circle-o',
+          icon: 'fa-pencil-square-o',
           dndType: 'item'
         }, {
           type: "group",
@@ -90,14 +90,12 @@
         switch (item.type) {
           case 'radio_question':
             question.questionType = 'MultipleChoice';
-            question.parts = [
-              {
-                  type: 'option',
-                  name: '',
-                  label: '',
-                  value: ''
-              }
-            ];
+            question.parts = [{
+              type: 'option',
+              name: '',
+              label: '',
+              value: ''
+            }];
             break;
           case 'text_question':
             question.questionType = 'InputText';
