@@ -1543,3 +1543,8 @@ ul.tab-content > li {
 .set-responses {
   display: none;
 }
+
+[contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+}
