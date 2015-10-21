@@ -35,7 +35,7 @@
   				dnd-selected="models.selected = item"
   				ng-class="{selected: models.selected === item}"
   				ng-include="item.type + '.html'"
-          dnd-type="item.dndType">
+          dnd-type="item.dndType" class="my-repeat-animation">
   			</li>
   		</ul>
   	</script>
@@ -54,7 +54,7 @@
 	<script type="text/ng-template" id="text_question.html">
 		<div class="question-block"><!--{{$index + 1}}-->
 			<div class="text_question" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)"></i>
+			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
 
         <h5><i class="fa fa-font"></i> Text Question</h5>
 				<label>Question</label>
@@ -78,6 +78,7 @@
   <!-- Template for a rich text block -->
 	<script type="text/ng-template" id="rich_text_block.html">
 		<div>
+    <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
 			<div class="text_question" ng-hide="models.preview">
 				<label>Your Text</label>
         <textarea ng-model="item.questionText" wysiwyg-editor></textarea>
@@ -93,7 +94,7 @@
 	<script type="text/ng-template" id="radio_question.html">
 		<div class="question-block">
 			<div class="radio_question" ng-controller="RadioQuestionController as ctrl" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)"></i>
+			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
 			<h5><!--({{$index + 1}})--><i class="fa fa-list-ul"></i> Multiple Choice Question</h5>
 
         <tabset template-url="{% endverbatim %}{% static "js/q_builder/templates/tabset.html" %}{% verbatim %}"><!-- class tab-container -->
@@ -267,11 +268,13 @@
   <script src="{% static "js/simditor.js" %}"></script>
   {# Angular #}
   <script src="{% static "js/angular.js" %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js"></script>
   <script src="{% static "js/angular-sanitize.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
   <script src="{% static "js/q_builder/config.js" %}"></script>
   <script src="{% static "js/q_builder/directives/ContentEditable.js" %}"></script>
   <script src="{% static "js/q_builder/directives/WysiwygEditor.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/confirmdialog.js" %}"></script>
   <script src="{% static "js/q_builder/directives/Tabs.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/RadioQuestionController.js" %}"></script>
