@@ -79,8 +79,9 @@
 	<script type="text/ng-template" id="rich_text_block.html">
 		<div>
     <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
+    <h5><i class="fa fa-pencil-square-o"></i> Text block with formatting</h5>
 			<div class="text_question" ng-hide="models.preview">
-				<label>Your Text</label>
+				<label>Enter text below and format as required</label>
         <textarea ng-model="item.questionText" wysiwyg-editor></textarea>
 				<div class="clearfix"></div>
 			</div>
@@ -95,7 +96,7 @@
 		<div class="question-block">
 			<div class="radio_question" ng-controller="RadioQuestionController as ctrl" ng-hide="models.preview">
 			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="YOU ARE ABOUT TO KILL A KITTEN ARE YOU SURE???"></i>
-			<h5><!--({{$index + 1}})--><i class="fa fa-list-ul"></i> Multiple Choice Question</h5>
+			<h5><!--({{$index + 1}})--><i class="fa fa-list-ul"></i> Multiple Choice Question – Single Answer</h5>
 
         <tabset template-url="{% endverbatim %}{% static "js/q_builder/templates/tabset.html" %}{% verbatim %}"><!-- class tab-container -->
           <tab heading="Question Settings">
