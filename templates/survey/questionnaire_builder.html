@@ -66,8 +66,8 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="text_question_preview" ng-show="models.preview">
-				<div><b>{{ item.questionText }}<span ng-if="!item.questionText.length">Add a question</span></b></div>
-				<div>{{ item.questionHelp }}<span ng-if="!item.questionHelp.length">Add some help/instruction text</span></div>
+				<div><b>{{ item.questionText }}<span ng-if="!item.questionText.length">Switch to edit mode and add a question</span></b></div>
+				<div ng-if="item.questionHelp.length">{{ item.questionHelp }}</div>
 				<input type="text">
 				<!--<div>{{ item.questionError }}</div>-->
 			</div>
