@@ -55,11 +55,11 @@
                                     {% if questionnaire.published %}
                                     <li>
                                         <a class="tiny button secondary success" href="#">Published</a></li>
-                                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}"
+                                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}" target="_blank"
                                            class="tiny button secondary">View live</a></li>
                                     {% else %}
                                     <li>
-                                        <a class="tiny button secondary" href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True"
+                                        <a class="tiny button secondary" href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True"  target="_blank"
                                            class="tiny button secondary">Preview</a></li>
 
                                     {% endif %}
