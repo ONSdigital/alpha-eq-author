@@ -1,5 +1,5 @@
 <div class="tab-container">
-  <label ng-repeat="tab in tabset.tabs" ng-click="tabset.select(tab)">{{tab.heading}}</label>
+  <label ng-repeat="tab in tabset.tabs" ng-class="{current : tab.active}" ng-click="tabset.select(tab)">{{tab.heading}}</label>
 
   <ul class="tab-content">
     <li role="presentation"
