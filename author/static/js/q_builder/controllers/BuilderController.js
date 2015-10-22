@@ -92,9 +92,7 @@
             question.questionType = 'MultipleChoice';
             question.parts = [{
               type: 'option',
-              name: '',
-              label: '',
-              value: ''
+              value: '',
             }];
             break;
           case 'text_question':
