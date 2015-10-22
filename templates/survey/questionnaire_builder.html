@@ -115,13 +115,11 @@
     						dnd-effect-allowed="move"
     					    dnd-type="'part'"
     						dnd-moved="item.parts.splice($index, 1)">
-                <input type="text" ng-model="part.name" placeholder="Enter the response option for the respondent" class="icon-append">
+                <input type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append">
                   <span class="list-actions">
                     <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
                     <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
                   </span>
-                <input type="hidden" ng-model="part.label" placeholder="label">
-                <input type="hidden" ng-model="part.value" placeholder="value">
     					</li>
     				</ul>
     				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
