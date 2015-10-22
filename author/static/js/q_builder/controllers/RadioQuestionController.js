@@ -17,8 +17,6 @@
                 }
                 question.parts.push({
                     type: 'option',
-                    name: '',
-                    label: '',
                     value: ''
                 });
             };
