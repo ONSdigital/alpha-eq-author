@@ -1,0 +1,15 @@
+  <!-- Template for a rich text block -->
+	<script type="text/ng-template" id="rich_text_block.html">
+		<div>
+    <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
+    <h5><i class="fa fa-pencil-square-o"></i> Text block with formatting</h5>
+			<div dnd-nodrag class="text_question" ng-hide="models.preview">
+				<label>Enter text below and format as required</label>
+        <textarea ng-model="item.questionText" wysiwyg-editor></textarea>
+				<div class="clearfix"></div>
+			</div>
+			<div class="text_question_preview" ng-show="models.preview">
+				<div ng-bind-html="item.questionText"></div>
+			</div>
+		</div>
+	</script>

@@ -1,12 +1,11 @@
 (function() {
-    angular.module('RadioQuestionController', [])
+  angular.module('radioQuestion', [])
 
-        /**
-         *  Controller to handle Radio Button Question Types
-         *
-         */
-
-        .controller('RadioQuestionController', function($scope) {
+  .directive("radioQuestion", function() {
+    return {
+        restrict: 'E',
+        templateUrl: '/static/js/q_builder/templates/radio_question.html',
+        controller: function($scope) {
 
             /**
              *  Add an answer option
@@ -20,5 +19,9 @@
                     value: ''
                 });
             };
-        })
+        },
+    controllerAs: 'ctrl'
+  };
+
+    });
 })();

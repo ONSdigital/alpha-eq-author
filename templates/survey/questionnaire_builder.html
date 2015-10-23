@@ -40,106 +40,18 @@
   		</ul>
   	</script>
 
-	<!-- This template is responsible for rendering a group element. It uses
-		 the above list template to render each group column -->
-	<script type="text/ng-template" id="group.html">
-		<div class="group-element box box-blue">
-			<h3>Question Group {{item.id}}</h3>
-			<div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
-			<div class="clearfix"></div>
-		</div>
-	</script>
-
-  <!-- Template for a text question -->
-	<script type="text/ng-template" id="text_question.html">
-		<div class="question-block"><!--{{$index + 1}}-->
-			<div class="text_question" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
-
-        <h5><i class="fa fa-font"></i> Text Question</h5>
-				<label>Question</label>
-				<input dnd-nodrag type="text" ng-model="item.questionText" placeholder="E.g - How many people does your company employ?">
-				<label>Question Help/Instruction Text</label>
-				<input dnd-nodrag type="text" ng-model="item.questionHelp" placeholder="E.g - Please include all staff members including contractors">
-				<label>Error Text for Respondent</label>
-				<input dnd-nodrag type="text" ng-model="item.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
-				<div class="clearfix"></div>
-			</div>
-			<div class="text_question_preview" ng-show="models.preview">
-				<div><b>{{ item.questionText }}<span ng-if="!item.questionText.length">Switch to edit mode and add a question</span></b></div>
-				<div ng-if="item.questionHelp.length">{{ item.questionHelp }}</div>
-				<input dnd-nodrag type="text">
-				<!--<div>{{ item.questionError }}</div>-->
-			</div>
-		</div>
-	</script>
-
-
-  <!-- Template for a rich text block -->
-	<script type="text/ng-template" id="rich_text_block.html">
-		<div>
-    <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
-    <h5><i class="fa fa-pencil-square-o"></i> Text block with formatting</h5>
-			<div dnd-nodrag class="text_question" ng-hide="models.preview">
-				<label>Enter text below and format as required</label>
-        <textarea ng-model="item.questionText" wysiwyg-editor></textarea>
-				<div class="clearfix"></div>
-			</div>
-			<div class="text_question_preview" ng-show="models.preview">
-				<div ng-bind-html="item.questionText"></div>
-			</div>
-		</div>
-	</script>
+    <!-- Questions  without Controllers-->
+    <text-question></text-question>
+    <number-question></number-question>
+    <rich-text-question></rich-text-question>
+    <question-group></question-group>
 
   <!-- Radio button Question -->
 	<script type="text/ng-template" id="radio_question.html">
 		<div class="question-block">
-			<div class="radio_question" ng-controller="RadioQuestionController as ctrl" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
-			<h5><!--({{$index + 1}})--><i class="fa fa-list-ul"></i> Multiple Choice Question – Single Answer</h5>
-
-        <tabset template-url="{% endverbatim %}{% static "js/q_builder/templates/tabset.html" %}{% verbatim %}"><!-- class tab-container -->
-          <tab heading="Question Settings">
-            <label>Question</label>
-						<input dnd-nodrag type="text" ng-model="item.questionText" placeholder="E.g - Which of these options do you agree with?">
-						<label>Question Help/Instruction Text</label>
-						<input dnd-nodrag type="text" ng-model="item.questionHelp" placeholder="E.g - Please select one option from the list below">
-						<label>Error Text for Respondent</label>
-						<input dnd-nodrag type="text" ng-model="item.questionError" placeholder="E.g - This question is required">
-          </tab>
-          <tab heading="Available Responses">
-            <ul dnd-list="item.parts"
-    					dnd-allowed-types="['part']">
-    					<li ng-repeat="part in item.parts"
-    						dnd-draggable="part"
-    						dnd-effect-allowed="move"
-    					    dnd-type="'part'"
-    						dnd-moved="item.parts.splice($index, 1)">
-                <input dnd-nodrag type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append">
-                  <span class="list-actions">
-                    <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
-                    <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
-                  </span>
-    					</li>
-    				</ul>
-    				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
-          </tab>
-        </tabset>
-
-			</div>
-
-			<div class="radio_question_preview" ng-show="models.preview">
-				<div><b>{{ item.questionText }}</b></div>
-				<div>{{ item.questionHelp }}</div>
-				<label ng-repeat="part in item.parts">
-					<input type="radio" name="item.id">&nbsp; {{ part.value }}
-				</label><br />
-				<!--<div>{{ item.questionError }}</div>-->
-      </div>
-
+			<radio-question></radio-question>
 		</div>
 	</script>
-
 
   {% endverbatim %}
 
@@ -272,8 +184,12 @@
   <script src="{% static "js/q_builder/directives/WysiwygEditor.js" %}"></script>
   <script src="{% static "js/q_builder/directives/confirmdialog.js" %}"></script>
   <script src="{% static "js/q_builder/directives/Tabs.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/textQuestion.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/numberQuestion.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/radioQuestion.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/richTextQuestion.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/questionGroup.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
-  <script src="{% static "js/q_builder/controllers/RadioQuestionController.js" %}"></script>
   <script src="{% static "js/q_builder/app.js" %}"></script>
 
 

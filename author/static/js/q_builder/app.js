@@ -7,9 +7,13 @@
     'wysiwygEditor',
     'tabs',
     'BuilderController',
-    'RadioQuestionController',
     'ngAnimate',
-    'confirmdialog'
+    'confirmdialog',
+    'textQuestion',
+    'numberQuestion',
+    'richTextQuestion',
+    'questionGroup',
+    'radioQuestion'
   ]);
 
   // See config.js, and controllers/*.js

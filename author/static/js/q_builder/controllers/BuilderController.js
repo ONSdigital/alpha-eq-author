@@ -18,6 +18,12 @@
           icon: 'fa-font',
           dndType: 'item'
         }, {
+          type: "number_question",
+          description: "Number Question",
+          id: 1,
+          icon: '',
+          dndType: 'item'
+        }, {
           type: "radio_question",
           description: "Multiple Choice Single Answer",
           id: 1,
@@ -97,6 +103,10 @@
             break;
           case 'text_question':
             question.questionType = 'InputText';
+            break;
+            case 'number_question':
+            question.questionType = 'InputText';
+            question.validation["numeric"] = true;
             break;
           case 'rich_text_block':
             question.questionType = 'TextBlock';
