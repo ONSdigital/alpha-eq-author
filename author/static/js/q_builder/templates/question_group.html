@@ -1,0 +1,9 @@
+<!-- This template is responsible for rendering a group element. It uses
+		 the above list template to render each group column -->
+	<script type="text/ng-template" id="group.html">
+		<div class="group-element box box-blue">
+			<h3>Question Group {{item.id}}</h3>
+			<div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
+			<div class="clearfix"></div>
+		</div>
+	</script>
