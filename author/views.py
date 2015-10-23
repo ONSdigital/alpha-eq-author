@@ -30,13 +30,12 @@ class WelcomeView(LoginRequiredMixin, TemplateView):
 
 class LogoutView(TemplateView):
     def get(self, request):
-        print "here"
-        unlock(request)
+        unlock_questionnaires(request)
         logout(request)
         return redirect(reverse('welcome'))
 
 
-def unlock(request):
+def unlock_questionnaires(request):
     questionnaires = Questionnaire.objects.all().filter(locked_by=request.user.username)
     for questionnaire in questionnaires:
         questionnaire.locked_by = None

@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='questionnaire',
             name='locked_on',
-            field=models.DateField(default=None, null=True),
+            field=models.DateTimeField(default=None, null=True),
         ),
     ]

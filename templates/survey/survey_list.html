@@ -71,7 +71,7 @@
                                     {% endif %}
 
                                     {% if not questionnaire.published %}
-                                        {% if questionnaire.locked_by and questionnaire.locked_by != user.username%}
+                                        {% if questionnaire.locked %}
                                             <li>
                                                 <a class="tiny button secondary"
                                                    href="#" onclick="alert('Locked by {{ questionnaire.locked_by}}')"}>Locked</a>

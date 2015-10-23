@@ -127,37 +127,33 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
 
             json_data = json.loads(request.body);
             if questionnaire.is_locked(request.user.username):
-                return JsonResponse({'error': 'Locked for editing!'})
+                return JsonResponse({'error': 'Locked for editing!', 'locked': questionnaire.locked_by})
             else:
                 if 'unlock' in json_data:
-                    return self.unlock_questionnaire(json_data, questionnaire)
+                    questionnaire.unlock()
+                    return JsonResponse({'success': 'Unlocked'})
                 else:
                    question_meta = json_data['meta']
                    questionnaire.title = question_meta['title']
                    questionnaire.overview = question_meta['overview']
                    questionnaire.questionnaire_json = json_data['questionList']
                    questionnaire.reviewed = False
+                   questionnaire.lock(request.user.username)
                    questionnaire.save()
                    return JsonResponse({'success': 'Your questionnaire has been saved!'})
         return JsonResponse({'error': 'Your questionnaire could not be saved!'})
 
-    def unlock_questionnaire(self, json_data, questionnaire):
-        unlock = json_data['unlock']
-        questionnaire.locked_by = None
-        questionnaire.locked_on = None
-        questionnaire.save()
-        return JsonResponse({'success': 'Unlocked'})
+
+
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
             questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
             if questionnaire:
                 if questionnaire.is_locked(request.user.username):
-                    return JsonResponse({'error': 'Locked for editing!'})
+                    return JsonResponse({'error': 'Locked for editing!', 'locked': questionnaire.locked_by})
                 else:
-                    questionnaire.locked_by = request.user.username
-                    questionnaire.locked_on = timezone.now()
-                    questionnaire.save()
+                    questionnaire.lock(request.user.username)
                     questionList = questionnaire.questionnaire_json
                 if not questionList:
                     questionList = []
