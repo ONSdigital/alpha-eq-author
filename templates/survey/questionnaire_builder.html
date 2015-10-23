@@ -49,7 +49,9 @@
   <!-- Radio button Question -->
 	<script type="text/ng-template" id="radio_question.html">
 		<div class="question-block">
+
 			<radio-question></radio-question>
+
 		</div>
 	</script>
 
@@ -130,7 +132,7 @@
           </div>-->
           {% endverbatim %}
           <input type="submit" class="button small radius save" id="" value="Save Questionnaire" ng-click="saveQuestionnaire(models.dropzones)">
-            <a href={%  url 'survey:index' %} class="button small radius preview">Back to Dashboard</a>
+          <a href={%  url 'survey:index' %} class="button small radius preview" ng-click="endEdit()">Back to Dashboard</a>
 
         {% verbatim %}
 

@@ -7,6 +7,7 @@ from .models import Survey, Questionnaire
 from django.http import JsonResponse, Http404, HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 
 
 from .forms import SurveyForm, QuestionnaireForm
@@ -122,26 +123,38 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
         if request.is_ajax():
             questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
             if questionnaire.published:
-                return JsonResponse({'error':'Already Published!'})
+                return JsonResponse({'error': 'Already Published!'})
+
+            json_data = json.loads(request.body);
+            if questionnaire.is_locked(request.user.username):
+                return JsonResponse({'error': 'Locked for editing!', 'locked': questionnaire.locked_by})
             else:
-                jsonData = json.loads(request.body);
-                questionMeta = jsonData['meta']
+                if 'unlock' in json_data:
+                    questionnaire.unlock()
+                    return JsonResponse({'success': 'Unlocked'})
+                else:
+                   question_meta = json_data['meta']
+                   questionnaire.title = question_meta['title']
+                   questionnaire.overview = question_meta['overview']
+                   questionnaire.questionnaire_json = json_data['questionList']
+                   questionnaire.reviewed = False
+                   questionnaire.lock(request.user.username)
+                   questionnaire.save()
+                   return JsonResponse({'success': 'Your questionnaire has been saved!'})
+        return JsonResponse({'error': 'Your questionnaire could not be saved!'})
 
-                questionnaire.title = questionMeta['title']
-                questionnaire.overview = questionMeta['overview']
 
-                questionnaire.questionnaire_json = jsonData['questionList']
-                questionnaire.reviewed = False
-                questionnaire.save()
-                return JsonResponse({'success':'Your questionnaire has been saved!'})
 
-        return JsonResponse({'error':'Your questionnaire could not be saved!'})
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
             questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
             if questionnaire:
-                questionList = questionnaire.questionnaire_json
+                if questionnaire.is_locked(request.user.username):
+                    return JsonResponse({'error': 'Locked for editing!', 'locked': questionnaire.locked_by})
+                else:
+                    questionnaire.lock(request.user.username)
+                    questionList = questionnaire.questionnaire_json
                 if not questionList:
                     questionList = []
 
@@ -165,5 +178,4 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
 
         context['questionnaire'] = Questionnaire.objects.get(id=self.kwargs['pk'])
 
-        return context
         return context

@@ -52,14 +52,28 @@
 
       // Load the initial questionnaire state
       $http.get(window.location).success(function(data) {
-        $scope.models.dropzones.questionList = data.questionList;
-        $scope.models.questionnaire_meta = data.meta;
+        if (data.locked) {
+          $scope.messages = [];
+          $scope.messages.push(data);
+        } else {
+          $scope.models.dropzones.questionList = data.questionList;
+          $scope.models.questionnaire_meta = data.meta;
+        }
       });
 
       $scope.saveQuestionnaire = function() {
         $http.post(window.location, {
           'meta': $scope.models.questionnaire_meta,
           'questionList': $scope.models.dropzones.questionList
+        }).success(function(data) {
+          $scope.messages = [];
+          $scope.messages.push(data);
+        });
+      };
+
+      $scope.endEdit = function() {
+        $http.post(window.location, {
+          'unlock':'true'
         }).success(function(data) {
           $scope.messages = [];
           $scope.messages.push(data);
