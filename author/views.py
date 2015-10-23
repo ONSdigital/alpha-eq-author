@@ -12,6 +12,7 @@ from django.contrib.auth import logout, REDIRECT_FIELD_NAME, login as auth_login
 from django.shortcuts import redirect, resolve_url
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from survey.models import Questionnaire
 
 class LoginRequiredMixin(object):
     @classmethod
@@ -29,8 +30,18 @@ class WelcomeView(LoginRequiredMixin, TemplateView):
 
 class LogoutView(TemplateView):
     def get(self, request):
+        print "here"
+        unlock(request)
         logout(request)
         return redirect(reverse('welcome'))
+
+
+def unlock(request):
+    questionnaires = Questionnaire.objects.all().filter(locked_by=request.user.username)
+    for questionnaire in questionnaires:
+        questionnaire.locked_by = None
+        questionnaire.locked_on = None
+        questionnaire.save()
 
 
 @sensitive_post_parameters()

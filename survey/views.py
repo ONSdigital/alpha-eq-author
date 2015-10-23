@@ -120,7 +120,6 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
         return super(QuestionnaireBuilder, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        #import pdb; pdb.set_trace()
         if request.is_ajax():
             questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
             if questionnaire.published:
@@ -130,17 +129,16 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
             if questionnaire.is_locked(request.user.username):
                 return JsonResponse({'error': 'Locked for editing!'})
             else:
-                 if 'unlock' in json_data:
+                if 'unlock' in json_data:
                     return self.unlock_questionnaire(json_data, questionnaire)
-                 else:
-                    question_meta = json_data['meta']
-                    questionnaire.title = question_meta['title']
-                    questionnaire.overview = question_meta['overview']
-
-                    questionnaire.questionnaire_json = json_data['questionList']
-                    questionnaire.reviewed = False
-                    questionnaire.save()
-                    return JsonResponse({'success': 'Your questionnaire has been saved!'})
+                else:
+                   question_meta = json_data['meta']
+                   questionnaire.title = question_meta['title']
+                   questionnaire.overview = question_meta['overview']
+                   questionnaire.questionnaire_json = json_data['questionList']
+                   questionnaire.reviewed = False
+                   questionnaire.save()
+                   return JsonResponse({'success': 'Your questionnaire has been saved!'})
         return JsonResponse({'error': 'Your questionnaire could not be saved!'})
 
     def unlock_questionnaire(self, json_data, questionnaire):
