@@ -13,7 +13,8 @@
     'numberQuestion',
     'richTextQuestion',
     'questionGroup',
-    'radioQuestion'
+    'radioQuestion',
+    'checkBoxQuestion'
   ]);
 
   // See config.js, and controllers/*.js

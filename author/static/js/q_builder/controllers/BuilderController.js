@@ -23,6 +23,12 @@
           id: 1,
           icon: '',
           dndType: 'item'
+        },{
+          type: "check_box_question",
+          description: "Check Box Question",
+          id: 1,
+          icon: '',
+          dndType: 'item'
         }, {
           type: "radio_question",
           description: "Multiple Choice Single Answer",
@@ -118,7 +124,10 @@
           case 'text_question':
             question.questionType = 'InputText';
             break;
-            case 'number_question':
+          case 'check_box_question':
+            question.questionType = 'CheckBox';
+            break;
+          case 'number_question':
             question.questionType = 'InputText';
             question.validation["numeric"] = true;
             break;
