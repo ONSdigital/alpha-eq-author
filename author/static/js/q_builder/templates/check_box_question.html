@@ -1,0 +1,41 @@
+<div class="check_box_question" ng-hide="models.preview">
+			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
+			<h5> Check Box Question</h5>
+
+        <tabset template-url="/static/js/q_builder/templates/tabset.html"><!-- class tab-container -->
+          <tab heading="Question Settings">
+            <label>Question</label>
+						<input dnd-nodrag type="text" ng-model="item.questionText" placeholder="E.g - Which of these options do you agree with?">
+						<label>Question Help/Instruction Text</label>
+						<input dnd-nodrag type="text" ng-model="item.questionHelp" placeholder="E.g - Please select one option from the list below">
+						<label>Error Text for Respondent</label>
+						<input dnd-nodrag type="text" ng-model="item.questionError" placeholder="E.g - This question is required">
+          </tab>
+          <tab heading="Available Responses">
+            <ul dnd-list="item.parts"
+    					dnd-allowed-types="['part']">
+    					<li ng-repeat="part in item.parts"
+    						dnd-draggable="part"
+    						dnd-effect-allowed="move"
+    					    dnd-type="'part'"
+    						dnd-moved="item.parts.splice($index, 1)">
+                <input dnd-nodrag type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append">
+                  <span class="list-actions">
+                    <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
+                    <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
+                  </span>
+    					</li>
+    				</ul>
+    				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
+          </tab>
+        </tabset>
+
+			</div>
+
+			<div class="check_question_preview" ng-show="models.preview">
+				<div><b>{{ item.questionText }}</b></div>
+				<div>{{ item.questionHelp }}</div>
+				<label ng-repeat="part in item.parts">
+					<input type="checkbox" name="item.id">&nbsp; {{ part.value }}
+				</label><br />
+			 </div>
