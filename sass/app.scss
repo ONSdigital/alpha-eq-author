@@ -312,6 +312,7 @@ textarea {
   height: auto;
   padding: 1rem;
   transition: background 0.4s ease;
+  -webkit-user-select: auto;
 }
 
 input[type=submit] {
