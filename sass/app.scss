@@ -19,6 +19,12 @@ html {
   border: 1px solid $keyline;
 }
 
+@mixin v-align($position: relative) {
+  position: $position;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /* main css */
 body {
   background: #fbfafa;
@@ -1486,6 +1492,26 @@ box-shadow: inset 0px -2px 6px -2px rgba(34, 50, 51, 0.05)
 .builder-canvas h3 {
   text-transform: capitalize;
   font-weight: 400;
+}
+
+.questionContainer.empty{
+  background-color: rgba(233, 228, 238, 0.12);
+border-radius: 5px;
+position: relative;
+min-height: 300px;
+box-shadow: inset 0px -1px 4px rgba(55, 98, 119, 0.23);
+outline: 1px dotted rgba(57, 198, 255, 0.52);
+outline-offset: -20px
+}
+
+.questionContainer.empty:after {
+ content:"Add questions and content blocks here";
+ text-align: center;
+ display: block;
+ width:100%;
+ @include v-align(absolute);
+ color:#888;
+ text-shadow: 0 -1px 1px rgba(255,255,255,0.5)
 }
 
 .tool-panel {
