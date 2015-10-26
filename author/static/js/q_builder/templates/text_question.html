@@ -2,20 +2,20 @@
 	<script type="text/ng-template" id="text_question.html">
 		<div class="question-block">
 			<div class="text_question" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
+			<i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
 
         <h5><i class="fa fa-font"></i> Text Question</h5>
 				<label>Question</label>
-				<input dnd-nodrag type="text" ng-model="item.questionText" placeholder="E.g - How many people does your company employ?">
+				<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - How many people does your company employ?">
 				<label>Question Help/Instruction Text</label>
-				<input dnd-nodrag type="text" ng-model="item.questionHelp" placeholder="E.g - Please include all staff members including contractors">
+				<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please include all staff members including contractors">
 				<label>Error Text for Respondent</label>
-				<input dnd-nodrag type="text" ng-model="item.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
+				<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
 				<div class="clearfix"></div>
 			</div>
 			<div class="text_question_preview" ng-show="models.preview">
-				<div><b>{{ item.questionText }}<span ng-if="!item.questionText.length">Switch to edit mode and add a question</span></b></div>
-				<div ng-if="item.questionHelp.length">{{ item.questionHelp }}</div>
+				<div><b>{{ child.questionText }}<span ng-if="!child.questionText.length">Switch to edit mode and add a question</span></b></div>
+				<div ng-if="child.questionHelp.length">{{ child.questionHelp }}</div>
 				<input dnd-nodrag type="text">
 			</div>
 		</div>

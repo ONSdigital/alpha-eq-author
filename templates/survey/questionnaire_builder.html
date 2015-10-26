@@ -19,7 +19,7 @@
   	<script type="text/ng-template" id="list.html">
   		<ul class="question-list" dnd-list="list"
   			dnd-drop="dropCallback(event, index, item)"
-  			dnd-allowed-types="['item']"
+  			dnd-allowed-types="['group']"
         ng-class="{dragTarget: dragging && dragging.dndType == 'item'}">
         <li ng-repeat="item in list"
   				dnd-draggable="item"

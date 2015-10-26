@@ -1,9 +1,30 @@
 <!-- This template is responsible for rendering a group element. It uses
 		 the above list template to render each group column -->
-	<script type="text/ng-template" id="group.html">
-		<div class="group-element box box-blue">
-			<h3>Question Group {{item.id}}</h3>
-			<div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
-			<div class="clearfix"></div>
-		</div>
-	</script>
+<script type="text/ng-template" id="group.html">
+    <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This section and all items will be permanently deleted."></i>
+    <div class="group-element box box-blue" >
+        <h3>Question Group</h3>
+        <input dnd-nodrag type="text" ng-model="item.questionText" placeholder="Section">
+
+        <div>
+    <div class="dropzone">
+      <ul class="question-list" dnd-list="item.children"
+            dnd-drop="dropCallback(event, index, item)"
+            dnd-allowed-types="['item']"
+        ng-class="{dragTarget: dragging && dragging.dndType == 'item'}">
+        <li ng-repeat="child in item.children"
+                dnd-draggable="child"
+                dnd-effect-allowed="move"
+                dnd-moved="item.children.splice($index, 1)"
+                dnd-selected="models.selected = child"
+                ng-class="{selected: models.selected === child}"
+                ng-include="child.type + '.html'"
+          dnd-type="child.dndType" class="my-repeat-animation">
+            </li>
+        </ul>
+    </div>
+  </div>
+        <div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
+        <div class="clearfix"></div>
+    </div>
+</script>
