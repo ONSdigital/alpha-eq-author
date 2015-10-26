@@ -105,8 +105,8 @@
 
       <div class="tool-panel">
         <div class="authoring-tools">
-          <h5>Question types</h5>
-          <p class="instruction">Drag a question to the canvas</p>
+          <h5>Questionnaire Content</h5>
+          <p class="instruction">Drag blocks to the canvas</p>
           {% verbatim %}
           <ul class="q-types ng-cloak">
             <li ng-repeat="item in models.templates"
@@ -200,6 +200,7 @@
   <script src="{% static "js/q_builder/directives/radioQuestion.js" %}"></script>
   <script src="{% static "js/q_builder/directives/checkBoxQuestion.js" %}"></script>
   <script src="{% static "js/q_builder/directives/richTextQuestion.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/setfocus.js" %}"></script>
   <script src="{% static "js/q_builder/directives/questionGroup.js" %}"></script>
   <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
   <script src="{% static "js/q_builder/app.js" %}"></script>

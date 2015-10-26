@@ -19,15 +19,15 @@
           dndType: 'item'
         }, {
           type: "number_question",
-          description: "Number Question",
+          description: "Numeric Question",
           id: 1,
-          icon: '',
+          icon: 'fa-list-ol',
           dndType: 'item'
-        },{
+        }, {
           type: "check_box_question",
           description: "Check Box Question",
           id: 1,
-          icon: '',
+          icon: 'fa-check-square-o',
           dndType: 'item'
         }, {
           type: "radio_question",
@@ -79,7 +79,7 @@
 
       $scope.endEdit = function() {
         $http.post(window.location, {
-          'unlock':'true'
+          'unlock': 'true'
         }).success(function(data) {
           $scope.messages = [];
           $scope.messages.push(data);
