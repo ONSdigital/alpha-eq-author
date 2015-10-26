@@ -1,13 +1,6 @@
-<div class="tab-container">
+<div class="tab-container my-repeat-animation">
   <label ng-repeat="tab in tabset.tabs" ng-class="{current : tab.active}" ng-click="tabset.select(tab)">{{tab.heading}}</label>
-
-  <ul class="tab-content">
-    <li role="presentation"
-      ng-repeat="tab in tabset.tabs">
-
-    </li>
-  </ul>
-
-  <ng-transclude>
-  </ng-transclude>
+  <div class="tab-content" >
+    <ng-transclude></ng-transclude>
+  </div>
 </div>

@@ -17,16 +17,16 @@
     					<li ng-repeat="part in item.parts"
     						dnd-draggable="part"
     						dnd-effect-allowed="move"
-    					    dnd-type="'part'"
-    						dnd-moved="item.parts.splice($index, 1)">
-                <input dnd-nodrag type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append">
+    					  dnd-type="'part'"
+    						dnd-moved="item.parts.splice($index, 1)" setfocus="$last">
+                <input dnd-nodrag type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append" onkeypress="if (event.which==13) document.getElementById('add-field').click()">
                   <span class="list-actions">
                     <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
                     <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
                   </span>
     					</li>
     				</ul>
-    				<span class="add-btn"><a ng-click="addOption(item)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
+    				<span class="add-btn"><a ng-click="addOption(item)" id="add-field"><i class="fa fa-plus-circle"></i> Add another reponse option</a></span>
           </tab>
         </tabset>
 

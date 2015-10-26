@@ -19,6 +19,12 @@ html {
   border: 1px solid $keyline;
 }
 
+@mixin v-align($position: relative) {
+  position: $position;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /* main css */
 body {
   background: #fbfafa;
@@ -312,6 +318,7 @@ textarea {
   height: auto;
   padding: 1rem;
   transition: background 0.4s ease;
+  -webkit-user-select: auto;
 }
 
 input[type=submit] {
@@ -788,15 +795,19 @@ aside.step {
 
 .authoring-tools ul li {
   display: block;
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  cursor: pointer;
-  font-size: 12px;
-  color: white;
-  border-radius: 0;
-  transition: all 0.3s;
-  border-bottom: 1px solid rgba(255,255,255,0.125);
+width: 100%;
+padding: 6px 10px;
+margin: 5px 0;
+cursor: pointer;
+font-size: 12px;
+color: white;
+border-radius: 0;
+transition: all 0.3s;
+border-bottom: 1px solid rgba(255, 255, 255, 0.06)
+}
+
+.authoring-tools ul li:last-child {
+  border-bottom: none;
 }
 
 .authoring-tools ul li .fa {
@@ -823,6 +834,7 @@ aside.step {
 .onoffswitch {
     position: relative; width: 80px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    margin:10px 0;
 }
 .onoffswitch-checkbox {
     display: none;
@@ -848,7 +860,7 @@ label.onoffswitch-label, input[type="checkbox"] + label.onoffswitch-label  {
 .onoffswitch-inner:after {
     content: "OFF";
     padding-right: 14px;
-    background-color: #f07771; color: #FFFFFF;
+    background-color: #f08369; color: #FFFFFF;
     text-align: right;
 }
 .onoffswitch-switch {
@@ -1432,30 +1444,28 @@ ul.question-list li ul li {
 
 /* tabs */
 
-ul.tab-content {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background: #fafafa;
-  color: #444;
-  border: 1px solid #ddd
-}
+.tab-container {
 
-ul.tab-content > li {
-  display: none;
-  padding: 20px 25px 5px;
-}
-
-.tab-container > input {
-  display: none;
 }
 
 .tab-container > label {
   display: inline-block;
-  padding: 15px 25px;
-  font-weight: 600;
-  text-align: center;
-  border-radius: 2px 2px 0 0;
+padding: 15px 25px;
+font-weight: 600;
+text-align: center;
+border-radius: 2px 2px 0 0;
+border: 1px solid #eee;
+margin: 0 10px -1px 0;
+background: #fbfbfb;
+color: #b9b9b9;
+box-shadow: inset 0px -2px 6px -2px rgba(34, 50, 51, 0.05)
+}
+
+.tab-container > label.current {
+  border-bottom:1px solid #fff;
+  background: white;
+  color:#222;
+  box-shadow: none;
 }
 
 .tab-container > label:hover {
@@ -1463,21 +1473,9 @@ ul.tab-content > li {
   cursor: pointer;
 }
 
-.tab-container > input:checked + label {
-  background: #fafafa;
-  color: #444;
-  border: 1px solid #ddd;
-  border-bottom: 1px solid #fafafa;
-  position: relative;
-  top: 1px;
-  margin: 0;
-}
-
-#tab1:checked ~ ul.tab-content #content1,
-#tab2:checked ~ ul.tab-content #content2,
-#tab3:checked ~ ul.tab-content #content3,
-#tab4:checked ~ ul.tab-content #content4 {
-  display: block;
+.tab-content {
+  border:1px solid #eee;
+  padding:15px 25px;
 }
 
 .add-btn {
@@ -1494,6 +1492,26 @@ ul.tab-content > li {
 .builder-canvas h3 {
   text-transform: capitalize;
   font-weight: 400;
+}
+
+.questionContainer.empty{
+  background-color: rgba(233, 228, 238, 0.12);
+border-radius: 5px;
+position: relative;
+min-height: 300px;
+box-shadow: inset 0px -1px 4px rgba(55, 98, 119, 0.23);
+outline: 1px dotted rgba(57, 198, 255, 0.52);
+outline-offset: -20px
+}
+
+.questionContainer.empty:after {
+ content:"Add questions and content blocks here";
+ text-align: center;
+ display: block;
+ width:100%;
+ @include v-align(absolute);
+ color:#888;
+ text-shadow: 0 -1px 1px rgba(255,255,255,0.5)
 }
 
 .tool-panel {
