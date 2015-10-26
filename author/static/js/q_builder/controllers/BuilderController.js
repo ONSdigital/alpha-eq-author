@@ -134,6 +134,9 @@
           case 'rich_text_block':
             question.questionType = 'TextBlock';
             break;
+          case 'group':
+            question.questionType = 'QuestionGroup';
+            break;
         }
 
         // set the type for drag and drop
