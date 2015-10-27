@@ -9,9 +9,46 @@
   {{ block.super }}
 {% include "includes/navigation.html" %}
 
-<div class="wrapper" ng-app="QBuilder">
+<div class="wrapper" ng-app="QBuilder" ng-controller="BuilderController as builderCtrl">
 
-  <section class="application" ng-controller="BuilderController as builderCtrl">
+  <section class="page-tools">
+    <div class="row large-collapse">
+
+    <div class="large-6 columns">
+       <!-- section view toggle -->
+       <ul class="viewswitch button-group radius toggle" data-toggle="buttons-radio">
+          <li>
+            <input type="radio" id="r1" name="r-group" data-toggle="button" checked>
+            <label class="button tiny" for="r1"><i class="fa fa-square-o"></i>&nbsp; Single Section View</label>
+          </li>
+          <li>
+            <input type="radio" id="r2" name="r-group" data-toggle="button">
+            <label class="button tiny" for="r2"><i class="fa fa-list"></i>&nbsp; List of Sections</label>
+          </li>
+          <li>
+            <input type="radio" id="r3" name="r-group" data-toggle="button">
+            <label class="button tiny" for="r3"><i class="fa fa-th-list"></i> &nbsp;Expanded View</label>
+          </li>
+        </ul>
+       <!-- end section view toggle -->
+     </div>
+     <div class="large-6 columns text-right">
+       {% verbatim %}
+       <span class="mini-label">Questionnaire Preview</span>
+       <div class="onoffswitch">
+         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ns-checked="models.preview" ng-model="models.preview">
+           <label class="onoffswitch-label" for="myonoffswitch">
+             <span class="onoffswitch-inner"></span>
+             <span class="onoffswitch-switch"></span>
+           </label>
+         </div>
+         {% endverbatim %}
+    </div>
+
+  </div>
+  </section>
+
+  <section class="application" >
 
     {# This template represents a dnd list and is used by other templates. #}
       {# Changing this can cause pain #}
@@ -66,19 +103,18 @@
 
         <div class="large-10 large-offset-1 columns">
 
-          <div class="row">
+          <div class="row large-collapse">
+
+          <div class="large-12 column">
 
             <ul class="breadcrumb">
-              <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
-              <li><a href="{%  url 'survey:index' %}" title="">Surveys</a></li>
-              <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
-              <li>Authoring {% verbatim %}{{ models.questionnaire_meta.title }}{% endverbatim %}</li>
-            </ul>
-
-          <div>
+                <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
+                <li><a href="{%  url 'survey:index' %}" title="">Surveys</a></li>
+                <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
+                <li>Authoring {% verbatim %}{{ models.questionnaire_meta.title }}{% endverbatim %}</li>
+              </ul>
 
             <h3 class="q-title-editable" contenteditable ng-model="models.questionnaire_meta.title"></h3>
-            <!-- havent figured out where this lives yet <p contenteditable ng-model="models.questionnaire_meta.overview"></p>-->
 
           </div>
 
@@ -89,7 +125,8 @@
                     <div ng-include="'list.html'"></div>
                 </div>
             </div>
-        </div>
+
+          </div>
 
 
         {% endverbatim %}
@@ -115,18 +152,6 @@
                 <span ng-bind="item.description">Loading...</span>
             </li>
           </ul>
-
-          <section class="preview-settings">
-          <h5>Preview Mode</h5>
-            <div class="onoffswitch">
-              <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ns-checked="models.preview" ng-model="models.preview">
-                <label class="onoffswitch-label" for="myonoffswitch">
-                  <span class="onoffswitch-inner"></span>
-                  <span class="onoffswitch-switch"></span>
-                </label>
-              </div>
-
-         </section>
           <!-- hide til can figure out how to make this friendly :D <div class="trashcan"
               If you use [] as referenced list, the dropped elements will be lost
               <ul dnd-list="[]">
@@ -174,6 +199,7 @@
   {{ block.super }}
   <script src="{% static "js/plugin.js" %}"></script>
   <script src="{% static "js/main.js" %}"></script>
+
   {# Simditor #}
   <script src="{% static "js/module.js" %}"></script>
   <script src="{% static "js/hotkeys.js" %}"></script>
@@ -199,5 +225,20 @@
   <script src="{% static "js/q_builder/controllers/BuilderController.js" %}"></script>
   <script src="{% static "js/q_builder/app.js" %}"></script>
 
+  <script>
+    $(function() {
+
+        $(document).on('scroll', function(){
+          //console.log("i am " + $(window).scrollTop());
+          var scroll = $(window).scrollTop();
+          var  distance = 74;
+          if (scroll >= distance) { /* value to match abs pos of nav makes it smooooooth */
+              $('header, .page-tools, .tool-panel').addClass('fix');
+          } else {
+              $('header, .page-tools, .tool-panel').removeClass('fix');
+          }
+        });
+    });
+  </script>
 
 {% endblock body_js %}
