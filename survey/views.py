@@ -136,6 +136,7 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
                    question_meta = json_data['meta']
                    questionnaire.title = question_meta['title']
                    questionnaire.overview = question_meta['overview']
+                   questionnaire.last_used_id = question_meta['last_used_id']
                    questionnaire.questionnaire_json = json_data['questionList']
                    questionnaire.reviewed = False
                    questionnaire.lock(request.user.username)
@@ -162,7 +163,8 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
                     'meta': {
                         'title': questionnaire.title,
                         'overview': questionnaire.overview,
-                        'questionnaire_id' : questionnaire.questionnaire_id
+                        'questionnaire_id' : questionnaire.questionnaire_id,
+                        'last_used_id': questionnaire.last_used_id
                     },
                     'questionList' : questionList
                 }

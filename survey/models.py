@@ -21,6 +21,7 @@ class Questionnaire(models.Model):
     reviewed = models.BooleanField(default=False)
     published = models.BooleanField(default=False)
     questionnaire_json = jsonfield.JSONField()
+    last_used_id = models.IntegerField(default=0)
     locked_on = models.DateTimeField(null=True, default=None)
     locked_by = models.TextField(max_length=120 , null=True, default=None)
 

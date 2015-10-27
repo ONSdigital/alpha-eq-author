@@ -18,15 +18,15 @@
        <!-- section view toggle -->
        <ul class="viewswitch button-group radius toggle" data-toggle="buttons-radio">
           <li>
-            <input type="radio" id="r1" name="r-group" data-toggle="button" checked>
+            <input type="radio" id="r1" name="r-group" data-toggle="button" checked value="single" ng-model="models.view" >
             <label class="button tiny" for="r1"><i class="fa fa-square-o"></i>&nbsp; Single Section View</label>
           </li>
           <li>
-            <input type="radio" id="r2" name="r-group" data-toggle="button">
+            <input type="radio" id="r2" name="r-group" data-toggle="button" value="collapsed" ng-model="models.view" >
             <label class="button tiny" for="r2"><i class="fa fa-list"></i>&nbsp; List of Sections</label>
           </li>
           <li>
-            <input type="radio" id="r3" name="r-group" data-toggle="button">
+            <input type="radio" id="r3" name="r-group" data-toggle="button" value="open" ng-model="models.view" >
             <label class="button tiny" for="r3"><i class="fa fa-th-list"></i> &nbsp;Expanded View</label>
           </li>
         </ul>
@@ -36,7 +36,7 @@
        {% verbatim %}
        <span class="mini-label">Questionnaire Preview</span>
        <div class="onoffswitch">
-         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ns-checked="models.preview" ng-model="models.preview">
+         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" ng-model="models.preview">
            <label class="onoffswitch-label" for="myonoffswitch">
              <span class="onoffswitch-inner"></span>
              <span class="onoffswitch-switch"></span>
@@ -50,10 +50,12 @@
 
   <section class="application" >
 
+
     {# This template represents a dnd list and is used by other templates. #}
       {# Changing this can cause pain #}
       {% verbatim %}
   	<script type="text/ng-template" id="list.html">
+
   		<ul class="question-list" dnd-list="list"
   			dnd-drop="dropCallback(event, index, item)"
   			dnd-allowed-types="['group']"
@@ -65,7 +67,10 @@
   				dnd-selected="models.selected = item"
   				ng-class="{selected: models.selected === item}"
   				ng-include="item.type + '.html'"
-          dnd-type="item.dndType" class="my-repeat-animation">
+                dnd-type="item.dndType"
+                class="my-repeat-animation"  id="section-{{item.id}}"
+                ng-hide="models.view == 'single' && models.section != {{item.id}}">
+
   			</li>
   		</ul>
   	</script>
@@ -107,6 +112,7 @@
 
           <div class="large-12 column">
 
+
             <ul class="breadcrumb">
                 <li><a href="{%  url 'survey:index' %}" title="">Home</a></li>
                 <li><a href="{%  url 'survey:index' %}" title="">Surveys</a></li>
@@ -119,6 +125,16 @@
           </div>
 
           {% verbatim %}
+
+            <select ng-hide="models.view != 'single'" ng-model="models.section" >
+                <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">{{section.questionText}}</option>
+            </select>
+
+              <div ng-hide="models.view != 'single'">
+                <a href="#" ng-click="previous()" ng-hide="models.position == 1">Previous</a>
+                <p>{{models.position}} of {{ models.dropzones.questionList.length}}</p>
+                <a href="#" ng-click="next()" ng-hide="models.position >= models.dropzones.questionList.length">Next</a>
+              </div>
 
              <div ng-class="{'empty': list.length == 0}" ng-repeat="list in models.dropzones" class="questionContainer" >
                 <div class="dropzone">
@@ -146,12 +162,14 @@
                 dnd-copied="item.id = item.id + 1"
                 dnd-type="item.dndType"
                 dnd-dragstart="dragStartCallback(item)"
-                dnd-dragend="dragEndCallback(item)">
+                dnd-dragend="dragEndCallback(item)"
+                ng-hide="item.show.indexOf(models.view) == -1">
                 <!--<img ng-src="{{ item.icon }}"/>-->
                 <i class="fa {{ item.icon }}"></i>
                 <span ng-bind="item.description">Loading...</span>
             </li>
           </ul>
+
           <!-- hide til can figure out how to make this friendly :D <div class="trashcan"
               If you use [] as referenced list, the dropped elements will be lost
               <ul dnd-list="[]">
@@ -188,6 +206,7 @@
     {% verbatim %}
     <div class="debug">
       <pre>{{ models.dropzones | json }}</pre>
+      <pre>{{ models.questionnaire_meta | json }}</pre>
     </div>
     {% endverbatim %}
   </section>
