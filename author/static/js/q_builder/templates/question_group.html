@@ -2,9 +2,10 @@
 		 the above list template to render each group column -->
 <script type="text/ng-template" id="group.html">
     <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This section and all items will be permanently deleted."></i>
-    <div class="group-element box box-blue" >
+    <div class="group-element box box-blue">
+    <div class="group-element box box-blue">
         <h3>Question Group</h3>
-        <input dnd-nodrag type="text" ng-model="item.questionText" placeholder="Section">
+        <input ondrop="return false;" dnd-nodrag  type="text" ng-model="item.questionText" placeholder="Section">
 
         <div>
     <div class="dropzone">
