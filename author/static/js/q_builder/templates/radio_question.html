@@ -1,42 +1,46 @@
 <div class="radio_question" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
+			<i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
 			<h5><i class="fa fa-list-ul"></i> Multiple Choice Question – Single Answer</h5>
 
         <tabset template-url="/static/js/q_builder/templates/tabset.html"><!-- class tab-container -->
           <tab heading="Question Settings">
             <label>Question</label>
-						<input dnd-nodrag type="text" ng-model="item.questionText" placeholder="E.g - Which of these options do you agree with?">
+						<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - Which of these options do you agree with?">
 						<label>Question Help/Instruction Text</label>
-						<input dnd-nodrag type="text" ng-model="item.questionHelp" placeholder="E.g - Please select one option from the list below">
+						<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please select one option from the list below">
 						<label>Error Text for Respondent</label>
-						<input dnd-nodrag type="text" ng-model="item.questionError" placeholder="E.g - This question is required">
+						<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - This question is required">
           </tab>
           <tab heading="Available Responses">
-            <ul dnd-list="item.parts"
+            <ul dnd-list="child.parts"
     					dnd-allowed-types="['part']">
-    					<li ng-repeat="part in item.parts"
+    					<li ng-repeat="part in child.parts"
     						dnd-draggable="part"
     						dnd-effect-allowed="move"
-    					  dnd-type="'part'"
-    						dnd-moved="item.parts.splice($index, 1)" setfocus="$last">
+						  dnd-type="'part'"
+    						dnd-moved="child.parts.splice($index, 1)" setfocus="$last">
                 <input dnd-nodrag type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append" onkeypress="if (event.which==13) document.getElementById('add-field').click()">
+
                   <span class="list-actions">
                     <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
-                    <i class="fa fa-trash removeitem" ng-click="item.parts.splice($index, 1)" title="remove this item"></i>
+                    <i class="fa fa-trash removeitem" ng-click="child.parts.splice($index, 1)" title="remove this item"></i>
                   </span>
     					</li>
     				</ul>
-    				<span class="add-btn"><a ng-click="addOption(item)" id="add-field"><i class="fa fa-plus-circle"></i> Add another reponse option</a></span>
+    				<span class="add-btn"><a ng-click="addOption(child)" id="add-field"><i class="fa fa-plus-circle"></i> Add another reponse option</a></span>
+
           </tab>
         </tabset>
 
 			</div>
 
 			<div class="radio_question_preview" ng-show="models.preview">
-				<div><b>{{ item.questionText }}</b></div>
-				<div>{{ item.questionHelp }}</div>
-				<label ng-repeat="part in item.parts">
-					<input type="radio" name="item.id">&nbsp; {{ part.value }}
+				<div><b>{{ child.questionText }}</b></div>
+				<div>{{ child.questionHelp }}</div>
+				<label ng-repeat="part in child.parts">
+					<input type="radio" name="child.id">&nbsp; {{ part.value }}
 				</label><br />
-				<!--<div>{{ item.questionError }}</div>-->
+
+				<!--<div>{{ child.questionError }}</div>-->
       </div>
+

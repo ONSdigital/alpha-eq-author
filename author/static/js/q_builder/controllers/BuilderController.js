@@ -7,6 +7,26 @@
 
   angular.module('BuilderController', [])
     .controller("BuilderController", function($scope, $http) {
+
+      var startItem = {
+          questionText: '',
+          questionHelp: '',
+          questionError: '',
+          questionReference: 'start',
+          questionType: 'QuestionGroup',
+          dndType: 'group',
+          type: 'group',
+          children: [],
+          validation: {
+            required: true
+          },
+          displayProperties: {},
+          displayConditions: [],
+          skipConditions: [],
+          branchConditions: [],
+          parts: []
+        };
+
       $scope.messages = [];
       $scope.models = {
         selected: null,
@@ -49,10 +69,10 @@
           columns: [
             []
           ],
-          dndType: 'item'
+          dndType: 'group'
         }, ],
         dropzones: {
-          questionList: []
+           questionList: []
         }
       };
 
@@ -62,8 +82,12 @@
           $scope.messages = [];
           $scope.messages.push(data);
         } else {
-          $scope.models.dropzones.questionList = data.questionList;
-          $scope.models.questionnaire_meta = data.meta;
+          if (data.questionList.length != 0) {
+           $scope.models.dropzones.questionList = data.questionList;
+          } else {
+            $scope.models.dropzones.questionList = [startItem];
+          }
+         $scope.models.questionnaire_meta = data.meta;
         }
       });
 
@@ -112,6 +136,9 @@
           branchConditions: [],
           parts: []
         };
+
+        question.dndType = 'item';
+
         // FUGLY
         switch (item.type) {
           case 'radio_question':
@@ -134,11 +161,15 @@
           case 'rich_text_block':
             question.questionType = 'TextBlock';
             break;
+          case 'group':
+            question.questionType = 'QuestionGroup';
+            question.dndType = 'group';
+            break;
         }
 
         // set the type for drag and drop
         question.type = item.type;
-        question.dndType = 'item';
+
 
         return question;
       }

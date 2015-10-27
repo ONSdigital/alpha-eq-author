@@ -4,7 +4,7 @@
       return {
         restrict: 'E',
         transclude: true,
-        template: '<div ng-show="active" ng-class="{current : active}" ng-transclude></div>',
+        template: '<div ng-show="active" ng-class="{current: active}" ng-transclude></div>',
         require: '^tabset',
         scope: {
           heading: '@'
