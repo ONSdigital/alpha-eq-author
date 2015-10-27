@@ -70,10 +70,11 @@ header {
   width: 100%;
   height: 72px;
   z-index: 800;
+  transition: all .2s;
 }
 
 header.fix {
-  position: static;
+  transform: translateY(-105%);
 }
 
 header > div {
@@ -181,8 +182,14 @@ header ul.user-menu.open li:first-child:before {
   transition: all .3s;
 }
 
-.page-tools.fix, .tool-panel.fix {
+.tool-panel.fix {
   top:0;
+  height:100vh;
+}
+
+.page-tools.fix {
+  transform: translateY(-75px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4)
 }
 
 ul.user-menu li:first-child:after {
