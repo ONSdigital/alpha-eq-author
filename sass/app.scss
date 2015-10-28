@@ -6,7 +6,8 @@ html {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
+  /*height: 100%; change this for the login screen only */
+  height:auto;
   -webkit-font-smoothing: antialiased;
   overflow-y: auto;
 }
@@ -32,7 +33,7 @@ body {
 }
 
 .wrapper {
-  padding: 130px 0;
+  padding: 150px 0;
 }
 
 h1,
@@ -52,12 +53,28 @@ p {
   overflow-y: auto;
 }
 
+.text-right {
+  text-align: right;
+}
+
+.mini-label {
+  font-size: 13px;
+  color:rgba(0,0,0,0.4);
+  vertical-align: middle;
+  line-height: 60px;
+}
+
 /* header and app toolbar */
 header {
   position: fixed;
   width: 100%;
   height: 72px;
   z-index: 800;
+  transition: all .2s;
+}
+
+header.fix {
+  transform: translateY(-105%);
 }
 
 header > div {
@@ -151,6 +168,28 @@ header ul.user-menu li:first-child:before {
 
 header ul.user-menu.open li:first-child:before {
   background: url("/static/img/user-lit.svg") no-repeat;
+}
+
+/* page tools */
+
+.page-tools {
+  width: calc(100% - 240px);
+  min-height: 60px;
+  position: fixed;
+  top:70px;
+  z-index:199;
+  background: #E0E5E8;
+  transition: all .3s;
+}
+
+.tool-panel.fix {
+  top:0;
+  height:100vh;
+}
+
+.page-tools.fix {
+  transform: translateY(-75px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4)
 }
 
 ul.user-menu li:first-child:after {
@@ -767,6 +806,36 @@ ul.breadcrumb li a {
   color: #555;
 }
 
+/* section view switcher */
+
+.viewswitch {
+  margin: 16px 0 0 0;
+  display: inline-block;
+  padding: 0;
+}
+
+.viewswitch .button {
+  background:rgba(255, 255, 255, 0.55);
+  color:#999;
+  text-transform: capitalize;
+}
+
+input[data-toggle] {
+  display: none;
+}
+
+input[data-toggle]:checked + label,
+input[data-toggle]:checked + label:active {
+  background-color: #97bdcd;
+  color:white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) inset;
+
+}
+
+
+
+/* end section view switcher */
+
 aside.step {
   position: absolute;
   right: 30px;
@@ -834,7 +903,10 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.06)
 .onoffswitch {
     position: relative; width: 80px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-    margin:10px 0;
+    margin:4px 0 0 6px;
+    display:inline-block;
+    vertical-align: middle;
+    line-height: 60px;
 }
 .onoffswitch-checkbox {
     display: none;
@@ -856,6 +928,7 @@ label.onoffswitch-label, input[type="checkbox"] + label.onoffswitch-label  {
     content: "ON";
     padding-left: 14px;
     background-color: #5789aa; color: #FFFFFF;
+    text-align: left;
 }
 .onoffswitch-inner:after {
     content: "OFF";
@@ -924,6 +997,7 @@ label.onoffswitch-label, input[type="checkbox"] + label.onoffswitch-label  {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  clear: both;
 }
 
 .question {
@@ -1439,7 +1513,7 @@ ul.question-list > li:hover {
 
 ul.question-list li ul li {
   border-bottom: none;
-  margin: 0;
+  margin: 0 0 30px 0;
 }
 
 /* tabs */
@@ -1523,6 +1597,7 @@ outline-offset: -20px
   z-index: 200;
   right: 0;
   top: 72px;
+  transition: all .3s;
 }
 
 .viewlabel {
