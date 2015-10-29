@@ -3,8 +3,12 @@
 <script type="text/ng-template" id="group.html">
     <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)"
        ng-confirm-click="This section and all items will be permanently deleted."></i>
+
+    <input type="button" value="view" ng-click="viewSection(item);" ng-show="models.view == 'collapsed'">
+
     <div class="group-element box box-blue">
         <div class="group-element box box-blue">
+            <!--<p ng-hide="models.view != 'single'">{{$index+1}} of {{list.length}}</p>-->
             <div ng-hide="models.preview">
                 <h3>Question Group</h3>
                 <input ondrop="return false;" dnd-nodrag type="text" ng-model="item.questionText" placeholder="Section">
@@ -13,7 +17,7 @@
 				<h3><b>{{ item.questionText }}<span ng-if="!item.questionText.length">Switch to edit to add a section title</span></b></h3>
 			</div>
 
-            <div>
+            <div ng-hide="models.view == 'collapsed'">
                 <div class="dropzone">
                     <ul class="question-list" dnd-list="item.children"
                         dnd-drop="dropCallback(event, index, item)"
@@ -34,4 +38,5 @@
             <div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
             <div class="clearfix"></div>
         </div>
+    </div>
 </script>

@@ -9,7 +9,7 @@
     .controller("BuilderController", function($scope, $http) {
 
       var startItem = {
-          questionText: '',
+          questionText: 'Unnamed Section',
           questionHelp: '',
           questionError: '',
           questionReference: 'start',
@@ -24,43 +24,52 @@
           displayConditions: [],
           skipConditions: [],
           branchConditions: [],
+          id : 0,
           parts: []
         };
 
       $scope.messages = [];
       $scope.models = {
         selected: null,
+        section: "0",
+        position: 1,
+        view: 'single',
 
         templates: [{
           type: "text_question",
           description: "Text Question",
           id: 1,
           icon: 'fa-font',
-          dndType: 'item'
+          dndType: 'item',
+          show: ['open', 'single']
         }, {
           type: "number_question",
           description: "Numeric Question",
           id: 1,
           icon: 'fa-list-ol',
-          dndType: 'item'
+          dndType: 'item',
+          show: ['open', 'single']
         }, {
           type: "check_box_question",
           description: "Check Box Question",
           id: 1,
           icon: 'fa-check-square-o',
-          dndType: 'item'
+          dndType: 'item',
+          show: ['open', 'single']
         }, {
           type: "radio_question",
           description: "Multiple Choice Single Answer",
           id: 1,
           icon: 'fa-dot-circle-o',
-          dndType: 'item'
+          dndType: 'item',
+          show: ['open', 'single']
         }, {
           type: "rich_text_block",
           description: "Rich text field",
           id: 1,
           icon: 'fa-pencil-square-o',
-          dndType: 'item'
+          dndType: 'item',
+          show: ['open', 'single']
         }, {
           type: "group",
           description: "Question Group",
@@ -69,7 +78,8 @@
           columns: [
             []
           ],
-          dndType: 'group'
+          dndType: 'group',
+          show: ['open', 'collapsed']
         }, ],
         dropzones: {
            questionList: []
@@ -83,7 +93,8 @@
           $scope.messages.push(data);
         } else {
           if (data.questionList.length != 0) {
-           $scope.models.dropzones.questionList = data.questionList;
+            $scope.models.dropzones.questionList = data.questionList;
+            $scope.models.section = data.questionList[0].id.toString();
           } else {
             $scope.models.dropzones.questionList = [startItem];
           }
@@ -119,9 +130,44 @@
         }
       };
 
+     $scope.next = function() {
+        if ($scope.models.position < $scope.models.dropzones.questionList.length) {
+            $scope.models.position = $scope.models.position + 1;
+            $scope.models.section = $scope.models.dropzones.questionList[$scope.models.position-1].id;
+        }
+     };
+
+     $scope.previous = function() {
+        if ($scope.models.position > 0) {
+            $scope.models.position = $scope.models.position - 1;
+            //position in the array is 1 less than the position recorded (we started at 1)
+            $scope.models.section = $scope.models.dropzones.questionList[$scope.models.position-1].id;
+        }
+     };
+
+
+     $scope.viewSection = function(section) {
+        $scope.models.view = 'single';
+        $scope.models.selected = section;
+        $scope.models.section = section.id.toString();
+     };
+
+     $scope.$watch('models.section', function(model) {
+        var questionList = $scope.models.dropzones.questionList;
+        $scope.models.position = 1;
+        if (questionList.length != 0) {
+            for (i = 0; i < questionList.length; i++) {
+                var questionGroup = questionList[i];
+                if (questionGroup.id == $scope.models.section) {
+                    $scope.models.position = i+1;
+                }
+            }
+        }
+      }, true);
+
       $scope.newItem = function(item) {
 
-        question = {
+       question = {
           questionText: '',
           questionHelp: '',
           questionError: '',
@@ -164,6 +210,9 @@
           case 'group':
             question.questionType = 'QuestionGroup';
             question.dndType = 'group';
+            question.questionText = 'Unnamed Section';
+            question.id = $scope.models.questionnaire_meta.last_used_id + 1;
+            $scope.models.questionnaire_meta.last_used_id += 1;
             break;
         }
 
