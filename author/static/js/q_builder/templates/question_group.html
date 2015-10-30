@@ -19,16 +19,15 @@
 
             <div ng-hide="models.view == 'collapsed'">
                 <div class="dropzone">
-                    <ul class="question-list" dnd-list="item.children"
+                    <ul class="questionContainer" dnd-list="item.children"
                         dnd-drop="dropCallback(event, index, item)"
                         dnd-allowed-types="['item']"
-                        ng-class="{dragTarget: dragging && dragging.dndType == 'item'}">
+                        ng-class="{'empty': item.children.length == 0}">
                         <li ng-repeat="child in item.children"
                             dnd-draggable="child"
                             dnd-effect-allowed="move"
                             dnd-moved="item.children.splice($index, 1)"
                             dnd-selected="models.selected = child"
-                            ng-class="{selected: models.selected === child}"
                             ng-include="child.type + '.html'"
                             dnd-type="child.dndType" class="my-repeat-animation">
                         </li>
