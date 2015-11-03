@@ -91,7 +91,8 @@ class QuestionnaireTestCase(TestCase):
         self.assertFalse(questionnaire_set[0].reviewed)
         self.assertFalse(questionnaire_set[1].reviewed)
 
-        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '1'}), follow=True, HTTP_REFERER=reverse('survey:index'))
+        questionnaire = Questionnaire.objects.get(questionnaire_id=1)
+        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': questionnaire.id}), follow=True, HTTP_REFERER=reverse('survey:index'))
 
         questionnaire = Questionnaire.objects.get(questionnaire_id='1')
         self.assertTrue(questionnaire.reviewed)
@@ -101,7 +102,8 @@ class QuestionnaireTestCase(TestCase):
         response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
         self.assertEqual(200, response.status_code)
 
-        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '3'}), follow=True, HTTP_REFERER=reverse('survey:index'))
+        questionnaire = Questionnaire.objects.get(questionnaire_id=3)
+        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': questionnaire.id}), follow=True, HTTP_REFERER=reverse('survey:index'))
         questionnaire = Questionnaire.objects.get(questionnaire_id='3')
         self.assertTrue(questionnaire.reviewed)
 
@@ -135,18 +137,18 @@ class QuestionnaireTestCase(TestCase):
         self.assertEqual(200, response.status_code)
         self.assertContains(response,"Your questionnaire has been saved")
 
-        response = QuestionnaireTestCase.client.get(reverse("survey:questionnaire-summary", kwargs={'slug': '3'}),follow=True)
+        response = QuestionnaireTestCase.client.get(reverse("survey:questionnaire-summary", kwargs={'slug': questionnaire.id}),follow=True)
         # check we cannot make it live
         self.assertNotContains(response, 'publish')
 
-        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': '3'}), follow=True, HTTP_REFERER=reverse('survey:index'))
+        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': questionnaire.id}), follow=True, HTTP_REFERER=reverse('survey:index'))
         questionnaire = Questionnaire.objects.get(questionnaire_id='3')
         self.assertTrue(questionnaire.reviewed)
 
         # check we can publish
         self.assertContains(response, 'publish')
 
-        response = QuestionnaireTestCase.client.get(reverse("survey:publish-questionnaire", kwargs={'slug':'3'}), follow=True, HTTP_REFERER=reverse('survey:index'))
+        response = QuestionnaireTestCase.client.get(reverse("survey:publish-questionnaire", kwargs={'slug' :questionnaire.id}), follow=True, HTTP_REFERER=reverse('survey:index'))
 
         questionnaire = Questionnaire.objects.get(questionnaire_id='3')
         self.assertTrue(questionnaire.published)
