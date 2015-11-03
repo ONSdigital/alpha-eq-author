@@ -35,7 +35,7 @@ class SurveyCreate(LoginRequiredMixin, CreateView):
 
 class QuestionnaireDetail(LoginRequiredMixin, DetailView):
     model = Questionnaire
-    slug_field = 'questionnaire_id'
+    slug_field = 'id'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -88,7 +88,7 @@ class QuestionnaireCreate(LoginRequiredMixin, CreateView):
 class QuestionnaireReview(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
 
-        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['slug'])
+        questionnaire = Questionnaire.objects.get(id=self.kwargs['slug'])
         if questionnaire is not None:
             if not questionnaire.reviewed:
                 questionnaire.reviewed = True
@@ -100,7 +100,7 @@ class QuestionnaireReview(LoginRequiredMixin, View):
 
 class QuestionnairePublish(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
-        questionnaire = Questionnaire.objects.get(questionnaire_id=self.kwargs['slug'])
+        questionnaire = Questionnaire.objects.get(id=self.kwargs['slug'])
 
         if questionnaire is None:
             raise Http404
