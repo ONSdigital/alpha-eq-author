@@ -72,7 +72,7 @@
           show: ['open', 'single']
         }, {
           type: "group",
-          description: "Question Group",
+          description: "Section",
           icon: 'fa-th',
           id: 1,
           columns: [
