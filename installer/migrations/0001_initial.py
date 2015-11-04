@@ -20,7 +20,7 @@ def create_superuser(apps, schema_editor):
         email='hansolo@example.com',
         password="pbkdf2_sha256$20000$eIIcKQ10Rsp1$xwT3oP7Szq6imOJ9l19M+7Rf5VzPiIUxhQtHgoYXMT0=",
         is_superuser=False,
-        is_staff=True,
+        is_staff=False,
         first_name='Han',
         last_name='Solo'
     )
@@ -30,7 +30,7 @@ def create_superuser(apps, schema_editor):
         email='lukeskywalker@example.com',
         password="pbkdf2_sha256$20000$mh5U3dnDMl1L$mj+Z+VdH/Kt6BIJ/EtU+UK1YG0cN4sDi/+ll1gSHGSs=",
         is_superuser=False,
-        is_staff=True,
+        is_staff=False,
         first_name='Luke',
         last_name='Skywalker'
     )
