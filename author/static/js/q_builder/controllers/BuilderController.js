@@ -5,28 +5,28 @@
    *  Responsible for creating the available question types, and persisting the questionnaire
    */
 
-  angular.module('BuilderController', [])
+  angular.module('BuilderController', ['ngAnimate'])
     .controller("BuilderController", function($scope, $http) {
 
       var startItem = {
-          questionText: 'Unnamed Section',
-          questionHelp: '',
-          questionError: '',
-          questionReference: 'start',
-          questionType: 'QuestionGroup',
-          dndType: 'group',
-          type: 'group',
-          children: [],
-          validation: {
-            required: true
-          },
-          displayProperties: {},
-          displayConditions: [],
-          skipConditions: [],
-          branchConditions: [],
-          id : 0,
-          parts: []
-        };
+        questionText: '',
+        questionHelp: '',
+        questionError: '',
+        questionReference: 'start',
+        questionType: 'QuestionGroup',
+        dndType: 'group',
+        type: 'group',
+        children: [],
+        validation: {
+          required: true
+        },
+        displayProperties: {},
+        displayConditions: [],
+        skipConditions: [],
+        branchConditions: [],
+        id: 0,
+        parts: []
+      };
 
       $scope.messages = [];
       $scope.models = {
@@ -72,8 +72,8 @@
           show: ['open', 'single']
         }, {
           type: "group",
-          description: "Section",
-          icon: 'fa-th',
+          /*description: "Section",
+          icon: 'fa-th',*/
           id: 1,
           columns: [
             []
@@ -82,7 +82,7 @@
           show: ['open', 'collapsed']
         }, ],
         dropzones: {
-           questionList: []
+          questionList: []
         }
       };
 
@@ -98,7 +98,7 @@
           } else {
             $scope.models.dropzones.questionList = [startItem];
           }
-         $scope.models.questionnaire_meta = data.meta;
+          $scope.models.questionnaire_meta = data.meta;
         }
       });
 
@@ -130,44 +130,47 @@
         }
       };
 
-     $scope.next = function() {
-        if ($scope.models.position < $scope.models.dropzones.questionList.length) {
-            $scope.models.position = $scope.models.position + 1;
-            $scope.models.section = $scope.models.dropzones.questionList[$scope.models.position-1].id;
+      $scope.next = function() {
+        if ($scope.models.position < $scope.models.dropzones.questionList
+          .length) {
+          $scope.models.position = $scope.models.position + 1;
+          $scope.models.section = $scope.models.dropzones.questionList[
+            $scope.models.position - 1].id;
         }
-     };
+      };
 
-     $scope.previous = function() {
+      $scope.previous = function() {
         if ($scope.models.position > 0) {
-            $scope.models.position = $scope.models.position - 1;
-            //position in the array is 1 less than the position recorded (we started at 1)
-            $scope.models.section = $scope.models.dropzones.questionList[$scope.models.position-1].id;
+          $scope.models.position = $scope.models.position - 1;
+          //position in the array is 1 less than the position recorded (we started at 1)
+          $scope.models.section = $scope.models.dropzones.questionList[
+            $scope.models.position - 1].id;
         }
-     };
+      };
 
 
-     $scope.viewSection = function(section) {
+      $scope.viewSection = function(section) {
         $scope.models.view = 'single';
         $scope.models.selected = section;
         $scope.models.section = section.id.toString();
-     };
+      };
 
-     $scope.$watch('models.section', function(model) {
+      $scope.$watch('models.section', function(model) {
         var questionList = $scope.models.dropzones.questionList;
         $scope.models.position = 1;
         if (questionList.length != 0) {
-            for (i = 0; i < questionList.length; i++) {
-                var questionGroup = questionList[i];
-                if (questionGroup.id == $scope.models.section) {
-                    $scope.models.position = i+1;
-                }
+          for (i = 0; i < questionList.length; i++) {
+            var questionGroup = questionList[i];
+            if (questionGroup.id == $scope.models.section) {
+              $scope.models.position = i + 1;
             }
+          }
         }
       }, true);
 
       $scope.newItem = function(item) {
 
-       question = {
+        question = {
           questionText: '',
           questionHelp: '',
           questionError: '',
@@ -211,7 +214,8 @@
             question.questionType = 'QuestionGroup';
             question.dndType = 'group';
             question.questionText = 'Unnamed Section';
-            question.id = $scope.models.questionnaire_meta.last_used_id + 1;
+            question.id = $scope.models.questionnaire_meta.last_used_id +
+              1;
             $scope.models.questionnaire_meta.last_used_id += 1;
             break;
         }
@@ -221,6 +225,14 @@
 
 
         return question;
+      }
+
+      $scope.newGroup = function() {
+        group = $scope.newItem({
+          type: 'group'
+        });
+        $scope.models.dropzones.questionList.unshift(group);
+        $scope.$digest();
       }
 
       $scope.$watch('models.dropzones', function(model) {
