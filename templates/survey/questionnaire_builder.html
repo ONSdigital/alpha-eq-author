@@ -257,6 +257,16 @@
               $('header, .page-tools, .tool-panel').removeClass('fix');
           }
         });
+
+        $('.onoffswitch-checkbox').on('change', function(){
+          if($(this).prop("checked")) {
+            $('body').addClass('previewmode');
+          }
+          else {
+            $('body').removeClass('previewmode');
+          }
+        });
+
     });
   </script>
 
