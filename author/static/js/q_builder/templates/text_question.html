@@ -11,6 +11,8 @@
 				<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please include all staff members including contractors">
 				<label>Error Text for Respondent</label>
 				<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
+				<label>Required</label>
+                <input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
 				<div class="clearfix"></div>
 			</div>
 			<div class="text_question_preview" ng-show="models.preview">
