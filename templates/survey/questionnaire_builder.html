@@ -9,9 +9,9 @@
   {{ block.super }}
 {% include "includes/navigation.html" %}
 
-<div class="wrapper" ng-app="QBuilder" ng-controller="BuilderController as builderCtrl" ng-cloak>
+<div class="wrapper" ng-app="QBuilder" ng-controller="BuilderController as builderCtrl">
 
-  <section class="page-tools">
+  <section class="page-tools" ng-cloak>
     <div class="row large-collapse">
 
     <div class="large-6 columns">
@@ -48,7 +48,7 @@
   </div>
   </section>
 
-  <section class="application">
+  <section class="application" ng-cloak>
 
 
     {# This template represents a dnd list and is used by other templates. #}
@@ -119,26 +119,35 @@
                 <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
                 <li>Authoring {% verbatim %}{{ models.questionnaire_meta.title }}{% endverbatim %}</li>
               </ul>
-
-            <h3 class="q-title-editable" contenteditable ng-model="models.questionnaire_meta.title"></h3>
+            <div class="row large-collapse">
+              <div class="large-8 columns">
+                <h3 class="q-title-editable" contenteditable ng-model="models.questionnaire_meta.title"></h3>
+              </div>
+              <div class="large-4 columns text-right">
+                <!-- add section button -->
+                {% verbatim %}<button style="background:pink; pointer-events:normal; cursor:pointer; position:relative; z-index:10000" ng-click="newGroup()" ng-hide="models.view == 'single' || models.preview">add a section</button>{% endverbatim %}
+              </div>
+            </div>
 
           </div>
 
           {% verbatim %}
 
-
-            <select ng-hide="models.view != 'single'" ng-model="models.section" >
-                <option selected="selected">Choose a Section</option>
-                <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">{{section.questionText}}</option>
-            </select>
-
-              <div ng-hide="models.view != 'single'">
-                <a href="#" ng-click="previous()" ng-hide="models.position == 1">Previous</a>
-                <p>{{models.position}} of {{ models.dropzones.questionList.length}}</p>
-                <a href="#" ng-click="next()" ng-hide="models.position >= models.dropzones.questionList.length">Next</a>
+            <section class="row large-collapse">
+              <div class="large-6 columns">
+                <select ng-hide="models.view != 'single'" ng-model="models.section" >
+                    <option selected="selected">Choose a Section</option>
+                    <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">Section:{{ models.position }} {{section.questionText}}</option>
+                </select>
               </div>
-
-              <button ng-click="newGroup()" ng-hide="models.view == 'single' || models.preview">add a section</button>
+              <div class="large-6 columns text-right">
+                <div ng-hide="models.view != 'single'">
+                  <span><a href="#" ng-click="previous()" ng-hide="models.position == 1">Previous</a></span>
+                  <span>{{models.position}} of {{ models.dropzones.questionList.length}}</span>
+                  <span><a href="#" ng-click="next()" ng-hide="models.position >= models.dropzones.questionList.length">Next</a></span>
+                </div>
+              </div>
+            </section>
 
               <div ng-class="{'empty': list.length == 0}" ng-repeat="list in models.dropzones" class="questionContainer" >
                 <div class="dropzone">
