@@ -4,6 +4,8 @@
 {% block css %}
   {{ block.super }}
   <link rel="stylesheet" href="{% static "css/simditor.css" %}">
+  <script src="{% static "js/angular.js" %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js"></script>
 {% endblock css %}
 {% block base_body %}
   {{ block.super }}
@@ -68,10 +70,9 @@
   				ng-class="{selected: models.selected === item}"
   				ng-include="item.type + '.html'"
                 dnd-type="item.dndType"
-                class="my-repeat-animation ng-cloak ng-hide"  id="section-{{item.id}}"
+                class="my-repeat-animation ng-cloak"  id="section-{{item.id}}"
                 ng-hide="models.view == 'single' && models.section != {{item.id}}">
-
-  			</li>
+          </li>
   		</ul>
   	</script>
 
@@ -119,13 +120,14 @@
                 <li><a href="" title="">{{  questionnaire.survey.title  }}</a></li>
                 <li>Authoring {% verbatim %}{{ models.questionnaire_meta.title }}{% endverbatim %}</li>
               </ul>
+
             <div class="row large-collapse">
               <div class="large-8 columns">
                 <h3 class="q-title-editable" contenteditable ng-model="models.questionnaire_meta.title"></h3>
               </div>
               <div class="large-4 columns text-right">
                 <!-- add section button -->
-                {% verbatim %}<button style="background:pink; pointer-events:normal; cursor:pointer; position:relative; z-index:10000" ng-click="newGroup()" ng-hide="models.view == 'single' || models.preview">add a section</button>{% endverbatim %}
+                <button class="add-section" ng-click="newGroup()" ng-if="models.view == 'open' || models.view == 'collapsed'">add a section</button>
               </div>
             </div>
 
@@ -135,16 +137,16 @@
 
             <section class="row large-collapse">
               <div class="large-6 columns">
-                <select ng-hide="models.view != 'single'" ng-model="models.section" >
+                <select ng-if="models.view == 'single'" ng-model="models.section" >
                     <option selected="selected">Choose a Section</option>
                     <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">Section:{{ models.position }} {{section.questionText}}</option>
                 </select>
               </div>
               <div class="large-6 columns text-right">
-                <div ng-hide="models.view != 'single'">
-                  <span><a href="#" ng-click="previous()" ng-hide="models.position == 1">Previous</a></span>
+                <div ng-if="models.view == 'single'">
+                  <span><a href="#" ng-click="previous()" ng-if="models.position > 1">Previous</a></span>
                   <span>{{models.position}} of {{ models.dropzones.questionList.length}}</span>
-                  <span><a href="#" ng-click="next()" ng-hide="models.position >= models.dropzones.questionList.length">Next</a></span>
+                  <span><a href="#" ng-click="next()" ng-if="models.position <= models.dropzones.questionList.length">Next</a></span>
                 </div>
               </div>
             </section>
@@ -168,7 +170,7 @@
           <h5>Questionnaire Content</h5>
           <p class="instruction">Drag blocks to the canvas</p>
           {% verbatim %}
-          <ul class="q-types ng-cloak">
+          <ul class="q-types ng-cloak" ng-if="models.view != 'collapsed'">
             <li ng-repeat="item in models.templates"
                 dnd-draggable="item"
                 dnd-effect-allowed="copy"
@@ -238,8 +240,7 @@
   <script src="{% static "js/uploader.js" %}"></script>
   <script src="{% static "js/simditor.js" %}"></script>
   {# Angular #}
-  <script src="{% static "js/angular.js" %}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js"></script>
+
   <script src="{% static "js/angular-sanitize.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
   <script src="{% static "js/q_builder/config.js" %}"></script>
