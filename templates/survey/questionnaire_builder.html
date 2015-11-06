@@ -167,8 +167,8 @@
 
       <div class="tool-panel">
         <div class="authoring-tools">
-          <h5>Questionnaire Content</h5>
-          <p class="instruction">Drag blocks to the canvas</p>
+          <h5 ng-if="models.view != 'collapsed'">Questionnaire Content</h5>
+          <p ng-if="models.view != 'collapsed'" class="instruction">Drag blocks to the canvas</p>
           {% verbatim %}
           <ul class="q-types ng-cloak" ng-if="models.view != 'collapsed'">
             <li ng-repeat="item in models.templates"
@@ -178,13 +178,12 @@
                 dnd-type="item.dndType"
                 dnd-dragstart="dragStartCallback(item)"
                 dnd-dragend="dragEndCallback(item)"
-                ng-hide="item.show.indexOf(models.view) == -1">
+                ng-if="item.show.indexOf(models.view) != -1">
                 <!--<img ng-src="{{ item.icon }}"/>-->
                 <i class="fa {{ item.icon }}"></i>
                 <span ng-bind="item.description">Loading...</span>
             </li>
           </ul>
-
           <!-- hide til can figure out how to make this friendly :D <div class="trashcan"
               If you use [] as referenced list, the dropped elements will be lost
               <ul dnd-list="[]">
@@ -279,6 +278,12 @@
           else {
             $('body').removeClass('previewmode');
           }
+        });
+
+        $("input[name=r-group]:radio").on('change', function(){
+          $('.builder-canvas').addClass("statechange").delay(1000).queue(function(){
+              $(this).removeClass("statechange").dequeue();
+            });
         });
 
     });
