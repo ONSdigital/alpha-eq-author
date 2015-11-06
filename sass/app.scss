@@ -418,6 +418,13 @@ label {
   margin: 20px 0 10px;
 }
 
+.questionnaire-block {
+  background: white;
+  @include globalshadow;
+  padding: 30px;
+  margin-bottom: 50px
+}
+
 .survey-list {
   margin: 0 0 60px;
 }

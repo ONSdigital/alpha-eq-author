@@ -17,15 +17,16 @@
                     </div>
                     {% if object_list %}
                     <div class="small-6 columns large-collapse right">
-                        <a href="{%  url 'survey:create' %}" class="button small radius right">Setup a new survey</a>
+                        <a href="{%  url 'survey:create' %}" class="button small radius right">Add a new survey</a>
                     </div>
                     {% endif %}
-                    <hr>
                 </div>
 
                 {% for survey in object_list %}
 
                 {% if survey.questionnaire_set.all %}
+
+                <section class="questionnaire-block">
 
                     <div class="row">
                       <div class="large-8 large-collapse columns"><b>{{ survey.title }}</b></div>
@@ -34,22 +35,22 @@
                     <div class="row tab-container">
                       <table class="large-12 survey-list">
                         <tr>
-                          <th>Questionnaire Title</th>
+                          <th>Questionnaires in this Survey</th>
                           <th>Actions</th>
                         </tr>
                         {% for questionnaire in survey.questionnaire_set.all %}
                         <tr>
-                        <td>{{ questionnaire.title }}</td>
+                        <td><a href="{% url 'survey:questionnaire-builder' questionnaire.id %}">{{ questionnaire.title }}</a></td>
                         <td class="action-btns">
                             <div class="button-bar">
                                 <ul class="button-group round">
                                     {% if not questionnaire.reviewed %}
                                     <li>
                                         <a class="tiny button secondary"
-                                           href="{% url 'survey:review-questionnaire' slug=questionnaire.id %}">Review</a>
+                                           href="{% url 'survey:review-questionnaire' slug=questionnaire.id %}">Mark as approved</a>
                                     </li>
                                     {% else %}
-                                    <li class="tiny button secondary success">Reviewed</li>
+                                    <li class="tiny button secondary success">Approved</li>
                                     {% endif %}
 
                                     {% if questionnaire.published %}
@@ -77,10 +78,10 @@
                                                    href="#" onclick="alert('Locked by {{ questionnaire.locked_by}}')"}>Locked</a>
                                             </li>
                                         {% else %}
-                                            <li>
+                                            <!--<li>
                                                 <a class="tiny button secondary"
                                                    href="{% url 'survey:questionnaire-builder' questionnaire.id %}" >Edit</a>
-                                            </li>
+                                            </li>-->
                                         {% endif %}
                                     {% endif %}
                                 </ul>
@@ -92,7 +93,7 @@
 
                       </div>
 
-
+                </section>
 
 
                 {% endif %}
