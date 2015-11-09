@@ -17,55 +17,54 @@
                     </div>
                     {% if object_list %}
                     <div class="small-6 columns large-collapse right">
-                        <a href="{%  url 'survey:create' %}" class="button small radius right">Setup a new survey</a>
+                        <a href="{%  url 'survey:create' %}" class="button small radius right"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add a new survey</a>
                     </div>
                     {% endif %}
-                    <hr>
                 </div>
 
                 {% for survey in object_list %}
 
                 {% if survey.questionnaire_set.all %}
 
+                <section class="questionnaire-block">
+
                     <div class="row">
-                      <div class="large-8 large-collapse columns"><b>{{ survey.title }}</b></div>
-                      <div class="large-4 large-collapse columns"><a href="{% url 'survey:create-questionnaire' survey.survey_id %}" class="button small radius secondary right">Add a questionnaire to this survey</a></div>
+                      <div class="large-6 large-collapse columns"><h4>{{ survey.title }}</h4></div>
+                      <div class="large-6 large-collapse columns"></div>
                     </div>
                     <div class="row tab-container">
                       <table class="large-12 survey-list">
                         <tr>
-                          <th>Questionnaire Title</th>
-                          <th>Actions</th>
+                          <th>Questionnaires in this Survey</th>
+                          <th>Actions / Status</th>
                         </tr>
                         {% for questionnaire in survey.questionnaire_set.all %}
                         <tr>
-                        <td>{{ questionnaire.title }}</td>
+                        <td class="q-title"><a href="{% url 'survey:questionnaire-builder' questionnaire.id %}" title="edit {{ questionnaire.title }}">{{ questionnaire.title }}</a> ( <span class="q-id"> put id here </span> )</td>
                         <td class="action-btns">
-                            <div class="button-bar">
-                                <ul class="button-group round">
+                                <ul class="survey-actions">
                                     {% if not questionnaire.reviewed %}
                                     <li>
-                                        <a class="tiny button secondary"
-                                           href="{% url 'survey:review-questionnaire' slug=questionnaire.id %}">Review</a>
+                                        <a class=""
+                                           href="{% url 'survey:review-questionnaire' slug=questionnaire.id %}"><i class="fa fa-check"></i> Mark as approved</a>
                                     </li>
                                     {% else %}
-                                    <li class="tiny button secondary success">Reviewed</li>
+                                    <li class=""><i class="fa fa-thumbs-o-up"></i> Approved</li>
                                     {% endif %}
 
                                     {% if questionnaire.published %}
                                     <li>
-                                        <a class="tiny button secondary success" href="#">Published</a></li>
-                                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}" target="_blank"
-                                           class="tiny button secondary">View live</a></li>
+                                        <a class="" href="#"><i class="fa fa-rss"></i> Published</a></li>
+                                    <li><a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}" target="_blank" class=""><i class="fa fa-laptop"></i> View live</a></li>
                                     {% else %}
                                     <li>
-                                        <a class="tiny button secondary" href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True"  target="_blank"
-                                           class="tiny button secondary">Preview</a></li>
+                                        <a class="" href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True"  target="_blank" class=""><i class="fa fa-eye"></i>
+ Preview</a></li>
 
                                     {% endif %}
                                     {% if questionnaire.reviewed and not questionnaire.published %}
                                     <li>
-                                        <a class="tiny button secondary"
+                                        <a class=""
                                            href="{% url 'survey:publish-questionnaire' slug=questionnaire.id %}">Publish</a>
                                     </li>
                                     {% endif %}
@@ -73,18 +72,16 @@
                                     {% if not questionnaire.published %}
                                         {% if questionnaire.locked %}
                                             <li>
-                                                <a class="tiny button secondary"
-                                                   href="#" onclick="alert('Locked by {{ questionnaire.locked_by}}')"}>Locked</a>
+                                              <a class="" href="#" onclick="alert('Locked by {{ questionnaire.locked_by}}')"}><i class="fa fa-lock"></i>  Locked</a>
                                             </li>
                                         {% else %}
-                                            <li>
+                                            <!--<li>
                                                 <a class="tiny button secondary"
                                                    href="{% url 'survey:questionnaire-builder' questionnaire.id %}" >Edit</a>
-                                            </li>
+                                            </li>-->
                                         {% endif %}
                                     {% endif %}
                                 </ul>
-                                </div>
                             </td>
                           </tr>
                             {% endfor %}
@@ -92,7 +89,9 @@
 
                       </div>
 
+                      <a href="{% url 'survey:create-questionnaire' survey.survey_id %}" class="add-new"><span><i class="fa fa-plus"></i>&nbsp;&nbsp;Add a questionnaire to this survey</span></a>
 
+                </section>
 
 
                 {% endif %}
