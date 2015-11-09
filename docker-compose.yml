@@ -14,7 +14,7 @@ postgres:
   volumes:
     - ./create_database.sql:/docker-entrypoint-initdb.d/create_database.sql
 survey-runner:
-  image: onsdigital/eq-survey-runner:latest
+  build: ../eq-survey-runner/.
   ports:
     - "8080:8080"
   environment:

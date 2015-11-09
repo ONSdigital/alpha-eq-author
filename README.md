@@ -43,6 +43,19 @@ the procfile and run your django wsgi application.
 1. docker-compose build
 2. docker-compose up
 
+
+## Development environment using docker compose
+
+The makefile provides a simple one step docker compose based dev setup.
+
+```make ````
+
+On a mac this command will start docker-machine and populate your environment with the correct variables and then start the docker-compose `build` and `up` commands.
+On linux this will just run the docker-compose commands.
+
+
+
+
 ## Further Reading
 
 - [Gunicorn](https://warehouse.python.org/project/gunicorn/)
