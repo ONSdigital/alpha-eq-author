@@ -4,14 +4,16 @@
 {% block css %}
   {{ block.super }}
   <link rel="stylesheet" href="{% static "css/simditor.css" %}">
+  <script src="{% static "js/angular.js" %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js"></script>
 {% endblock css %}
 {% block base_body %}
   {{ block.super }}
 {% include "includes/navigation.html" %}
 
-<div class="wrapper" ng-app="QBuilder" ng-controller="BuilderController as builderCtrl" ng-cloak>
+<div class="wrapper" ng-app="QBuilder" ng-controller="BuilderController as builderCtrl">
 
-  <section class="page-tools">
+  <section class="page-tools" ng-cloak>
     <div class="row large-collapse">
 
     <div class="large-6 columns">
@@ -48,7 +50,7 @@
   </div>
   </section>
 
-  <section class="application" >
+  <section class="application" ng-cloak>
 
 
     {# This template represents a dnd list and is used by other templates. #}
@@ -61,17 +63,16 @@
   			dnd-allowed-types="['group']"
         ng-class="{dragTarget: dragging && dragging.dndType == 'item'}">
         <li ng-repeat="item in list"
-  				dnd-draggable="item"
+          dnd-draggable="item"
   				dnd-effect-allowed="move"
   				dnd-moved="list.splice($index, 1)"
   				dnd-selected="models.selected = item"
   				ng-class="{selected: models.selected === item}"
   				ng-include="item.type + '.html'"
                 dnd-type="item.dndType"
-                class="my-repeat-animation"  id="section-{{item.id}}"
+                class="my-repeat-animation ng-cloak"  id="section-{{item.id}}"
                 ng-hide="models.view == 'single' && models.section != {{item.id}}">
-
-  			</li>
+          </li>
   		</ul>
   	</script>
 
@@ -120,23 +121,37 @@
                 <li>Authoring {% verbatim %}{{ models.questionnaire_meta.title }}{% endverbatim %}</li>
               </ul>
 
-            <h3 class="q-title-editable" contenteditable ng-model="models.questionnaire_meta.title"></h3>
+            <div class="row large-collapse">
+              <div class="large-8 columns">
+                <h3 class="q-title-editable" contenteditable ng-model="models.questionnaire_meta.title"></h3>
+              </div>
+              <div class="large-4 columns text-right">
+                <!-- add section button -->
+                <button class="add-section" ng-click="newGroup()" ng-if="models.view == 'open' || models.view == 'collapsed'">add a section</button>
+              </div>
+            </div>
 
           </div>
 
           {% verbatim %}
 
-            <select ng-hide="models.view != 'single'" ng-model="models.section" >
-                <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">{{section.questionText}}</option>
-            </select>
-
-              <div ng-hide="models.view != 'single'">
-                <a href="#" ng-click="previous()" ng-hide="models.position == 1">Previous</a>
-                <p>{{models.position}} of {{ models.dropzones.questionList.length}}</p>
-                <a href="#" ng-click="next()" ng-hide="models.position >= models.dropzones.questionList.length">Next</a>
+            <section class="row large-collapse">
+              <div class="large-6 columns">
+                <select ng-if="models.view == 'single'" ng-model="models.section" >
+                    <option selected="selected">Choose a Section</option>
+                    <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">Section:{{ models.position }} {{section.questionText}}</option>
+                </select>
               </div>
+              <div class="large-6 columns text-right">
+                <div ng-if="models.view == 'single'">
+                  <span><a href="#" ng-click="previous()" ng-if="models.position > 1">Previous</a></span>
+                  <span>{{models.position}} of {{ models.dropzones.questionList.length}}</span>
+                  <span><a href="#" ng-click="next()" ng-if="models.position <= models.dropzones.questionList.length">Next</a></span>
+                </div>
+              </div>
+            </section>
 
-             <div ng-class="{'empty': list.length == 0}" ng-repeat="list in models.dropzones" class="questionContainer" >
+              <div ng-class="{'empty': list.length == 0}" ng-repeat="list in models.dropzones" class="questionContainer" >
                 <div class="dropzone">
                     <div ng-include="'list.html'"></div>
                 </div>
@@ -152,10 +167,10 @@
 
       <div class="tool-panel">
         <div class="authoring-tools">
-          <h5>Questionnaire Content</h5>
-          <p class="instruction">Drag blocks to the canvas</p>
+          <h5 ng-if="models.view != 'collapsed'">Questionnaire Content</h5>
+          <p ng-if="models.view != 'collapsed'" class="instruction">Drag blocks to the canvas</p>
           {% verbatim %}
-          <ul class="q-types ng-cloak">
+          <ul class="q-types ng-cloak" ng-if="models.view != 'collapsed'">
             <li ng-repeat="item in models.templates"
                 dnd-draggable="item"
                 dnd-effect-allowed="copy"
@@ -163,13 +178,12 @@
                 dnd-type="item.dndType"
                 dnd-dragstart="dragStartCallback(item)"
                 dnd-dragend="dragEndCallback(item)"
-                ng-hide="item.show.indexOf(models.view) == -1">
+                ng-if="item.show.indexOf(models.view) != -1">
                 <!--<img ng-src="{{ item.icon }}"/>-->
                 <i class="fa {{ item.icon }}"></i>
                 <span ng-bind="item.description">Loading...</span>
             </li>
           </ul>
-
           <!-- hide til can figure out how to make this friendly :D <div class="trashcan"
               If you use [] as referenced list, the dropped elements will be lost
               <ul dnd-list="[]">
@@ -225,8 +239,7 @@
   <script src="{% static "js/uploader.js" %}"></script>
   <script src="{% static "js/simditor.js" %}"></script>
   {# Angular #}
-  <script src="{% static "js/angular.js" %}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js"></script>
+
   <script src="{% static "js/angular-sanitize.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>
   <script src="{% static "js/q_builder/config.js" %}"></script>
@@ -257,6 +270,22 @@
               $('header, .page-tools, .tool-panel').removeClass('fix');
           }
         });
+
+        $('.onoffswitch-checkbox').on('change', function(){
+          if($(this).prop("checked")) {
+            $('body').addClass('previewmode');
+          }
+          else {
+            $('body').removeClass('previewmode');
+          }
+        });
+
+        $("input[name=r-group]:radio").on('change', function(){
+          $('.builder-canvas').addClass("statechange").delay(1000).queue(function(){
+              $(this).removeClass("statechange").dequeue();
+            });
+        });
+
     });
   </script>
 

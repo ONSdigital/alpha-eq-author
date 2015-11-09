@@ -30,6 +30,12 @@ html {
 body {
   background: #fbfafa;
   font-family: 'Open Sans', sans-serif;
+  transition: background .3s;
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak, .ng-hide {
+  display: none !important;
+  opacity: 0;
 }
 
 .wrapper {
@@ -180,6 +186,10 @@ header ul.user-menu.open li:first-child:before {
   z-index:199;
   background: #E0E5E8;
   transition: all .3s;
+}
+
+body.previewmode .page-tools {
+  width: 100%;
 }
 
 .tool-panel.fix {
@@ -353,11 +363,17 @@ select,
 textarea {
   border-radius: 2px;
   display: block;
-  margin-top: 8px;
+  margin: 10px 0 25px 0;
   height: auto;
   padding: 1rem;
   transition: background 0.4s ease;
   -webkit-user-select: auto;
+}
+
+select {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding:15px!important;
 }
 
 input[type=submit] {
@@ -395,10 +411,9 @@ select {
 }
 
 label {
-  font-size: 12px;
-  text-transform: uppercase;
+  font-size: 16px;
   font-weight: 700;
-  color: #888;
+  color: #444;
   display: block;
   margin: 20px 0 10px;
 }
@@ -820,6 +835,19 @@ ul.breadcrumb li a {
   text-transform: capitalize;
 }
 
+.section-header {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px
+}
+
+.add-section {
+  pointer-events:normal; cursor:pointer; position:relative; z-index:10000
+}
+
+body.previewmode .add-section {
+  display:none;
+}
+
 input[data-toggle] {
   display: none;
 }
@@ -1151,19 +1179,20 @@ input:focus:-ms-input-placeholder {
 }
 
 .dropzone ul[dnd-list] {
-  min-height: 42px;
+  min-height: 100px;
 }
 
 .dropzone .dndPlaceholder {
-  background-color: #ddd;
-  min-height: 42px;
+  background-color: #e7e7e7;
+  min-height: inherit;
   display: block;
   position: relative;
+  border:1px dotted green;
 }
 
 .dropzone .group-element {
-  min-height: 100px;
-  margin: 10px;
+  /*min-height: 100px;
+  margin: 10px;*/
 }
 
 .dropzone .group-element .column {
@@ -1561,6 +1590,25 @@ box-shadow: inset 0px -2px 6px -2px rgba(34, 50, 51, 0.05)
 
 .builder-canvas {
   width: calc(100% - 260px);
+  transition: all .3s;
+}
+
+@keyframes fadestate {
+  0.00% { opacity: 0 }
+  33.33% { opacity: 0.5 }
+  100% { opacity: 1 }
+}
+
+.statechange {
+  animation: fadestate 1500ms linear both;
+}
+
+.builder-canvas .ng-hide {
+    opacity: 0;
+}
+
+body.previewmode .builder-canvas {
+  width:100%;
 }
 
 .builder-canvas h3 {
@@ -1598,6 +1646,10 @@ outline-offset: -20px
   right: 0;
   top: 72px;
   transition: all .3s;
+}
+
+body.previewmode .tool-panel {
+  right: -250px;
 }
 
 .viewlabel {
@@ -1642,13 +1694,64 @@ outline-offset: -20px
     user-select: text;
 }
 
+.ng-hide-add, .ng-hide-remove {
+    /* ensure visibility during the transition */
+    display: block !important; /* yes, important */
+}
+
 /* Add animation */
+
+@keyframes slideinpanel {
+	0.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -100, 0, 1, 1); }
+	3.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -61.232, 0, 1, 1); }
+	6.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -30.227, 0, 1, 1); }
+	10.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -9.141, 0, 1, 1); }
+	13.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1.986, 0, 1, 1); }
+	16.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 6.524, 0, 1, 1); }
+	20.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 7.08, 0, 1, 1); }
+	23.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 5.722, 0, 1, 1); }
+	26.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 3.838, 0, 1, 1); }
+	30.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 2.094, 0, 1, 1); }
+	33.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.872, 0, 1, 1); }
+	36.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.131, 0, 1, 1); }
+	40.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.237, 0, 1, 1); }
+	43.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.341, 0, 1, 1); }
+	46.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.312, 0, 1, 1); }
+	50.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.227, 0, 1, 1); }
+	53.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.139, 0, 1, 1); }
+	56.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.068, 0, 1, 1); }
+	60.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.021, 0, 1, 1); }
+	63.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.004, 0, 1, 1); }
+	66.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.015, 0, 1, 1); }
+	70.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.016, 0, 1, 1); }
+	73.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.013, 0, 1, 1); }
+	76.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.009, 0, 1, 1); }
+	80.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.005, 0, 1, 1); }
+	83.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0.002, 0, 1, 1); }
+	86.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1); }
+	90.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 1, 1); }
+	93.33% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 1, 1); }
+	96.67% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 1, 1); }
+	100.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 1, 1); }
+}
+
 .my-repeat-animation.ng-enter.ng-enter-active,
-.my-repeat-animation.ng-leave {
+.my-repeat-animation.ng-leave, .my-repeat-animation.ng-hide-remove {
     opacity: 1;
-    -webkit-transition: opacity 800ms linear;
-    -moz-transition: opacity 800ms linear;
-    transition: opacity 800ms linear;
+    -webkit-transition: all 600ms linear;
+    -moz-transition: all 600ms linear;
+    transition: all 600ms linear;
+    animation: slideinpanel 1000ms linear both;
+}
+
+ul.question-list li:not(.my-repeat-animation.ng-enter.ng-enter-active) {
+}
+
+.my-repeat-animation.ng-enter {
+  opacity: 0;
+}
+
+ul.question-list li:not(.my-repeat-animation.ng-enter) {
 }
 
 /* Remove animation */
@@ -1658,4 +1761,8 @@ outline-offset: -20px
     -webkit-transition: opacity 500ms linear;
     -moz-transition: opacity 500ms linear;
     transition: opacity 500ms linear;
+}
+
+.my-repeat-animation.ng-hide {
+  opacity:0!important;
 }
