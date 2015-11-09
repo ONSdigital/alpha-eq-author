@@ -80,8 +80,8 @@
     <text-question></text-question>
     <number-question></number-question>
     <rich-text-question></rich-text-question>
-    <question-group></question-group>
 
+    <question-group></question-group>
 
   <!-- Radio button Question -->
 	<script type="text/ng-template" id="radio_question.html">
@@ -97,6 +97,16 @@
 		<div class="question-block">
 
 			<check-box-question></check-box-question>
+
+		</div>
+	</script>
+
+
+       <!-- Dropdown button Question -->
+	<script type="text/ng-template" id="dropdown_question.html">
+		<div class="question-block">
+
+			<dropdown-question></dropdown-question>
 
 		</div>
 	</script>
@@ -250,6 +260,7 @@
   <script src="{% static "js/q_builder/directives/textQuestion.js" %}"></script>
   <script src="{% static "js/q_builder/directives/numberQuestion.js" %}"></script>
   <script src="{% static "js/q_builder/directives/radioQuestion.js" %}"></script>
+  <script src="{% static "js/q_builder/directives/dropdownQuestion.js" %}"></script>
   <script src="{% static "js/q_builder/directives/checkBoxQuestion.js" %}"></script>
   <script src="{% static "js/q_builder/directives/richTextQuestion.js" %}"></script>
   <script src="{% static "js/q_builder/directives/setfocus.js" %}"></script>

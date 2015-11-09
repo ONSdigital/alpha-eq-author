@@ -15,7 +15,8 @@
     'questionGroup',
     'radioQuestion',
     'setfocus',
-    'checkBoxQuestion'
+    'checkBoxQuestion',
+    'dropdownQuestion'
   ]);
 
   // See config.js, and controllers/*.js
