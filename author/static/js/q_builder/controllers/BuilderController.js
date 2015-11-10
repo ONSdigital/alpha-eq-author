@@ -64,6 +64,13 @@
           dndType: 'item',
           show: ['open', 'single']
         }, {
+          type: "dropdown_question",
+          description: "Dropdown Question",
+          id: 1,
+          icon: 'fa-dot-circle-o',
+          dndType: 'item',
+          show: ['open', 'single']
+        }, {
           type: "rich_text_block",
           description: "Rich text field",
           id: 1,
@@ -199,6 +206,9 @@
             break;
           case 'text_question':
             question.questionType = 'InputText';
+            break;
+          case 'dropdown_question':
+            question.questionType = 'Dropdown';
             break;
           case 'check_box_question':
             question.questionType = 'CheckBox';

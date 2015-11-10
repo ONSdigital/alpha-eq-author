@@ -1,0 +1,51 @@
+<div class="dropdown_question" ng-hide="models.preview">
+    <i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
+    <h5> Drop down Question</h5>
+
+    <tabset template-url="/static/js/q_builder/templates/tabset.html"><!-- class tab-container -->
+        <tab heading="Question Settings">
+            <label>Question</label>
+						<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - Which of these options do you agree with?">
+						<label>Question Help/Instruction Text</label>
+						<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please select one option from the list below">
+						<label>Error Text for Respondent</label>
+						<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - This question is required">
+                        <label>Required</label>
+			  			<input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
+          </tab>
+          <tab heading="Manually add / edit options">
+            <ul dnd-list="child.parts"
+    					dnd-allowed-types="['part']">
+    					<li ng-repeat="part in child.parts"
+    						dnd-draggable="part"
+    						dnd-effect-allowed="move"
+    					    dnd-type="'part'"
+    						dnd-moved="child.parts.splice($index, 1)">
+                <input dnd-nodrag type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append">
+                  <span class="list-actions">
+                    <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
+                    <i class="fa fa-trash removeitem" ng-click="child.parts.splice($index, 1)" title="remove this item"></i>
+                  </span>
+    					</li>
+    				</ul>
+    					<span class="add-btn"><a ng-click="addOption(child)" id="add-field"><i class="fa fa-plus-circle"></i> Add another reponse option</a></span>
+          </tab>
+            <tab heading="Import options">
+                <label>Import</label>
+                <select name="repeatSelect" id="jsonImportList" ng-model="jsonImport">
+                    <option ng-repeat="list in jsonImportList.imports" value="{{list.description}}">{{list.description}}</option>
+                </select>
+
+                <input type="button" value="import data" ng-click="load(jsonImport,child)"/>
+
+             </tab>
+            </tabset>
+        </div>
+
+        <div class="check_question_preview" ng-show="models.preview">
+            <div><b>{{ child.questionText }}</b></div>
+            <div>{{ child.questionHelp }}</div>
+            <select name="repeatSelect" id="repeatSelect">
+                <option ng-repeat="part in child.parts" value="{{part.value}}">{{part.value}}</option>
+            </select>
+        </div>
