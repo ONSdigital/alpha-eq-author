@@ -20,11 +20,11 @@
          *  load the json list into the questionnaire json
          */
 
-        $scope.load = function(jsonImport) {
+        $scope.load = function(jsonImport,question) {
+
             if (jsonImport != null){
                 $http.get('/static/js/q_builder/json/' + jsonImport +'.json').
                     success(function(data) {
-
                         question.parts = [];
 
                         for (var key in data.elements){
