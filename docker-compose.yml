@@ -17,8 +17,11 @@ survey-runner:
   build: ../eq-survey-runner/.
   ports:
     - "8080:8080"
+  volumes:
+    - ../eq-survey-runner:/opt/eq-survey-runner
   environment:
     - SURVEY_REGISTRY_URL=http://author:8000
+    - MODE=dev
   links:
    - cassandra
    - author
