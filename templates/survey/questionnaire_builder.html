@@ -4,8 +4,6 @@
 {% block css %}
   {{ block.super }}
   <link rel="stylesheet" href="{% static "css/simditor.css" %}">
-  <script src="{% static "js/angular.js" %}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js"></script>
 {% endblock css %}
 {% block base_body %}
   {{ block.super }}
@@ -148,15 +146,15 @@
             <section class="row large-collapse">
               <div class="large-6 columns">
                 <select ng-if="models.view == 'single'" ng-model="models.section" >
-                    <option selected="selected">Choose a Section</option>
-                    <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">Section:{{ models.position }} {{section.questionText}}</option>
+                    <!--<option ng-selected="{{section.id == 0}}" value="-1">Choose a Section</option>-->
+                    <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">Section: {{ $index+1 }} {{section.questionText}}</option>
                 </select>
               </div>
               <div class="large-6 columns text-right">
                 <div ng-if="models.view == 'single'">
-                  <span><a href="#" ng-click="previous()" ng-if="models.position > 1">Previous</a></span>
-                  <span>{{models.position}} of {{ models.dropzones.questionList.length}}</span>
-                  <span><a href="#" ng-click="next()" ng-if="models.position <= models.dropzones.questionList.length">Next</a></span>
+                  <span><a href="#" ng-click="previous()" ng-hide="models.position < 1" ng-if="models.position > 1">Previous</a></span>
+                  <span ng-hide="models.position < 1">{{models.position}} of {{ models.dropzones.questionList.length}}</span>
+                  <span><a href="#" ng-click="next()" ng-hide="models.position < 1" ng-if="models.position < models.dropzones.questionList.length">Next</a></span>
                 </div>
               </div>
             </section>
@@ -249,6 +247,8 @@
   <script src="{% static "js/uploader.js" %}"></script>
   <script src="{% static "js/simditor.js" %}"></script>
   {# Angular #}
+  <script src="{% static "js/angular.js" %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.js"></script>
 
   <script src="{% static "js/angular-sanitize.js" %}"></script>
   <script src="{% static "js/angular-drag-and-drop-lists.js" %}"></script>

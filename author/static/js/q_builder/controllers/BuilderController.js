@@ -164,7 +164,7 @@
 
       $scope.$watch('models.section', function(model) {
         var questionList = $scope.models.dropzones.questionList;
-        $scope.models.position = 1;
+        $scope.models.position = 0;
         if (questionList.length != 0) {
           for (i = 0; i < questionList.length; i++) {
             var questionGroup = questionList[i];
