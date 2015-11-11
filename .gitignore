@@ -62,5 +62,3 @@ target/
 *.sqlite3
 .idea
 staticfiles
-
-author/static/js/q_builder/controllers/BuilderController.js
