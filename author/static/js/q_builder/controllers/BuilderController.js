@@ -121,9 +121,6 @@
       $scope.endEdit = function() {
         $http.post(window.location, {
           'unlock': 'true'
-        }).success(function(data) {
-          $scope.messages = [];
-          $scope.messages.push(data);
         });
       };
 
