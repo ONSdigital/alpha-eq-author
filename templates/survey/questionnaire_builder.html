@@ -18,7 +18,7 @@
        <!-- section view toggle -->
        <ul class="viewswitch button-group radius toggle" data-toggle="buttons-radio">
           <li>
-            <input type="radio" id="r1" name="r-group" data-toggle="button" checked value="single" ng-model="models.view" >
+            <input type="radio" id="r1" name="r-group" data-toggle="button" checked value="single" ng-model="models.view" ng-disabled="models.dropzones.questionList.length == 0">
             <label class="button tiny" for="r1"><i class="fa fa-square-o"></i>&nbsp; Single Section View</label>
           </li>
           <li>
