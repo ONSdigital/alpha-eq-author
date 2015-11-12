@@ -31,7 +31,7 @@
       $scope.models = {
         selected: null,
         section: "0",
-        position: 1,
+        position: 0,
         view: 'single',
 
         templates: [{
@@ -100,7 +100,7 @@
         } else {
           if (data.questionList.length != 0) {
             $scope.models.dropzones.questionList = data.questionList;
-            $scope.models.section = data.questionList[0].questionReference.toString();
+            $scope.models.section = data.questionList[0].questionReference;
           } else {
             $scope.models.dropzones.questionList = [startItem];
           }
@@ -134,28 +134,28 @@
       };
 
       $scope.next = function() {
-        if ($scope.models.position < $scope.models.dropzones.questionList
-          .length) {
-          $scope.models.position = $scope.models.position + 1;
-          $scope.models.section = $scope.models.dropzones.questionList[
-            $scope.models.position - 1].questionReference;
+        if ($scope.models.position < $scope.models.dropzones.questionList.length - 1) {
+          newPosition = $scope.models.position + 1;
+          $scope.models.section = $scope.models.dropzones.questionList[newPosition].questionReference;
         }
       };
 
       $scope.previous = function() {
         if ($scope.models.position > 0) {
-          $scope.models.position = $scope.models.position - 1;
-          //position in the array is 1 less than the position recorded (we started at 1)
-          $scope.models.section = $scope.models.dropzones.questionList[
-            $scope.models.position - 1].questionReference;
+          newPosition = $scope.models.position - 1;
+          $scope.models.section = $scope.models.dropzones.questionList[newPosition].questionReference;
         }
       };
 
+      $scope.delete = function(index) {
+        $scope.models.dropzones.questionList.splice(index, 1);
+        $scope.models.section = $scope.models.dropzones.questionList[0].questionReference;
+      }
 
       $scope.viewSection = function(section) {
         $scope.models.view = 'single';
         $scope.models.selected = section;
-        $scope.models.section = section.questionReference.toString();
+        $scope.models.section = section.questionReference;
       };
 
       $scope.$watch('models.section', function(model) {
@@ -165,7 +165,7 @@
           for (i = 0; i < questionList.length; i++) {
             var questionGroup = questionList[i];
             if (questionGroup.questionReference == $scope.models.section) {
-              $scope.models.position = i + 1;
+              $scope.models.position = i;
             }
           }
         }
