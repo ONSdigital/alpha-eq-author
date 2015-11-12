@@ -149,7 +149,14 @@
 
       $scope.delete = function(index) {
         $scope.models.dropzones.questionList.splice(index, 1);
-        $scope.models.section = $scope.models.dropzones.questionList[0].questionReference;
+
+        if ($scope.models.dropzones.questionList.length == 0 && $scope.models.view == 'single') {
+            //if the user deletes the last one, move them to the collapsed view
+            $scope.models.section = '0';
+            $scope.models.view = 'collapsed'
+        } else {
+            $scope.models.section = $scope.models.dropzones.questionList[0].questionReference;
+        }
       }
 
       $scope.viewSection = function(section) {
