@@ -29,9 +29,23 @@
                   </span>
     					</li>
     				</ul>
-    				<span class="add-btn"><a ng-click="addOption(child)" id="add-field"><i class="fa fa-plus-circle"></i> Add another reponse option</a></span>
+    				<span class="add-btn"><a ng-click="addOption(child)" id="add-field"><i class="fa fa-plus-circle"></i> Add another response option</a></span>
 
           </tab>
+			<tab heading="Routing">
+
+				<div ng-repeat="condition in child.branchConditions">
+					If users response is
+					<select ng-model="condition.jumpTo.condition.value.is">
+					  <option ng-repeat="part in child.parts" value="{{part.value}}">{{part.value}}</option>
+					</select>
+					then go to
+					<select ng-model="condition.jumpTo.question">
+						<option ng-repeat="question in models.dropzones.questionList" value="{{question.questionReference}}" ng-if="question.questionReference != models.section">{{question.questionText}}</option>
+					</select>
+				  </div>
+				<span class="add-btn"><a ng-click="addRule(child)" id="add-condition"><i class="fa fa-plus-circle"></i> Add another routing rule</a></span>
+			</tab>
         </tabset>
 
 			</div>

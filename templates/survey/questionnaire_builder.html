@@ -68,8 +68,8 @@
   				ng-class="{selected: models.selected === item}"
   				ng-include="item.type + '.html'"
                 dnd-type="item.dndType"
-                class="my-repeat-animation ng-cloak"  id="section-{{item.id}}"
-                ng-hide="models.view == 'single' && models.section != {{item.id}}">
+                class="my-repeat-animation ng-cloak"  id="section-{{item.questionReference}}"
+                ng-hide="models.view == 'single' && models.section != {{item.questionReference}}">
           </li>
   		</ul>
   	</script>
@@ -147,7 +147,7 @@
               <div class="large-6 columns">
                 <select ng-if="models.view == 'single'" ng-model="models.section" >
                     <!--<option ng-selected="{{section.id == 0}}" value="-1">Choose a Section</option>-->
-                    <option ng-repeat="section in models.dropzones.questionList" value="{{section.id}}" ng-selected="models.section == {{section.id}}">Section: {{ $index+1 }} {{section.questionText}}</option>
+                    <option ng-repeat="section in models.dropzones.questionList" value="{{section.questionReference}}" ng-selected="models.section == {{section.questionReference}}">Section: {{ $index+1 }} {{section.questionText}}</option>
                 </select>
               </div>
               <div class="large-6 columns text-right">

@@ -19,6 +19,25 @@
                     value: ''
                 });
             };
+
+            /**
+             *  Add routing rule
+             */
+            $scope.addRule = function(question) {
+                if (typeof question.branchConditions == "undefined" ) {
+                    question.branchConditions = [];
+                }
+                question.branchConditions.push({
+                    jumpTo: {
+                        question: '',
+                        condition: {
+                            value : {
+                                is : ''
+                            }
+                        }
+                    }
+                });
+            };
         },
     controllerAs: 'ctrl'
   };

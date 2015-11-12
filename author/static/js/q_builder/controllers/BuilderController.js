@@ -12,7 +12,7 @@
         questionText: '',
         questionHelp: '',
         questionError: '',
-        questionReference: 'start',
+        questionReference: "0",
         questionType: 'QuestionGroup',
         dndType: 'group',
         type: 'group',
@@ -24,7 +24,6 @@
         displayConditions: [],
         skipConditions: [],
         branchConditions: [],
-        id: 0,
         parts: []
       };
 
@@ -101,7 +100,7 @@
         } else {
           if (data.questionList.length != 0) {
             $scope.models.dropzones.questionList = data.questionList;
-            $scope.models.section = data.questionList[0].id.toString();
+            $scope.models.section = data.questionList[0].questionReference.toString();
           } else {
             $scope.models.dropzones.questionList = [startItem];
           }
@@ -142,7 +141,7 @@
           .length) {
           $scope.models.position = $scope.models.position + 1;
           $scope.models.section = $scope.models.dropzones.questionList[
-            $scope.models.position - 1].id;
+            $scope.models.position - 1].questionReference;
         }
       };
 
@@ -151,7 +150,7 @@
           $scope.models.position = $scope.models.position - 1;
           //position in the array is 1 less than the position recorded (we started at 1)
           $scope.models.section = $scope.models.dropzones.questionList[
-            $scope.models.position - 1].id;
+            $scope.models.position - 1].questionReference;
         }
       };
 
@@ -159,7 +158,7 @@
       $scope.viewSection = function(section) {
         $scope.models.view = 'single';
         $scope.models.selected = section;
-        $scope.models.section = section.id.toString();
+        $scope.models.section = section.questionReference.toString();
       };
 
       $scope.$watch('models.section', function(model) {
@@ -168,7 +167,7 @@
         if (questionList.length != 0) {
           for (i = 0; i < questionList.length; i++) {
             var questionGroup = questionList[i];
-            if (questionGroup.id == $scope.models.section) {
+            if (questionGroup.questionReference == $scope.models.section) {
               $scope.models.position = i + 1;
             }
           }
@@ -195,6 +194,10 @@
 
         question.dndType = 'item';
 
+        //add a question reference
+        $scope.models.questionnaire_meta.last_used_id += 1;
+        question.questionReference = $scope.models.questionnaire_meta.last_used_id.toString();
+
         // FUGLY
         switch (item.type) {
           case 'radio_question':
@@ -202,6 +205,16 @@
             question.parts = [{
               type: 'option',
               value: ''
+            }];
+            question.branchConditions = [{
+                jumpTo: {
+                    question: '',
+                    condition: {
+                        value : {
+                            is : ''
+                        }
+                    }
+                 }
             }];
             break;
           case 'text_question':
@@ -224,9 +237,6 @@
             question.questionType = 'QuestionGroup';
             question.dndType = 'group';
             question.questionText = 'Unnamed Section';
-            question.id = $scope.models.questionnaire_meta.last_used_id +
-              1;
-            $scope.models.questionnaire_meta.last_used_id += 1;
             break;
         }
 
