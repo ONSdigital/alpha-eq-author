@@ -9,7 +9,7 @@
     .controller("BuilderController", function($scope, $http) {
 
       var startItem = {
-        questionText: '',
+        questionText: 'Unnamed Section',
         questionHelp: '',
         questionError: '',
         questionReference: "0",
