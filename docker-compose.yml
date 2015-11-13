@@ -19,6 +19,8 @@ survey-runner:
     - "8080:8080"
   volumes:
     - ../eq-survey-runner:/opt/eq-survey-runner
+  entrypoint:
+    - /opt/eq-survey-runner/entrypoint.sh
   environment:
     - SURVEY_REGISTRY_URL=http://author:8000
     - MODE=dev
