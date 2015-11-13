@@ -40,7 +40,14 @@
                         </tr>
                         {% for questionnaire in survey.questionnaire_set.all %}
                         <tr>
-                        <td class="q-title"><a href="{% url 'survey:questionnaire-builder' questionnaire.id %}" title="edit {{ questionnaire.title }}">{{ questionnaire.title }}</a> ( <span class="q-id">{{ questionnaire.questionnaire_id }}</span> )</td>
+                        <td class="q-title">
+                            {% if questionnaire.locked or questionnaire.published %}
+                              {{ questionnaire.title }}</a> ( <span class="q-id">{{ questionnaire.questionnaire_id }}</span> )
+                            {% else %}
+                              <a href="{% url 'survey:questionnaire-builder' questionnaire.id %}" title="edit {{ questionnaire.title }}">{{ questionnaire.title }}</a> ( <span class="q-id">{{ questionnaire.questionnaire_id }}</span> )
+                            {% endif %}
+                        </td>
+
                         <td class="action-btns">
                                 <ul class="survey-actions">
                                     {% if not questionnaire.reviewed %}
