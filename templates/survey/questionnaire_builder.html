@@ -18,7 +18,7 @@
        <!-- section view toggle -->
        <ul class="viewswitch button-group radius toggle" data-toggle="buttons-radio">
           <li>
-            <input type="radio" id="r1" name="r-group" data-toggle="button" checked value="single" ng-model="models.view" >
+            <input type="radio" id="r1" name="r-group" data-toggle="button" checked value="single" ng-model="models.view" ng-disabled="models.dropzones.questionList.length == 0">
             <label class="button tiny" for="r1"><i class="fa fa-square-o"></i>&nbsp; Single Section View</label>
           </li>
           <li>
@@ -63,7 +63,7 @@
         <li ng-repeat="item in list"
           dnd-draggable="item"
   				dnd-effect-allowed="move"
-  				dnd-moved="list.splice($index, 1)"
+  				dnd-moved="delete($index)"
   				dnd-selected="models.selected = item"
   				ng-class="{selected: models.selected === item}"
   				ng-include="item.type + '.html'"
@@ -152,9 +152,9 @@
               </div>
               <div class="large-6 columns text-right">
                 <div ng-if="models.view == 'single'">
-                  <span><a href="#" ng-click="previous()" ng-hide="models.position < 1" ng-if="models.position > 1">Previous</a></span>
-                  <span ng-hide="models.position < 1">{{models.position}} of {{ models.dropzones.questionList.length}}</span>
-                  <span><a href="#" ng-click="next()" ng-hide="models.position < 1" ng-if="models.position < models.dropzones.questionList.length">Next</a></span>
+                  <span><a href="#" ng-click="previous()" ng-if="models.position > 0">Previous</a></span>
+                  <span>{{models.position + 1}} of {{ models.dropzones.questionList.length}}</span>
+                  <span><a href="#" ng-click="next()" ng-if="models.position < models.dropzones.questionList.length -1">Next</a></span>
                 </div>
               </div>
             </section>
