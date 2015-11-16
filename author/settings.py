@@ -116,10 +116,6 @@ DATABASES['default'] = dj_database_url.config()
 # Enable Connection Pooling (if desired)
 DATABASES['default']['ENGINE'] = 'django_postgrespool'
 
-# Set a max connection age for heroku https://devcenter.heroku.com/articles/python-concurrency-and-database-connections
-DATABASES['default']['CONN_MAX_AGE'] = 500
-
-
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
