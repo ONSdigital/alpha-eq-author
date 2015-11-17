@@ -1,20 +1,30 @@
  <!-- Template for a text question -->
 	<script type="text/ng-template" id="text_question.html">
-		<div class="question-block">
-			<div class="text_question" ng-hide="models.preview">
-			<i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
 
-        <h5><i class="fa fa-font"></i> Text Question</h5>
-				<label>Question</label>
-				<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - How many people does your company employ?">
-				<label>Question Help/Instruction Text</label>
-				<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please include all staff members including contractors">
-				<label>Error Text for Respondent</label>
-				<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
-				<label>Required</label>
-                <input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
-				<div class="clearfix"></div>
-			</div>
+		<div class="question-block">
+			<tabset template-url="/static/js/q_builder/templates/tabset.html"><!-- class tab-container -->
+				<div class="text_question" ng-hide="models.preview">
+					<i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
+					<tab heading="Question Settings">
+						<h5><i class="fa fa-font"></i> Text Question</h5>
+						<label>Question</label>
+						<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - How many people does your company employ?">
+						<label>Question Help/Instruction Text</label>
+						<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please include all staff members including contractors">
+						<label>Error Text for Respondent</label>
+						<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
+						<label>Required</label>
+						<input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
+						<div class="clearfix"></div>
+					</tab>
+					<tab heading="Validation Rules">
+						<h5><i class="fa fa-font"></i> Text Question</h5>
+						<label>Please enter the maximum number of characters the user can enter</label>
+						<input dnd-nodrag type="text" ng-model="child.validation.maxlength" placeholder="E.g - 500 ">
+					</tab>
+				</div>
+
+				</tabset>
 			<div class="text_question_preview" ng-show="models.preview">
 				<div><b>{{ child.questionText }}<span ng-if="!child.questionText.length">Switch to edit mode and add a question</span></b></div>
 				<div ng-if="child.questionHelp.length">{{ child.questionHelp }}</div>

@@ -233,6 +233,10 @@
           case 'number_question':
             question.questionType = 'InputText';
             question.validation["numeric"] = true;
+            question.validation.conditionals = [{
+                    condition: '',
+                    value: ''
+            }];
             break;
           case 'rich_text_block':
             question.questionType = 'TextBlock';
