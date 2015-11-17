@@ -1,7 +1,7 @@
 <!-- This template is responsible for rendering a group element. It uses
 		 the above list template to render each group column -->
 <script type="text/ng-template" id="group.html">
-    <i class="fa fa-times deleteitem" ng-click="delete($index)"
+    <i class="fa fa-times deleteitem" ng-click="list.splice($index, 1)"
        ng-confirm-click="This section and all items will be permanently deleted."></i>
 
        <div class="group-element box box-blue">
@@ -17,7 +17,7 @@
                 <input ondrop="return false;" dnd-nodrag type="text" ng-model="item.questionText" placeholder="Section">
             </div>
             <div class="question_group_preview" ng-show="models.preview">
-				        {{ item.questionText }} <span ng-if="item.questionText == 'Unnamed Section'"> <b>Exit preview mode to add a section title</b></span>
+				        {{ item.questionText }} <span ng-if="item.questionText == 'Unnamed Section'"><b>Exit preview mode to give this section a title</b></span>
 			      </div>
 
             <div ng-hide="models.view == 'collapsed'">

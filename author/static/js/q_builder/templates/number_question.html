@@ -5,11 +5,15 @@
 			<div class="text_question" ng-hide="models.preview">
 				<i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
 				<tab heading="Question Settings">
-					<h5> Number Question</h5>
+					<h5><i class="fa fa-list-ol"></i>&nbsp; Number Question</h5>
 					<label>Question</label>
 					<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - How many people does your company employ?">
 					<label>Question Help/Instruction Text</label>
 					<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please include all staff members including contractors">
+					<label>Error Text for Respondent</label>
+					<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
+					<label>Required</label>
+					<input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
 					<div class="clearfix"></div>
 				</tab>
 				<tab heading="Validation Rules">
@@ -55,7 +59,6 @@
 								</div>
 						</li>
 					</ul>
-
 					<span class="add-btn"><a ng-click="addValidation(child)" id="add-condition"><i class="fa fa-plus-circle"></i> Add another validation rule</a></span>
 				</tab>
 			</div>

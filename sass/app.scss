@@ -390,11 +390,38 @@ p.error {
   text-transform: capitalize;
 }
 
+.status {
+  display:none;
+}
+
+.status.success {
+  display:block;
+  margin:10px 0;
+}
+
+.status.success i {
+color: limegreen
+ }
+
 /* form visual style overrides */
 fieldset {
   border: 0;
   margin: 0;
   padding: 0;
+}
+
+.grouped-input {
+  display:flex;
+  flex-direction: row;
+}
+
+.grouped-input select {
+  flex:1;
+}
+
+.grouped-input .button {
+  margin: 0 0 0 20px;
+  align-self: center;
 }
 
 input[type=text],
@@ -551,7 +578,7 @@ hr {
 }
 
 .tab-container {
-  padding: 15px;
+  padding: 15px 0;
 }
 
 .action-btns {
@@ -1280,34 +1307,26 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
-.dropzone ul[dnd-list],
-.dropzone ul[dnd-list] > li {
+.dropzone > ul[dnd-list] {
   position: relative;
+  min-height: 250px;
+  padding-bottom: 40px;
+  transition: all .2s;
 }
 
-.dropzone ul[dnd-list] {
-  min-height: 100px;
+.dropzone ul[dnd-list] > ul li {
+  position: relative;
+  min-height:100px;
 }
 
 .dropzone .dndPlaceholder {
   background-color: #e7e7e7;
-  min-height: inherit;
+  height: 200px;
   display: block;
   position: relative;
   border:1px dotted green;
-}
-
-.dropzone .group-element {
-  /*min-height: 100px;
-  margin: 10px;*/
-}
-
-.dropzone .group-element .column {
-  float: left;
-  width: 50%;
-}
-
-.dropzone:hover {
+  padding: 20px;
+  margin:30px 0;
 }
 
 .deleteitem {
@@ -1647,9 +1666,20 @@ ul.question-list > li:hover {
   cursor: move;
 }
 
-ul.question-list li ul li {
+ul.question-list > li {
   border-bottom: none;
-  margin: 0 0 30px 0;
+  margin: 0 0 10px 0;
+}
+
+ul.question-list li ul > li {
+  border-bottom: none;
+  margin: 0;
+}
+
+.question-block {
+  margin:30px 0;
+  padding:20px 0;
+  border-bottom:2px solid #ccc;
 }
 
 /* tabs */
@@ -1842,32 +1872,35 @@ body.previewmode .tool-panel {
 	100.00% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -0.001, 0, 1, 1); }
 }
 
-.my-repeat-animation.ng-enter.ng-enter-active,
-.my-repeat-animation.ng-leave, .my-repeat-animation.ng-hide-remove {
+.my-repeat-animation.ng-enter.ng-enter-active, .my-repeat-animation.ng-hide-remove {
     opacity: 1;
-    -webkit-transition: all 600ms linear;
-    -moz-transition: all 600ms linear;
-    transition: all 600ms linear;
+    transition: all 300ms linear;
     animation: slideinpanel 1000ms linear both;
 }
 
 ul.question-list li:not(.my-repeat-animation.ng-enter.ng-enter-active) {
 }
 
+ul[dnd-list], ul[dnd-list] > li {
+    position: relative;
+}
+
 .my-repeat-animation.ng-enter {
-  opacity: 0;
+  transition: all 300ms linear;
+  animation: slideinpanel 1000ms linear both;
+}
+
+.dndDraggingSource {
+  display:none!important;
 }
 
 ul.question-list li:not(.my-repeat-animation.ng-enter) {
 }
 
 /* Remove animation */
-.my-repeat-animation.ng-leave.ng-leave-active,
-.my-repeat-animation.ng-enter {
+.my-repeat-animation.ng-leave.ng-leave-active {
     opacity: 0;
-    -webkit-transition: opacity 500ms linear;
-    -moz-transition: opacity 500ms linear;
-    transition: opacity 500ms linear;
+    transition: all 300ms linear;
 }
 
 .my-repeat-animation.ng-hide {
