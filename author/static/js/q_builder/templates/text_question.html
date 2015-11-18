@@ -21,6 +21,13 @@
 						<h5><i class="fa fa-font"></i> Text Question</h5>
 						<label>Please enter the maximum number of characters the user can enter</label>
 						<input dnd-nodrag type="text" ng-model="child.validation.maxlength" placeholder="E.g - 500 ">
+						<label>Error Type</label>
+						<select value="errortype" ng-model="condition.type">
+							<option value="error" selected>Error</option>
+							<option value="warning">Warning</option>
+						</select>
+						<label>Message</label>
+						<input dnd-nodrag type="text" ng-model="condition.message" placeholder="This field is required">
 					</tab>
 				</div>
 
