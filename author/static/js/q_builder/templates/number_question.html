@@ -33,9 +33,10 @@
 									</span>
 								</div>
 								<div ng-if="condition.condition != 'numeric' && condition.condition != 'required'">
+
 									<label>Condition</label>
-									<select value="condition" ng-model="condition.condition" >
-										<option value="lessthan" selected>less than (&lt;)</option>
+									<select value="condition" ng-model="condition.condition" ng-change="justification(condition)">
+										<option value="lessthan" selected="selected">less than (&lt;)</option>
 										<option value="greaterthan">greater than (&gt;)</option>
 										<option value="equal">equal to (==)</option>
 										<option value="notequal">not equal to (!=)</option>
@@ -49,9 +50,13 @@
 									</select>
 									<label>Text for Respondent</label>
 									<input dnd-nodrag type="text" ng-model="condition.message" placeholder="E.g - Please ensure your answer contains only numbers">
+									<label>Enable Justification</label>
+									<input type="checkbox" ng-model="condition.justification" ng-checked="condition.justification" ng-disabled="condition.type == 'error'"/>
+									<div>
 										<span class="list-actions">
-										<i class="fa fa-trash removeitem" ng-click="child.validation.splice($index, 1)" title="remove this item"></i>
-									</span>
+											<i class="fa fa-trash removeitem" ng-click="child.validation.splice($index, 1)" title="remove this item"></i>
+										</span>
+									</div>
 								</div>
 						</li>
 					</ul>
