@@ -163,6 +163,12 @@
         $scope.models.section = section.questionReference;
       };
 
+      $scope.justification = function(condition) {
+        if (condition.type == 'error') {
+            condition.justification = false
+        }
+      }
+
       $scope.$watch('models.section', function(model) {
         var questionList = $scope.models.dropzones.questionList;
         $scope.models.position = 0;

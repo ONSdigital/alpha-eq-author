@@ -29,12 +29,15 @@
 									<label>Please enter the maximum number of characters the user can enter</label>
 									<input dnd-nodrag type="text" ng-model="condition.value" placeholder="E.g - 500 ">
 									<label>Validation Type</label>
-									<select value="errortype" ng-model="condition.type">
-										<option value="error" selected>Error - (Hard check)</option>
+									<select value="errortype" ng-model="condition.type" ng-change="justification(condition)">
+										<option value="error" selected="selected">Error - (Hard check)</option>
 										<option value="warning">Warning - (Soft check)</option>
 									</select>
 									<label>Text for Respondent</label>
 									<input dnd-nodrag type="text" ng-model="condition.message" placeholder="E.g - Please ensure your answer contains only numbers">
+									<label>Enable Justification</label>
+									<input type="checkbox" ng-model="condition.justification" ng-checked="condition.justification" ng-disabled="condition.type == 'error'"/>
+
 								</div>
 
 						</li>
