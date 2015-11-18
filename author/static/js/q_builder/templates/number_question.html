@@ -1,7 +1,7 @@
  <!-- Template for a number question -->
 	<script type="text/ng-template" id="number_question.html">
 		<div class="question-block">
-			<tabset template-url="/static/js/q_builder/templates/tabset.html"><!-- class tab-container -->
+			<tabset template-url="/static/js/q_builder/templates/tabset.html" ng-hide="models.preview"><!-- class tab-container -->
 			<div class="text_question" ng-hide="models.preview">
 				<i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
 				<tab heading="Question Settings">
