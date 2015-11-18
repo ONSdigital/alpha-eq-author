@@ -239,11 +239,11 @@
             break;
           case 'number_question':
             question.questionType = 'InputText';
-            question.validation.push({
+            question.validation.unshift({
                     condition: 'numeric',
                     value: true,
                     type: 'error',
-                    message: 'This field must be numeric required'
+                    message: 'This field must be numeric'
             });
             //add an empty rule
             question.validation.push({
