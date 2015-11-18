@@ -12,33 +12,38 @@
 					<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please include all staff members including contractors">
 					<label>Error Text for Respondent</label>
 					<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
-					<label>Required</label>
-					<input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
+
+
 					<div class="clearfix"></div>
 				</tab>
 				<tab heading="Validation Rules">
-					<h5> Number Question</h5>
 					<ul>
-						<li ng-repeat="condition in child.validation.conditionals">
-							<label>Condition</label>
-							<select value="condition" ng-model="condition.condition">
-								<option value="lessthan" selected>less than (&lt;)</option>
-								<option value="greaterthan">greater than (&gt;)</option>
-								<option value="equal">equal to (==)</option>
-								<option value="notequal">not equal to (!=)</option>
-							</select>
-							<label>Value</label>
-							<input dnd-nodrag type="text" ng-model="condition.value" placeholder="E.g - 500 ">
-							<label>Error Type</label>
-							<select value="errortype" ng-model="condition.type">
-								<option value="error" selected>Error</option>
-								<option value="warning">Warning</option>
-							</select>
-							<label>Message</label>
-							<input dnd-nodrag type="text" ng-model="condition.message" placeholder="This field is required">
-								<span class="list-actions">
-								<i class="fa fa-trash removeitem" ng-click="child.validation.conditionals.splice($index, 1)" title="remove this item"></i>
-							</span>
+							<li ng-repeat="condition in child.validation">
+								<div ng-if="condition.condition == 'required'">
+									<label>Required</label>
+									<input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+								</div>
+								<div ng-if="condition.condition != 'numeric' && condition.condition != 'required'">
+									<label>Condition</label>
+									<select value="condition" ng-model="condition.condition" >
+										<option value="lessthan" selected>less than (&lt;)</option>
+										<option value="greaterthan">greater than (&gt;)</option>
+										<option value="equal">equal to (==)</option>
+										<option value="notequal">not equal to (!=)</option>
+									</select>
+									<label>Value</label>
+									<input dnd-nodrag type="text" ng-model="condition.value" placeholder="E.g - 500 ">
+									<label>Error Type</label>
+									<select value="errortype" ng-model="condition.type">
+										<option value="error" selected>Error</option>
+										<option value="warning">Warning</option>
+									</select>
+									<label>Message</label>
+									<input dnd-nodrag type="text" ng-model="condition.message" placeholder="This field is required">
+										<span class="list-actions">
+										<i class="fa fa-trash removeitem" ng-click="child.validation.splice($index, 1)" title="remove this item"></i>
+									</span>
+								</div>
 						</li>
 					</ul>
 

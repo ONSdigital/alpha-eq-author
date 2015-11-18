@@ -32,6 +32,14 @@
     				<span class="add-btn"><a ng-click="addOption(child)" id="add-field"><i class="fa fa-plus-circle"></i> Add another response option</a></span>
 
           </tab>
+			 <tab heading="Validation Rules">
+				<li ng-repeat="condition in child.validation">
+						<div ng-if="condition.condition == 'required'">
+							<label>Required</label>
+							<input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+						</div>
+				</li>
+        	</tab>
 			<tab heading="Routing">
 
 				<div ng-repeat="condition in child.branchConditions">
