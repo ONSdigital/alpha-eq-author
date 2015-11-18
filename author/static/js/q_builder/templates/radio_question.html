@@ -2,7 +2,7 @@
 			<i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
 			<h5><i class="fa fa-list-ul"></i> Multiple Choice Question – Single Answer</h5>
 
-        <tabset template-url="/static/js/q_builder/templates/tabset.html"><!-- class tab-container -->
+        <tabset template-url="/static/js/q_builder/templates/tabset.html" ng-hide="models.preview"><!-- class tab-container -->
           <tab heading="Question Settings">
             <label>Question</label>
 						<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - Which of these options do you agree with?">
