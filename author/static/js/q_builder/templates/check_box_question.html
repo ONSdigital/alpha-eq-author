@@ -10,8 +10,6 @@
 						<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please select one option from the list below">
 						<label>Error Text for Respondent</label>
 						<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - This question is required">
-			  			<label>Required</label>
-			  			<input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
           </tab>
           <tab heading="Available Responses">
             <ul dnd-list="child.parts"
@@ -30,6 +28,14 @@
     				</ul>
     				<span class="add-btn"><a ng-click="addOption(child)"><i class="fa fa-plus-square-o"></i> Add a response for the Respondent</a></span>
           </tab>
+			<tab heading="Validation Rules">
+				<li ng-repeat="condition in child.validation">
+						<div ng-if="condition.condition == 'required'">
+							<label>Required</label>
+							<input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+						</div>
+				</li>
+        	</tab>
         </tabset>
 
 			</div>

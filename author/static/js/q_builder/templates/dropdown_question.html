@@ -12,8 +12,8 @@
 						<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - This question is required">
                         <label>Required</label>
 			  			<input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
-          </tab>
-          <tab heading="Manually add / edit options">
+        </tab>
+        <tab heading="Manually add / edit options">
             <ul dnd-list="child.parts"
     					dnd-allowed-types="['part']">
     					<li ng-repeat="part in child.parts"
@@ -39,6 +39,14 @@
                 <input type="button" value="import data" ng-click="load(jsonImport,child)"/>
 
              </tab>
+             <tab heading="Validation Rules">
+                <li ng-repeat="condition in child.validation">
+                        <div ng-if="condition.condition == 'required'">
+                            <label>Required</label>
+                            <input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+                        </div>
+                </li>
+            </tab>
             </tabset>
         </div>
 

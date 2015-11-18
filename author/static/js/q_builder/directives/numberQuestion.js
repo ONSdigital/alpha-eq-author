@@ -11,9 +11,11 @@
              */
             $scope.addValidation = function(question) {
 
-                question.validation.conditionals.push({
+                question.validation.push({
                     condition: '',
-                    value: ''
+                    value: '',
+                    type: 'error',
+                    message: ''
                 });
             };
         },
