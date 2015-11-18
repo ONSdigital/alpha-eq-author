@@ -140,7 +140,7 @@
               </div>
               <div class="large-4 columns text-right">
                 <!-- add section button -->
-                <button class="add-section" ng-click="newGroup()" ng-if="models.view == 'open' || models.view == 'collapsed'">add a section</button>
+                <button id="add-section" class="add-section" ng-click="newGroup()" ng-if="models.view == 'open' || models.view == 'collapsed'">add a section</button>
               </div>
             </div>
 
@@ -342,9 +342,12 @@
             $(".live-preview").slideToggle("fast");
             //alert('ctrl-p');
             break;
-        case 'g':
+        case 'n':
             event.preventDefault();
-            alert('ctrl-g');
+            //alert('ctrl-n');
+            var addsection = angular.element('.add-section[ng-click="newGroup()"]');
+            addsection.trigger('click');
+            //addsection.click();
             break;
         }
     }
