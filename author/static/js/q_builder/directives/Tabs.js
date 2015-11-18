@@ -11,6 +11,7 @@
         },
         link: function(scope, elem, attr, tabsetCtrl) {
           scope.active = false;
+          scope.tabset = tabsetCtrl;
           tabsetCtrl.addTab(scope);
         }
       };
@@ -47,6 +48,15 @@
 
           selectedTab.active = true;
         }
+
+        self.selectTab = function(heading) {
+          angular.forEach(self.tabs, function(tab) {
+            if (tab.heading == heading) {
+              self.select(tab)
+            }
+          });
+        }
+
       }
     }
   })
