@@ -25,6 +25,13 @@
 										<input dnd-nodrag type="text" ng-model="condition.message" />
 									</span>
 								</div>
+								<div ng-if="condition.condition == 'numeric'">
+									<span>
+										<h5>This Question Type only accepts Numeric Values</h5>
+										<label>Text for Respondent</label>
+										<input dnd-nodrag type="text" ng-model="condition.message" />
+									</span>
+								</div>
 								<div ng-if="condition.condition != 'numeric' && condition.condition != 'required'">
 									<label>Condition</label>
 									<select value="condition" ng-model="condition.condition" >
@@ -40,7 +47,7 @@
 										<option value="error" selected>Error - (Hard check)</option>
 										<option value="warning">Warning - (Soft check)</option>
 									</select>
-									<label>Error Text for Respondent</label>
+									<label>Text for Respondent</label>
 									<input dnd-nodrag type="text" ng-model="condition.message" placeholder="E.g - Please ensure your answer contains only numbers">
 										<span class="list-actions">
 										<i class="fa fa-trash removeitem" ng-click="child.validation.splice($index, 1)" title="remove this item"></i>
