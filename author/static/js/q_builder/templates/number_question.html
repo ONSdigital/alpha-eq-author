@@ -18,17 +18,29 @@
 				</tab>
 				<tab heading="Validation Rules">
 					<h5> Number Question</h5>
-					<div ng-repeat="condition in child.validation.conditionals">
-						<label>Condition</label>
-						<select value="condition" ng-model="condition.condition">
-							<option value="lessthan">less than (&lt;)</option>
-							<option value="greaterthan">greater than (&gt;)</option>
-							<option value="equal">equal to (==)</option>
-							<option value="notequal">not equal to (!=)</option>
-						</select>
-						<label>Value</label>
-						<input dnd-nodrag type="text" ng-model="condition.value" placeholder="E.g - 500 ">
-					</div>
+					<ul>
+						<li ng-repeat="condition in child.validation.conditionals">
+							<label>Condition</label>
+							<select value="condition" ng-model="condition.condition">
+								<option value="lessthan" selected>less than (&lt;)</option>
+								<option value="greaterthan">greater than (&gt;)</option>
+								<option value="equal">equal to (==)</option>
+								<option value="notequal">not equal to (!=)</option>
+							</select>
+							<label>Value</label>
+							<input dnd-nodrag type="text" ng-model="condition.value" placeholder="E.g - 500 ">
+							<label>Error Type</label>
+							<select value="errortype" ng-model="condition.type">
+								<option value="error" selected>Error</option>
+								<option value="warning">Warning</option>
+							</select>
+							<label>Message</label>
+							<input dnd-nodrag type="text" ng-model="condition.message" placeholder="This field is required">
+								<span class="list-actions">
+								<i class="fa fa-trash removeitem" ng-click="child.validation.conditionals.splice($index, 1)" title="remove this item"></i>
+							</span>
+						</li>
+					</ul>
 
 					<span class="add-btn"><a ng-click="addValidation(child)" id="add-condition"><i class="fa fa-plus-circle"></i> Add another validation rule</a></span>
 				</tab>
