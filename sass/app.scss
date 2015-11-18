@@ -176,6 +176,46 @@ header ul.user-menu.open li:first-child:before {
   background: url("/static/img/user-lit.svg") no-repeat;
 }
 
+/* live preview */
+
+.live-preview {
+  position:fixed;
+  width:100vw;
+  height:100vh;
+  top:0;
+  left:0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.9);
+  display: none;
+}
+
+.preview-header {
+  background: black;
+  color:white;
+  padding:10px;
+  width:100%;
+  position: relative;
+}
+
+.preview-header em {
+  color:#888;
+}
+
+.preview-header span {
+  position: absolute;
+  right:20px;
+  font-size: 14px;
+}
+
+.live-preview iframe {
+  width:70%;
+  height:100%;
+  margin:20px auto;
+  display: block;
+  padding: 100px 0;
+  border: 0;
+}
+
 /* page tools */
 
 .page-tools {

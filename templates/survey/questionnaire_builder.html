@@ -9,6 +9,11 @@
   {{ block.super }}
 {% include "includes/navigation.html" %}
 
+<div class="live-preview">
+  <div class="preview-header">Live Preview of <em>{{  questionnaire.survey.title  }}</em><span class="showlive"><i class="fa fa-times"></i>&nbsp;&nbsp;Close Preview</span></div>
+  <iframe id="live-preview" src="http://{{ request.get_host | slice:":-5" }}:8080/questionnaire/{{ questionnaire.id }}"></iframe>
+</div>
+
 <div class="wrapper" ng-app="QBuilder" ng-controller="BuilderController as builderCtrl">
 
   <section class="page-tools" ng-cloak>
@@ -199,7 +204,7 @@
               </ul>
           </div>-->
           {% endverbatim %}
-          <input type="submit" class="button small radius save" id="" value="Save Questionnaire" ng-click="saveQuestionnaire(models.dropzones)">
+          <input type="submit" class="button small radius save" id="saveaction" value="Save Questionnaire" ng-click="saveQuestionnaire(models.dropzones)">
           <a href={%  url 'survey:index' %} class="button small radius preview" ng-click="endEdit()">Back to Dashboard</a>
 
         {% verbatim %}
@@ -290,6 +295,60 @@
             $('body').removeClass('previewmode');
           }
         });
+
+        $(".showlive").click(function() {
+          $('#live-preview').attr('src', $('#live-preview').attr('src'));
+          $(".live-preview").slideToggle("fast");
+        });
+
+      /* strip tags on paste */
+
+        $(document).on('paste','.simditor-body', function() {
+                 setTimeout(function() {
+                        cleaned = strip_tags($('.simditor-body').html(), '<b><b/><i></i><br><p></p>');
+                        $('.simditor-body').html(cleaned);
+                        $('.simditor .simditor-body p').removeAttr("style");
+                },100);
+
+        });
+
+        function strip_tags (input, allowed) {
+            /* http://kevin.vanzonneveld.net*/
+            if ( input == undefined ) { return ''; }
+
+            allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+            var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+                commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+            return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+                return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+            });
+        }
+
+        /* end */
+
+        $(window).bind('keydown', function(event) {
+          if (event.ctrlKey || event.metaKey) {
+            switch (String.fromCharCode(event.which).toLowerCase()) {
+              case 's':
+            event.preventDefault();
+            //alert('ctrl-s');
+            var saveaction = angular.element('#saveaction[ng-click="saveQuestionnaire(models.dropzones)"]');
+            saveaction.trigger('click');
+            saveaction.click();
+            break;
+        case 'p':
+            event.preventDefault();
+            $('#live-preview').attr('src', $('#live-preview').attr('src'));
+            $(".live-preview").slideToggle("fast");
+            //alert('ctrl-p');
+            break;
+        case 'g':
+            event.preventDefault();
+            alert('ctrl-g');
+            break;
+        }
+    }
+      });
 
         $("input[name=r-group]:radio").on('change', function(){
           $('.builder-canvas').addClass("statechange").delay(1000).queue(function(){
