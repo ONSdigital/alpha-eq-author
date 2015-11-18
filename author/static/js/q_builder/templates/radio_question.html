@@ -34,10 +34,15 @@
           </tab>
 			 <tab heading="Validation Rules">
 				<li ng-repeat="condition in child.validation">
-						<div ng-if="condition.condition == 'required'">
-							<label>Required</label>
-							<input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
-						</div>
+					<div ng-if="condition.condition == 'required'">
+						<span>
+							<label>Required</label><input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+						</span>
+						<span>
+							<label>Text for Respondent</label>
+							<input dnd-nodrag type="text" ng-model="condition.message" />
+						</span>
+					</div>
 				</li>
         	</tab>
 			<tab heading="Routing">
