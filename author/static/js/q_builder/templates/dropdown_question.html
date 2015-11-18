@@ -8,10 +8,6 @@
 						<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - Which of these options do you agree with?">
 						<label>Question Help/Instruction Text</label>
 						<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please select one option from the list below">
-						<label>Error Text for Respondent</label>
-						<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - This question is required">
-                        <label>Required</label>
-			  			<input type="checkbox" ng-model="child.validation.required" ng-checked="child.validation.required"/>
         </tab>
         <tab heading="Manually add / edit options">
             <ul dnd-list="child.parts"
@@ -42,8 +38,13 @@
              <tab heading="Validation Rules">
                 <li ng-repeat="condition in child.validation">
                         <div ng-if="condition.condition == 'required'">
-                            <label>Required</label>
-                            <input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+                            <span>
+                                <label>Required</label><input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+                            </span>
+                            <span>
+                                <label>Text for Respondent</label>
+                                <input dnd-nodrag type="text" ng-model="condition.message" />
+                            </span>
                         </div>
                 </li>
             </tab>
