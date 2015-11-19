@@ -144,9 +144,6 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
                    return JsonResponse({'success': 'Your questionnaire has been saved!'})
         return JsonResponse({'error': 'Your questionnaire could not be saved!'})
 
-
-
-
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
             questionnaire = Questionnaire.objects.get(id=self.kwargs['pk'])
@@ -179,5 +176,6 @@ class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):
         context = super(QuestionnaireBuilder, self).get_context_data(**kwargs)
 
         context['questionnaire'] = Questionnaire.objects.get(id=self.kwargs['pk'])
+        context['survey_runner_url'] = settings.SURVEY_RUNNER_URL
 
         return context
