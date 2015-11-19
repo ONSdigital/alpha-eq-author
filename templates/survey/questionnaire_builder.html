@@ -11,7 +11,7 @@
 
 <div class="live-preview">
   <div class="preview-header">Live Preview of <em>{{  questionnaire.survey.title  }}</em><span class="showlive"><i class="fa fa-times"></i>&nbsp;&nbsp;Close Preview</span></div>
-  <iframe id="live-preview" src="http://{{ request.get_host | slice:":-5" }}:8080/questionnaire/{{ questionnaire.id }}"></iframe>
+  <iframe id="live-preview" src="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}"></iframe>
 </div>
 
 <div class="wrapper" ng-app="QBuilder" ng-controller="BuilderController as builderCtrl">
