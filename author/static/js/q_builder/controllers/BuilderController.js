@@ -17,9 +17,7 @@
         dndType: 'group',
         type: 'group',
         children: [],
-        validation: {
-          required: true
-        },
+        validation: [],
         displayProperties: {},
         displayConditions: [],
         skipConditions: [],
@@ -186,9 +184,12 @@
           questionError: '',
           questionReference: '',
           children: [],
-          validation: {
-            required: true
-          },
+          validation: [{
+                    condition: 'required',
+                    value: true,
+                    type: 'error',
+                    message: 'This field is required'
+          }],
           displayProperties: {},
           displayConditions: [],
           skipConditions: [],
@@ -223,6 +224,12 @@
             break;
           case 'text_question':
             question.questionType = 'InputText';
+            question.validation.push({
+                    condition: 'maxlength',
+                    value: '',
+                    type: 'error',
+                    message: ''
+            });
             break;
           case 'dropdown_question':
             question.questionType = 'Dropdown';
@@ -232,7 +239,19 @@
             break;
           case 'number_question':
             question.questionType = 'InputText';
-            question.validation["numeric"] = true;
+            question.validation.unshift({
+                    condition: 'numeric',
+                    value: true,
+                    type: 'error',
+                    message: 'This field must be numeric'
+            });
+            //add an empty rule
+            question.validation.push({
+                    condition: '',
+                    value: '',
+                    type: 'error',
+                    message: ''
+                });
             break;
           case 'rich_text_block':
             question.questionType = 'TextBlock';
