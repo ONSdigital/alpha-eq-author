@@ -132,33 +132,28 @@
       };
 
       $scope.next = function() {
-        if ($scope.models.position < $scope.models.dropzones.questionList
-          .length - 1) {
+        if ($scope.models.position < $scope.models.dropzones.questionList.length - 1) {
           newPosition = $scope.models.position + 1;
-          $scope.models.section = $scope.models.dropzones.questionList[
-            newPosition].questionReference;
+          $scope.models.section = $scope.models.dropzones.questionList[newPosition].questionReference;
         }
       };
 
       $scope.previous = function() {
         if ($scope.models.position > 0) {
           newPosition = $scope.models.position - 1;
-          $scope.models.section = $scope.models.dropzones.questionList[
-            newPosition].questionReference;
+          $scope.models.section = $scope.models.dropzones.questionList[newPosition].questionReference;
         }
       };
 
       $scope.delete = function(index) {
         $scope.models.dropzones.questionList.splice(index, 1);
 
-        if ($scope.models.dropzones.questionList.length == 0 && $scope.models
-          .view == 'single') {
-          //if the user deletes the last one, move them to the collapsed view
-          $scope.models.section = '0';
-          $scope.models.view = 'collapsed'
+        if ($scope.models.dropzones.questionList.length == 0 && $scope.models.view == 'single') {
+            //if the user deletes the last one, move them to the collapsed view
+            $scope.models.section = '0';
+            $scope.models.view = 'collapsed'
         } else {
-          $scope.models.section = $scope.models.dropzones.questionList[0]
-            .questionReference;
+            $scope.models.section = $scope.models.dropzones.questionList[0].questionReference;
         }
       }
 
@@ -206,8 +201,7 @@
 
         //add a question reference
         $scope.models.questionnaire_meta.last_used_id += 1;
-        question.questionReference = $scope.models.questionnaire_meta.last_used_id
-          .toString();
+        question.questionReference = $scope.models.questionnaire_meta.last_used_id.toString();
 
         // FUGLY
         switch (item.type) {
@@ -218,14 +212,14 @@
               value: ''
             }];
             question.branchConditions = [{
-              jumpTo: {
-                question: '',
-                condition: {
-                  value: {
-                    is: ''
-                  }
-                }
-              }
+                jumpTo: {
+                    question: '',
+                    condition: {
+                        value : {
+                            is : ''
+                        }
+                    }
+                 }
             }];
             break;
           case 'text_question':
