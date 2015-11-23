@@ -4,7 +4,7 @@
     'ngSanitize',
     'dndLists',
     'contenteditable',
-    'wysiwygEditor',
+    'ephox.textboxio',
     'tabs',
     'BuilderController',
     'ngAnimate',
