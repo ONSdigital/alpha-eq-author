@@ -419,8 +419,8 @@ fieldset {
   flex:1;
 }
 
-.grouped-input .button {
-  margin: 0 0 0 20px;
+.grouped-input .button, .grouped-input span {
+  margin: 0 10px;
   align-self: center;
 }
 
@@ -530,6 +530,14 @@ table.survey-list tr.even, table.survey-list tr.alt, table.survey-list tr:nth-of
 .q-title {
   font-size: 18px;
   color:#ccc;
+}
+
+.q-title-heading {
+  font-weight: 400!important;
+  letter-spacing: -0.03em;
+  margin-top: 8px;
+  text-transform: capitalize;
+  color:#666;
 }
 
 .q-id {
@@ -970,8 +978,17 @@ ul.breadcrumb li a {
 }
 
 .section-header {
+  position: relative;
+}
+
+.section-heading-editable {
+  padding:20px 0;
   border-bottom: 1px solid #eee;
-  margin-bottom: 20px
+  margin-bottom: 30px;
+}
+
+.section-meta {
+  padding:10px 10px 10px 0;
 }
 
 .add-section {
@@ -1263,18 +1280,19 @@ input[type="text"].icon-append {
   /*--adjust as necessary--*/
   color: #000;
   font-size: 18px;
-  margin-left: -50px;
-  padding-right: 35px;
+  margin-left: -30px;
+  padding-right: 15px;
   display: inline-block;
   vertical-align: middle;
 }
 
 .q-title-editable[contenteditable]:hover:not(:focus):after {
   content: "(Click to edit)";
-  font-size: 90%;
+  font-size: 12px;
   display: inline-block;
   margin-left: 10px;
   color: #369;
+  letter-spacing: normal;
 }
 
 .q-title-editable[contenteditable]:focus {
@@ -1310,22 +1328,22 @@ input:focus:-ms-input-placeholder {
 .dropzone > ul[dnd-list] {
   position: relative;
   min-height: 250px;
-  padding-bottom: 40px;
   transition: all .2s;
+  padding-bottom: 100px;
 }
 
 .dropzone ul[dnd-list] > ul li {
   position: relative;
   min-height:100px;
+  min-height: inherit;
 }
 
 .dropzone .dndPlaceholder {
   background-color: #e7e7e7;
-  height: 200px;
+  min-height: inherit;
   display: block;
   position: relative;
   border:1px dotted green;
-  padding: 20px;
   margin:30px 0;
 }
 
@@ -1336,6 +1354,16 @@ input:focus:-ms-input-placeholder {
   font-size: 16px;
   color: #444;
   cursor: pointer;
+}
+
+.deletesection {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  font-size: 16px;
+  color: #444;
+  cursor: pointer;
+  z-index: 100;
 }
 
 .trashcan ul {
@@ -1653,13 +1681,13 @@ ul.question-list ul {
 }
 
 ul.question-list > li {
-  padding: 30px;
+  /*padding: 30px;
   border-radius: 4px;
   box-shadow: 0 1px 7px -1px rgba(208, 208, 208, 0.68);
   margin: 20px 0 10px;
   background: white;
   border: 1px solid #e0e0e0;
-  cursor: pointer;
+  cursor: pointer;*/
 }
 
 ul.question-list > li:hover {
@@ -1677,9 +1705,7 @@ ul.question-list li ul > li {
 }
 
 .question-block {
-  margin:30px 0;
-  padding:20px 0;
-  border-bottom:2px solid #ccc;
+  margin:20px 0 30px 0;
 }
 
 /* tabs */
@@ -1689,7 +1715,7 @@ ul.question-list li ul > li {
 }
 
 .tab-container > label {
-  display: inline-block;
+display: inline-block;
 padding: 15px 25px;
 font-weight: 600;
 text-align: center;
@@ -1716,6 +1742,7 @@ box-shadow: inset 0px -2px 6px -2px rgba(34, 50, 51, 0.05)
 .tab-content {
   border:1px solid #eee;
   padding:15px 25px;
+  background: white;
 }
 
 .add-btn {

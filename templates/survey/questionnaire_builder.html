@@ -3,7 +3,7 @@
 {% load staticfiles %}
 {% block css %}
   {{ block.super }}
-  <link rel="stylesheet" href="{% static "css/simditor.css" %}">
+  <link rel="stylesheet" Fef="{% static "css/simditor.css" %}">
 {% endblock css %}
 {% block base_body %}
   {{ block.super }}
@@ -55,7 +55,6 @@
 
   <section class="application" ng-cloak>
 
-
     {# This template represents a dnd list and is used by other templates. #}
       {# Changing this can cause pain #}
       {% verbatim %}
@@ -83,7 +82,6 @@
     <text-question></text-question>
     <number-question></number-question>
     <rich-text-question></rich-text-question>
-
     <question-group></question-group>
 
   <!-- Radio button Question -->
@@ -134,32 +132,27 @@
                 <li>Authoring {% verbatim %}{{ models.questionnaire_meta.title }}{% endverbatim %}</li>
               </ul>
 
-            <div class="row large-collapse">
-              <div class="large-12 columns">
-                <h3 class="q-title-editable" contenteditable ng-model="models.questionnaire_meta.title"></h3>
-              </div>
-              <div class="large-4 columns text-right">
-                <!-- add section button -->
-                <button id="add-section" class="add-section" ng-click="newGroup()" ng-if="models.view == 'open' || models.view == 'collapsed'">add a section</button>
-              </div>
-            </div>
-
-          </div>
+         </div>
 
           {% verbatim %}
 
             <section class="row large-collapse">
               <div class="large-6 columns">
-                <select ng-if="models.view == 'single'" ng-model="models.section" >
-                    <!--<option ng-selected="{{section.id == 0}}" value="-1">Choose a Section</option>-->
-                    <option ng-repeat="section in models.dropzones.questionList" value="{{section.questionReference}}" ng-selected="models.section == {{section.questionReference}}">Section: {{ $index+1 }} {{section.questionText}}</option>
-                </select>
+                <h2 class="q-title-editable q-title-heading" contenteditable ng-model="models.questionnaire_meta.title"></h2>
               </div>
-              <div class="large-6 columns text-right">
-                <div ng-if="models.view == 'single'">
-                  <span><a href="#" ng-click="previous()" ng-if="models.position > 0">Previous</a></span>
-                  <span>{{models.position + 1}} of {{ models.dropzones.questionList.length}}</span>
-                  <span><a href="#" ng-click="next()" ng-if="models.position < models.dropzones.questionList.length -1">Next</a></span>
+              <div class="large-6 columns">
+                <div class="grouped-input">
+                  <!--<div ng-if="models.view == 'single'">
+                    <span><a href="#" ng-click="previous()" ng-if="models.position > 0">Previous</a></span>
+                    <span>{{models.position + 1}} of {{ models.dropzones.questionList.length}}</span>
+                    <span><a href="#" ng-click="next()" ng-if="models.position < models.dropzones.questionList.length -1">Next</a></span>
+                  </div>-->
+
+                  <span ng-if="models.view == 'single'" class="mini-label">Jump to a section</span>
+                  <select ng-if="models.view == 'single'" ng-model="models.section" >
+                      <option ng-selected="{{section.id == 0}}" value="1">Choose a Section</option>
+                      <option ng-repeat="section in models.dropzones.questionList" value="{{section.questionReference}}" ng-selected="models.section == {{section.questionReference}}">Section: {{ $index+1 }} {{section.questionText}}</option>
+                  </select>
                 </div>
               </div>
             </section>
@@ -224,13 +217,14 @@
 
         {% endverbatim %}
 
-         {% comment %} <a class="button small radius preview">Preview</a>
-          <a class="button small radius reset">Reset</a>{% endcomment %}
-        </form>
 
-          {% if survey_runner_url %}
-            <a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True" class="button small radius preview">Preview</a>
-          {% endif %}
+        </form>
+          {% comment %}
+            {% if survey_runner_url %}
+              <a href="{{ survey_runner_url }}questionnaire/{{ questionnaire.id }}?preview=True" class="button small radius preview">Preview</a>
+            {% endif %}
+          {% endcomment %}
+
         </div>
       </div>
 
