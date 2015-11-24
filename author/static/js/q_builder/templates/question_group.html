@@ -1,24 +1,25 @@
 <!-- This template is responsible for rendering a group element. It uses
 		 the above list template to render each group column -->
 <script type="text/ng-template" id="group.html">
-    <i class="fa fa-times deleteitem" ng-click="delete($index)"
-       ng-confirm-click="This section and all items will be permanently deleted."></i>
-
-       <div class="group-element box box-blue">
-        <div class="group-element box box-blue">
+  <section class="question-section">
+    <div class="section-meta">
+    <i class="fa fa-times deletesection" ng-click="delete($index)" ng-confirm-click="This section and all items will be permanently deleted."></i>
             <!--<p ng-hide="models.view != 'single'">{{$index+1}} of {{list.length}}</p>-->
             <div ng-hide="models.preview" class="section-header">
-                <h3>{{ item.questionText }}</h3>
+                <!--<input ondrop="return false;" dnd-nodrag type="text" ng-model="item.questionText" placeholder="Section" ng-hide="models.preview || models.view == 'collapsed' || models.view == 'open'" >-->
+
+                <section class="section-heading-editable">
+                  <h4 class="q-title-editable" contenteditable ng-model="item.questionText" dnd-nodrag>{{ item.questionText }}</h4>
+                </section>
             </div>
             <div ng-hide="models.preview">
                 <a href="" ng-click="viewSection(item);" ng-show="models.view == 'collapsed'">Edit/Add Questions to this Section</a>
             </div>
-            <div ng-hide="models.preview || models.view == 'collapsed' || models.view == 'open'">
-                <input ondrop="return false;" dnd-nodrag type="text" ng-model="item.questionText" placeholder="Section">
-            </div>
+
             <div class="question_group_preview" ng-show="models.preview">
-				        {{ item.questionText }} <span ng-if="item.questionText == 'Unnamed Section'"> <b>Exit preview mode to add a section title</b></span>
+				        {{ item.questionText }} <span ng-if="item.questionText == 'Unnamed Section'"><b>Exit preview mode to give this section a title</b></span>
 			      </div>
+    </div>
 
             <div ng-hide="models.view == 'collapsed'">
                 <div class="dropzone">
@@ -39,6 +40,5 @@
             </div>
             <div class="column" ng-repeat="list in item.columns" ng-include="'list.html'"></div>
             <div class="clearfix"></div>
-        </div>
-    </div>
+      </section>
 </script>

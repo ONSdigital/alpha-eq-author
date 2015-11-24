@@ -1,8 +1,8 @@
   <!-- Template for a rich text block -->
 	<script type="text/ng-template" id="rich_text_block.html">
-		<div>
+		<div class="question-block">
     <i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
-    <h5><i class="fa fa-pencil-square-o"></i> Text block with formatting</h5>
+    <h5>Text block with formatting</h5>
 			<div dnd-nodrag class="text_question" ng-hide="models.preview">
 				<label>Enter text below and format as required</label>
         <textarea ng-model="child.questionText" wysiwyg-editor></textarea>

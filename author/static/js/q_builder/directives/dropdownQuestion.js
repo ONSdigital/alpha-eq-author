@@ -25,6 +25,7 @@
             if (jsonImport != null){
                 $http.get('/static/js/q_builder/json/' + jsonImport +'.json').
                     success(function(data) {
+                        angular.element('.status').addClass('success');
                         question.parts = [];
 
                         for (var key in data.elements){

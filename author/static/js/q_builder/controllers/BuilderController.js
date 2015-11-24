@@ -64,7 +64,7 @@
           type: "dropdown_question",
           description: "Dropdown Question",
           id: 1,
-          icon: 'fa-dot-circle-o',
+          icon: 'fa-caret-square-o-down',
           dndType: 'item',
           show: ['open', 'single']
         }, {
@@ -274,7 +274,7 @@
         group = $scope.newItem({
           type: 'group'
         });
-        $scope.models.dropzones.questionList.unshift(group);
+        $scope.models.dropzones.questionList.push(group);
         $scope.$digest();
       }
 

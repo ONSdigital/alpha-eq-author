@@ -1,6 +1,6 @@
 <div class="dropdown_question" ng-hide="models.preview">
     <i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
-    <h5> Drop down Question</h5>
+    <h5>Drop down Question</h5>
 
     <tabset template-url="/static/js/q_builder/templates/tabset.html" ng-hide="models.preview"><!-- class tab-container -->
         <tab heading="Question Settings">
@@ -9,30 +9,35 @@
 						<label>Question Help/Instruction Text</label>
 						<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please select one option from the list below">
         </tab>
-        <tab heading="Manually add / edit options">
+          <tab heading="Available Responses">
+            <span class="status"><i class="fa fa-check"></i>&nbsp;Imported successfully</span>
+
             <ul dnd-list="child.parts"
     					dnd-allowed-types="['part']">
     					<li ng-repeat="part in child.parts"
     						dnd-draggable="part"
     						dnd-effect-allowed="move"
-    					    dnd-type="'part'"
-    						dnd-moved="child.parts.splice($index, 1)">
-                <input dnd-nodrag type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append">
+						  dnd-type="'part'"
+    						dnd-moved="child.parts.splice($index, 1)" setfocus="$last">
+                <input dnd-nodrag type="text" ng-model="part.value" placeholder="Enter the response option for the respondent" class="icon-append" onkeypress="if (event.which==13) document.getElementById('add-field').click()">
+
                   <span class="list-actions">
                     <i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
                     <i class="fa fa-trash removeitem" ng-click="child.parts.splice($index, 1)" title="remove this item"></i>
                   </span>
     					</li>
     				</ul>
-    					<span class="add-btn"><a ng-click="addOption(child)" id="add-field"><i class="fa fa-plus-circle"></i> Add another reponse option</a></span>
-          </tab>
-            <tab heading="Import options">
-                <label>Import</label>
-                <select name="repeatSelect" id="jsonImportList" ng-model="jsonImport">
-                    <option ng-repeat="list in jsonImportList.imports" value="{{list.description}}">{{list.description}}</option>
+    					<span class="add-btn"><a ng-click="addOption(child)" id="add-field"><i class="fa fa-plus-circle"></i> Add a new response</a></span>
+              <h6>Or, load responses from a pre-defined list</h6>
+              <div class="grouped-input">
+                <select name="repeatSelect" id="jsonImportList" ng-model="jsonImport" ng-options="list.description as list.description for list in jsonImportList.imports" track by list.description>
+                    <option value="">Choose a list to import</option>
                 </select>
+                <input type="button" class="button" value="import data" ng-click="load(jsonImport,child)"/>
+              </div>
 
-                <input type="button" value="import data" ng-click="load(jsonImport,child)"/>
+          </tab>
+
 
              </tab>
              <tab heading="Validation Rules">
@@ -40,15 +45,17 @@
                         <div ng-if="condition.condition == 'required'">
                             <span>
                                 <label>Required</label><input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+                               Completion of this question is compulsory
                             </span>
                             <span>
-                                <label>Text for Respondent</label>
+                                <label>Text for respondent if validation fails</label>
                                 <input dnd-nodrag type="text" ng-model="condition.message" />
                             </span>
                         </div>
                 </li>
             </tab>
             </tabset>
+
         </div>
 
         <div class="check_question_preview" ng-show="models.preview">
