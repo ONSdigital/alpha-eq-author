@@ -410,19 +410,71 @@ fieldset {
   padding: 0;
 }
 
-.grouped-input {
+.grouped-input, .grouped-input.basic {
   display:flex;
   flex-direction: row;
 }
 
-.grouped-input select {
+.grouped-input select, .grouped-input div {
   flex:1;
+}
+
+.grouped-input.basic article {
+  flex:1;
+  margin: 0;
+}
+
+.grouped-input.basic div {
+  margin: 0;
+}
+
+.grouped-input.basic div:first-of-type {
+  padding-right: 30px;
+}
+
+.grouped-input.basic span {
+  margin:0 0 10px 0;
+}
+
+.grouped-input.basic article:nth-child(2) {
+  padding-left: 30px;
+  border-left: 1px solid #eee;
+}
+
+.grouped-input.basic h6 {
+  display: inline-block;
+  color:#666;
+}
+
+.grouped-input div {
+ margin:10px;
+}
+
+.grouped-input.rules div:first-of-type  {
+ margin-left:0;
+}
+
+.grouped-input.rules div:nth-of-type(2)  {
+  flex: 0 0 100px;
+}
+
+.grouped-input.rules div:last-of-type {
+  flex: 0 0 20px;
+  margin-right: 0;
+  align-self: center;
+  text-align: center;
 }
 
 .grouped-input .button, .grouped-input span {
   margin: 0 10px;
   align-self: center;
 }
+
+.mark-required  {
+  margin:0
+}
+
+
 
 input[type=text],
 input[type=password],
