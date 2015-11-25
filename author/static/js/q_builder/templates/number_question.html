@@ -18,7 +18,7 @@
 						<ul>
 							<li>
 								<section class="grouped-input basic">
-									<article ng-repeat="condition in child.validation" ng-if="condition.condition != ''">
+									<article ng-repeat="condition in child.validation" ng-if="condition.condition == 'required' || condition.condition == 'numeric'">
 											<div ng-if="condition.condition == 'required'">
 											<span>
 													<input type="checkbox" ng-model="condition.value" ng-checked="condition.value" class="mark-required"/> <h6>Make this question compulsory</h6>
@@ -39,9 +39,9 @@
 											</div>
 									</article>
 								</section>
-								<div ng-if="condition.condition != 'numeric' && condition.condition != 'required'">
+								<div>
 									<h4>Conditional Rules</h4>
-									<section class="grouped-input rules">
+									<section class="grouped-input rules" ng-repeat="condition in child.validation" ng-if="condition.condition != 'numeric' && condition.condition != 'required'">
 											<div>
 												<label>Set condition</label>
 												<select value="condition" ng-model="condition.condition" >
