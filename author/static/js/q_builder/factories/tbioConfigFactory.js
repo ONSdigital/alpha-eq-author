@@ -96,7 +96,7 @@ angular.module('ephox.textboxio').factory('tbioConfigFactory', ['$log',
 					contextual: [],
 					items: ['emphasis', {
 						label: 'Table',
-						items: ['table'],
+						items: ['ul', 'table'],
 					}, ]
 				}
 			}
