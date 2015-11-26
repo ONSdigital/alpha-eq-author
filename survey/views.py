@@ -51,6 +51,7 @@ class QuestionnaireAPIDetail(DetailView):
     def get_data(self, context):
         rtn_obj = {}
         rtn_obj['title'] = context['object'].survey.title
+        rtn_obj['survey_id'] = context['object'].survey.survey_id
         rtn_obj['questionnaire_id'] = context['object'].questionnaire_id
         rtn_obj['questionnaire_title'] = context['object'].title
         rtn_obj['overview'] = context['object'].overview
