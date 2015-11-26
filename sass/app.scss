@@ -413,6 +413,7 @@ fieldset {
 .grouped-input, .grouped-input.basic {
   display:flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .grouped-input select, .grouped-input div {
@@ -421,6 +422,7 @@ fieldset {
 
 .grouped-input.basic article {
   flex:1;
+  display: flex;
   margin: 0;
 }
 
