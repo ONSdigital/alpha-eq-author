@@ -39,7 +39,6 @@
 											</div>
 									</article>
 								</section>
-								<div>
 									<h4>Conditional Rules</h4>
 									<section class="grouped-input rules" ng-repeat="condition in child.validation" ng-if="condition.condition != 'numeric' && condition.condition != 'required'">
 											<div>
@@ -71,7 +70,6 @@
 													<i class="fa fa-trash removeitem" ng-click="child.validation.splice($index, 1)" title="remove this item"></i>
 											</div>
 									</section>
-								</div>
 						</li>
 					</ul>
 					<span class="add-btn"><a ng-click="addValidation(child)" id="add-condition"><i class="fa fa-plus-circle"></i> Add another validation rule</a></span>
