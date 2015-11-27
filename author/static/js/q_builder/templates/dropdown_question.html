@@ -44,8 +44,8 @@
                 <li ng-repeat="condition in child.validation">
                         <div ng-if="condition.condition == 'required'">
                             <span>
-                                <label>Required</label><input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
-                                Make completion of this question compulsory
+                                <input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+                                Make this question compulsory
                             </span>
                             <span>
                                 <label>Text for respondent if validation fails</label>

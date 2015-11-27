@@ -10,8 +10,6 @@
 					<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - How many people does your company employ?">
 					<label>Question Help/Instruction Text</label>
 					<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please include all staff members including contractors">
-					<label>Error Text for Respondent</label>
-					<input dnd-nodrag type="text" ng-model="child.questionError" placeholder="E.g - Please ensure your answer contains only numbers">
 				</tab>
 				<tab heading="Validation Rules">
 				<h4>Basic Validation</h4>
@@ -21,7 +19,7 @@
 									<article ng-repeat="condition in child.validation" ng-if="condition.condition == 'required' || condition.condition == 'numeric'">
 											<div ng-if="condition.condition == 'required'">
 											<span>
-													<input type="checkbox" ng-model="condition.value" ng-checked="condition.value" class="mark-required"/> <h6>Make this question compulsory</h6>
+													<input type="checkbox" ng-model="condition.value" ng-checked="condition.value" class="mark-required"/><h6>Make this question compulsory</h6>
 											</span>
 											<span>
 													<label>Text for respondent if validation fails</label>
