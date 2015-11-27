@@ -30,10 +30,11 @@
 				<li ng-repeat="condition in child.validation">
 					<div ng-if="condition.condition == 'required'">
 						<span>
-							<label>Required</label><input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+							<input type="checkbox" ng-model="condition.value" ng-checked="condition.value"/>
+							Make this question compulsory
 						</span>
 						<span>
-							<label>Text for Respondent</label>
+							<label>Text for respondent if validation fails</label>
 							<input dnd-nodrag type="text" ng-model="condition.message" />
 						</span>
 					</div>
