@@ -238,7 +238,7 @@
             question.questionType = 'CheckBox';
             break;
           case 'number_question':
-            question.questionType = 'InputText';
+            question.questionType = 'InputNumber';
             question.validation.unshift({
                     condition: 'numeric',
                     value: true,
