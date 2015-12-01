@@ -54,6 +54,7 @@
 				<div><b>{{ child.questionText }}<span ng-if="!child.questionText.length">Switch to edit mode and add a question</span></b></div>
 				<div ng-if="child.questionHelp.length">{{ child.questionHelp }}</div>
 				<input dnd-nodrag type="date">
+				<p ng-if="child.questionType=='DateRange'"><input dnd-nodrag type="date"></p>
 			</div>
 		</div>
 	</script>
