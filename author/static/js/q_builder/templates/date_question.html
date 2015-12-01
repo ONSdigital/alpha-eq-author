@@ -1,0 +1,53 @@
+ <!-- Template for a text question -->
+	<script type="text/ng-template" id="date_question.html">
+
+		<div class="question-block">
+			<tabset template-url="/static/js/q_builder/templates/tabset.html" ng-hide="models.preview"><!-- class tab-container -->
+				<div class="date_question">
+					<i class="fa fa-times deleteitem" ng-click="item.children.splice($index, 1)" ng-confirm-click="This item will be permanently deleted."></i>
+					<tab heading="Question Settings">
+						<h5>Date Question</h5>
+						<label>Question</label>
+						<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - What day is your birthday?">
+						<label>Question Help/Instruction Text</label>
+						<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please select a date from the drop down list">
+                        <p><h5>Please select date type: </h5>
+                            <input type="radio" ng-model="child.questionType" name="sex" value="Date"> Single
+                            <input type="radio"  ng-model="child.questionType" name="sex" value="DateRange"> Range
+                        </p>
+						<div class="clearfix"></div>
+					</tab>
+					<tab heading="Validation Rules">
+						<ul>
+						<li>
+
+							<section class="grouped-input basic">
+
+								<article ng-repeat="condition in child.validation">
+									<div ng-if="condition.condition == 'required'">
+										<h4>Basic Validation</h4>
+											<span>
+													<input type="checkbox" ng-model="condition.value" ng-checked="condition.value" class="mark-required"/> <h6>Make this question compulsory</h6>
+											</span>
+											<span>
+													<label>Text for respondent if validation fails</label>
+													<input dnd-nodrag type="text" ng-model="condition.message" />
+											</span>
+									</div>
+								</article>
+
+							</section>
+
+							</li>
+						</ul>
+					</tab>
+				</div>
+
+				</tabset>
+			<div class="text_question_preview" ng-show="models.preview">
+				<div><b>{{ child.questionText }}<span ng-if="!child.questionText.length">Switch to edit mode and add a question</span></b></div>
+				<div ng-if="child.questionHelp.length">{{ child.questionHelp }}</div>
+				<input dnd-nodrag type="text">
+			</div>
+		</div>
+	</script>
