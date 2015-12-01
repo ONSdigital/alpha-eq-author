@@ -262,6 +262,12 @@
             break;
            case 'date_question':
             question.questionType = 'Date';
+            question.validation.unshift({
+                    condition: 'date',
+                    value: true,
+                    type: 'error',
+                    message: 'This field must be date'
+            });
             break;
           case 'rich_text_block':
             question.questionType = 'TextBlock';

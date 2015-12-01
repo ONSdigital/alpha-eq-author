@@ -18,29 +18,35 @@
 						<div class="clearfix"></div>
 					</tab>
 					<tab heading="Validation Rules">
+				<h4>Basic Validation</h4>
 						<ul>
-						<li>
-
-							<section class="grouped-input basic">
-
-								<article ng-repeat="condition in child.validation">
-									<div ng-if="condition.condition == 'required'">
-										<h4>Basic Validation</h4>
+							<li>
+								<sectio class="grouped-input basic">
+									<article ng-repeat="condition in child.validation" ng-if="condition.condition == 'required' || condition.condition == 'date'">
+											<div ng-if="condition.condition == 'required'">
 											<span>
-													<input type="checkbox" ng-model="condition.value" ng-checked="condition.value" class="mark-required"/> <h6>Make this question compulsory</h6>
+													<input type="checkbox" ng-model="condition.value" ng-checked="condition.value" class="mark-required"/><h6>Make this question compulsory</h6>
 											</span>
 											<span>
 													<label>Text for respondent if validation fails</label>
 													<input dnd-nodrag type="text" ng-model="condition.message" />
 											</span>
-									</div>
-								</article>
-
-							</section>
-
+											</div>
+											<div ng-if="condition.condition == 'date'">
+													<span>
+															<h6>This question requires a date response</h6>
+													</span>
+													<span>
+															<label>Text for respondent if validation fails</label>
+															<input dnd-nodrag type="text" ng-model="condition.message" />
+													</span>
+											</div>
+									</article>
+								</sectio>
 							</li>
-						</ul>
-					</tab>
+					</ul>
+					<span class="add-btn"><a ng-click="addValidation(child)" id="add-condition"><i class="fa fa-plus-circle"></i> Add another validation rule</a></span>
+				</tab>
 				</div>
 
 				</tabset>
