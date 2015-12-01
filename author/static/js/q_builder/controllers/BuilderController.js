@@ -75,6 +75,13 @@
           dndType: 'item',
           show: ['open', 'single']
         }, {
+          type: "date_question",
+          description: "Date Question",
+          id: 1,
+          icon: '',
+          dndType: 'item',
+          show: ['open', 'single']
+        }, {
           type: "group",
           /*description: "Section",
           icon: 'fa-th',*/
@@ -252,6 +259,15 @@
                     type: 'error',
                     message: ''
                 });
+            break;
+           case 'date_question':
+            question.questionType = 'Date';
+            question.validation.unshift({
+                    condition: 'date',
+                    value: true,
+                    type: 'error',
+                    message: 'This field must be date'
+            });
             break;
           case 'rich_text_block':
             question.questionType = 'TextBlock';
