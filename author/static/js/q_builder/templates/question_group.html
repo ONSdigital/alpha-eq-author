@@ -9,7 +9,7 @@
                 <!--<input ondrop="return false;" dnd-nodrag type="text" ng-model="item.questionText" placeholder="Section" ng-hide="models.preview || models.view == 'collapsed' || models.view == 'open'" >-->
 
                 <section class="section-heading-editable">
-                  <h4 ng-click="initSection(item)" class="q-title-editable" contenteditable ng-model="item.questionText" dnd-nodrag>{{ item.questionText }}</h4>
+                  <h4 ng-click="initSection(item)" ng-blur="emptyHeader(item)" class="q-title-editable" contenteditable ng-model="item.questionText" dnd-nodrag>{{ item.questionText }}</h4>
                 </section>
             </div>
             <div ng-hide="models.preview">
