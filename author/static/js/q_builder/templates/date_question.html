@@ -11,10 +11,11 @@
 						<input dnd-nodrag type="text" ng-model="child.questionText" placeholder="E.g - What day is your birthday?">
 						<label>Question Help/Instruction Text</label>
 						<input dnd-nodrag type="text" ng-model="child.questionHelp" placeholder="E.g - Please select a date from the drop down list">
-                        <p><h5>Please select date type: </h5>
-                            <input type="radio" ng-model="child.questionType" value="Date"> Single
-                            <input type="radio"  ng-model="child.questionType" value="DateRange"> Range
-                        </p>
+
+								<label>Please select a date type</label>
+                <label class="subtle-label"><input type="radio" ng-model="child.questionType" value="Date"> Single Date</label>
+                <label class="subtle-label"><input type="radio" ng-model="child.questionType" value="DateRange"> Date Range (Between two dates)</label>
+
 						<div class="clearfix"></div>
 					</tab>
 					<tab heading="Validation Rules">
@@ -25,7 +26,7 @@
 									<article ng-repeat="condition in child.validation" ng-if="condition.condition == 'required' || condition.condition == 'date'">
 											<div ng-if="condition.condition == 'required'">
 											<span>
-													<input type="checkbox" ng-model="condition.value" ng-checked="condition.value" class="mark-required"/><h6>Make this question compulsory</h6>
+													<input type="checkbox" ng-model="condition.value" ng-checked="condition.value" class="mark-required"/>&nbsp;<h6>Make this question compulsory</h6>
 											</span>
 											<span>
 													<label>Text for respondent if validation fails</label>
@@ -34,7 +35,7 @@
 											</div>
 											<div ng-if="condition.condition == 'date'">
 													<span>
-															<h6>This question requires a date response</h6>
+															<h6>A date is required</h6>
 													</span>
 													<span>
 															<label>Text for respondent if validation fails</label>
@@ -45,7 +46,6 @@
 								</sectio>
 							</li>
 					</ul>
-					<span class="add-btn"><a ng-click="addValidation(child)" id="add-condition"><i class="fa fa-plus-circle"></i> Add another validation rule</a></span>
 				</tab>
 				</div>
 
