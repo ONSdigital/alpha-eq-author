@@ -539,6 +539,13 @@ label {
   margin: 20px 0 10px;
 }
 
+label.subtle-label {
+  font-weight: 400;
+  color: #444;
+  display: block;
+  margin: 5px 0;
+}
+
 .questionnaire-block {
   background: white;
   @include globalshadow;

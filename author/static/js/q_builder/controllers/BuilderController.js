@@ -78,7 +78,7 @@
           type: "date_question",
           description: "Date Question",
           id: 1,
-          icon: '',
+          icon: 'fa fa-calendar',
           dndType: 'item',
           show: ['open', 'single']
         }, {
@@ -139,28 +139,33 @@
       };
 
       $scope.next = function() {
-        if ($scope.models.position < $scope.models.dropzones.questionList.length - 1) {
+        if ($scope.models.position < $scope.models.dropzones.questionList
+          .length - 1) {
           newPosition = $scope.models.position + 1;
-          $scope.models.section = $scope.models.dropzones.questionList[newPosition].questionReference;
+          $scope.models.section = $scope.models.dropzones.questionList[
+            newPosition].questionReference;
         }
       };
 
       $scope.previous = function() {
         if ($scope.models.position > 0) {
           newPosition = $scope.models.position - 1;
-          $scope.models.section = $scope.models.dropzones.questionList[newPosition].questionReference;
+          $scope.models.section = $scope.models.dropzones.questionList[
+            newPosition].questionReference;
         }
       };
 
       $scope.delete = function(index) {
         $scope.models.dropzones.questionList.splice(index, 1);
 
-        if ($scope.models.dropzones.questionList.length == 0 && $scope.models.view == 'single') {
-            //if the user deletes the last one, move them to the collapsed view
-            $scope.models.section = '0';
-            $scope.models.view = 'collapsed'
+        if ($scope.models.dropzones.questionList.length == 0 && $scope.models
+          .view == 'single') {
+          //if the user deletes the last one, move them to the collapsed view
+          $scope.models.section = '0';
+          $scope.models.view = 'collapsed'
         } else {
-            $scope.models.section = $scope.models.dropzones.questionList[0].questionReference;
+          $scope.models.section = $scope.models.dropzones.questionList[0]
+            .questionReference;
         }
       }
 
@@ -192,10 +197,10 @@
           questionReference: '',
           children: [],
           validation: [{
-                    condition: 'required',
-                    value: true,
-                    type: 'error',
-                    message: 'This field is required'
+            condition: 'required',
+            value: true,
+            type: 'error',
+            message: 'This field is required'
           }],
           displayProperties: {},
           displayConditions: [],
@@ -208,7 +213,8 @@
 
         //add a question reference
         $scope.models.questionnaire_meta.last_used_id += 1;
-        question.questionReference = $scope.models.questionnaire_meta.last_used_id.toString();
+        question.questionReference = $scope.models.questionnaire_meta.last_used_id
+          .toString();
 
         // FUGLY
         switch (item.type) {
@@ -219,23 +225,23 @@
               value: ''
             }];
             question.branchConditions = [{
-                jumpTo: {
-                    question: '',
-                    condition: {
-                        value : {
-                            is : ''
-                        }
-                    }
-                 }
+              jumpTo: {
+                question: '',
+                condition: {
+                  value: {
+                    is: ''
+                  }
+                }
+              }
             }];
             break;
           case 'text_question':
             question.questionType = 'InputText';
             question.validation.push({
-                    condition: 'maxlength',
-                    value: '',
-                    type: 'error',
-                    message: ''
+              condition: 'maxlength',
+              value: '',
+              type: 'error',
+              message: ''
             });
             break;
           case 'dropdown_question':
@@ -247,26 +253,26 @@
           case 'number_question':
             question.questionType = 'InputNumber';
             question.validation.unshift({
-                    condition: 'numeric',
-                    value: true,
-                    type: 'error',
-                    message: 'This field must be numeric'
+              condition: 'numeric',
+              value: true,
+              type: 'error',
+              message: 'This field must be numeric'
             });
             //add an empty rule
             question.validation.push({
-                    condition: '',
-                    value: '',
-                    type: 'error',
-                    message: ''
-                });
+              condition: '',
+              value: '',
+              type: 'error',
+              message: ''
+            });
             break;
-           case 'date_question':
+          case 'date_question':
             question.questionType = 'Date';
             question.validation.unshift({
-                    condition: 'date',
-                    value: true,
-                    type: 'error',
-                    message: 'This field must be date'
+              condition: 'date',
+              value: true,
+              type: 'error',
+              message: 'This field must be a date'
             });
             break;
           case 'rich_text_block':
