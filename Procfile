@@ -1,1 +1,1 @@
-web: gunicorn author.wsgi --log-file -
+web: waitress-serve --port=$VCAP_APP_PORT author.wsgi:application

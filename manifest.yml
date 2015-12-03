@@ -1,0 +1,5 @@
+# all applications use these settings and services
+applications:
+- name: eq-author
+  path: .
+  timeout: 180

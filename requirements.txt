@@ -11,3 +11,4 @@ wheel==0.24.0
 whitenoise==1.0.6
 django-extra-views==0.7.1
 jsonfield==1.0.3
+waitress==0.8.9 #a pure python WSGI server that is a replacement for gunicorn
