@@ -53,6 +53,10 @@
 					<select ng-model="condition.jumpTo.question">
 						<option ng-repeat="question in models.dropzones.questionList" value="{{question.questionReference}}" ng-if="question.questionReference != models.section">{{question.questionText}}</option>
 					</select>
+					<span class="list-actions">
+						<i class="fa fa-arrows-v reorder" title="drag to reorder"></i>
+                    	<i class="fa fa-trash removeitem" ng-click="child.branchConditions.splice($index, 1)" title="remove this item"></i>
+                  	</span>
 				  </div>
 				<span class="add-btn"><a ng-click="addRule(child)" id="add-condition"><i class="fa fa-plus-circle"></i> Add another routing rule</a></span>
 			</tab>
