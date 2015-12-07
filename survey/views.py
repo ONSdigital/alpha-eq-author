@@ -45,30 +45,6 @@ class QuestionnaireDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-class QuestionnaireAPIDetail(DetailView):
-    model = Questionnaire
-    slug_field = 'id'
-
-    def get_data(self, context):
-        rtn_obj = {}
-        rtn_obj['title'] = context['object'].survey.title
-        rtn_obj['survey_id'] = context['object'].survey.survey_id
-        rtn_obj['questionnaire_id'] = context['object'].questionnaire_id
-        rtn_obj['questionnaire_title'] = context['object'].title
-        rtn_obj['overview'] = context['object'].overview
-        rtn_obj['questions'] = []
-        for question in context['object'].questionnaire_json:
-            if 'dndType' in question.keys():
-                del question['dndType']
-            if 'type' in question.keys():
-                del question['type']
-            rtn_obj['questions'].append(question)
-        return rtn_obj
-
-    def render_to_response(self, context, **response_kwargs):
-        return JsonResponse(self.get_data(context), **response_kwargs)
-
-
 class QuestionnaireCreate(LoginRequiredMixin, CreateView):
     model = Questionnaire
     form_class = QuestionnaireForm

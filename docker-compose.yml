@@ -6,9 +6,11 @@ author:
    - .:/opt/eq-author
   environment:
     - SURVEY_RUNNER_URL=http://localhost:8080/
+    - SURVEY_REGISTRY_URL=http://survey-registry:8081/
     - DATABASE_URL=postgres://author:password@postgres:5432/author
   links:
     - postgres
+    - survey-registry
 postgres:
   image: postgres:9.3.10
   volumes:
@@ -23,10 +25,24 @@ survey-runner:
   entrypoint:
     - /opt/eq-survey-runner/entrypoint.sh
   environment:
-    - SURVEY_REGISTRY_URL=http://author:8000
+    - SURVEY_REGISTRY_URL=http://survey-registry:8081
     - MODE=dev
   links:
    - cassandra
-   - author
+   - survey-registry
 cassandra:
   image: spotify/cassandra
+survey-registry:
+  build: ../eq-survey-registry/.
+  ports:
+   - "8081:8081"
+  volumes:
+   - ../eq-survey-registry:/opt/eq-survey-registry
+  entrypoint:
+    - /opt/eq-survey-registry/entrypoint.sh
+  environment:
+    - MODE=dev
+  links:
+   - couchdb
+couchdb:
+  image: klaemo/couchdb:1.6.1
