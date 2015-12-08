@@ -41,7 +41,7 @@
                         {% for questionnaire in survey.questionnaire_set.all %}
                         <tr>
                         <td class="q-title">
-                            {% if questionnaire.locked or questionnaire.published %}
+                            {% if questionnaire.locked and questionnaire.locked_by != username or questionnaire.published %}
                               {{ questionnaire.title }}</a> ( <span class="q-id">{{ questionnaire.questionnaire_id }}</span> )
                             {% else %}
                               <a href="{% url 'survey:questionnaire-builder' questionnaire.id %}" title="edit {{ questionnaire.title }}">{{ questionnaire.title }}</a> ( <span class="q-id">{{ questionnaire.questionnaire_id }}</span> )
@@ -75,9 +75,8 @@
                                            href="{% url 'survey:publish-questionnaire' slug=questionnaire.id %}">Publish</a>
                                     </li>
                                     {% endif %}
-
                                     {% if not questionnaire.published %}
-                                        {% if questionnaire.locked %}
+                                        {% if questionnaire.locked and questionnaire.locked_by != username %}
                                             <li>
                                               <a class="" href="#" onclick="alert('Locked by {{ questionnaire.locked_by}}')"}><i class="fa fa-lock"></i>  Locked</a>
                                             </li>

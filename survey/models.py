@@ -28,7 +28,7 @@ class Questionnaire(models.Model):
     @property
     def locked(self):
         self.check_locked_time()
-        return self.locked_by
+        return self.locked_by is not None
 
     def is_locked(self, username):
         locked = False
