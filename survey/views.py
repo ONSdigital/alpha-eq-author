@@ -22,6 +22,7 @@ class SurveyList(LoginRequiredMixin, ListView):
         # Call the base implementation first to get a context
         context = super(SurveyList, self).get_context_data(**kwargs)
         context['survey_runner_url'] = settings.SURVEY_RUNNER_URL
+        context['username'] = self.request.user.username
         return context
 
 
