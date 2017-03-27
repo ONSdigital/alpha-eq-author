@@ -8,6 +8,7 @@ from django.http import JsonResponse, Http404, HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+import requests
 
 
 from .forms import SurveyForm, QuestionnaireForm
@@ -43,30 +44,6 @@ class QuestionnaireDetail(LoginRequiredMixin, DetailView):
         context = super(QuestionnaireDetail, self).get_context_data(**kwargs)
         context['survey_runner_url'] = settings.SURVEY_RUNNER_URL
         return context
-
-
-class QuestionnaireAPIDetail(DetailView):
-    model = Questionnaire
-    slug_field = 'id'
-
-    def get_data(self, context):
-        rtn_obj = {}
-        rtn_obj['title'] = context['object'].survey.title
-        rtn_obj['survey_id'] = context['object'].survey.survey_id
-        rtn_obj['questionnaire_id'] = context['object'].questionnaire_id
-        rtn_obj['questionnaire_title'] = context['object'].title
-        rtn_obj['overview'] = context['object'].overview
-        rtn_obj['questions'] = []
-        for question in context['object'].questionnaire_json:
-            if 'dndType' in question.keys():
-                del question['dndType']
-            if 'type' in question.keys():
-                del question['type']
-            rtn_obj['questions'].append(question)
-        return rtn_obj
-
-    def render_to_response(self, context, **response_kwargs):
-        return JsonResponse(self.get_data(context), **response_kwargs)
 
 
 class QuestionnaireCreate(LoginRequiredMixin, CreateView):
@@ -111,7 +88,27 @@ class QuestionnairePublish(LoginRequiredMixin, View):
             questionnaire.published = True
             questionnaire.save()
 
+            # publish the survey
+            survey_registry_url = settings.SURVEY_REGISTRY_URL + str(questionnaire.id)
+            requests.post(survey_registry_url,  json=self.get_data(questionnaire))
+
             return redirect(self.request.META['HTTP_REFERER'])
+
+    def get_data(self, questionnaire):
+        rtn_obj = {}
+        rtn_obj['title'] = questionnaire.survey.title
+        rtn_obj['survey_id'] = questionnaire.survey.survey_id
+        rtn_obj['questionnaire_id'] = questionnaire.questionnaire_id
+        rtn_obj['questionnaire_title'] = questionnaire.title
+        rtn_obj['overview'] = questionnaire.overview
+        rtn_obj['questions'] = []
+        for question in questionnaire.questionnaire_json:
+            if 'dndType' in question.keys():
+                del question['dndType']
+            if 'type' in question.keys():
+                del question['type']
+            rtn_obj['questions'].append(question)
+        return rtn_obj
 
 
 class QuestionnaireBuilder(LoginRequiredMixin, TemplateView):

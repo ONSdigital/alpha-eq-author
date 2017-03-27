@@ -6,6 +6,7 @@ RUN pip install -r /opt/eq-author/requirements.txt
 WORKDIR /opt/eq-author
 
 ENV SURVEY_RUNNER_URL=http://127.0.0.1:8080/
+ENV SURVEY_REGISTRY_URL=http://127.0.0.1:8081/
 ENV USERNAME=author
 ENV PASSWORD=password
 ENV DB_HOST=127.0.0.1

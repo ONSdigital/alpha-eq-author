@@ -13,7 +13,6 @@ class QuestionnaireTestCase(TestCase):
         f = open('survey/tests/resources/survey.json')
         cls.contents = f.read()
 
-
     def setUp(self):
         create_surveys()
         create_questionnaires()
@@ -125,33 +124,6 @@ class QuestionnaireTestCase(TestCase):
         self.assertEqual(Survey.objects.get(survey_id='1'), survey)
         questionnaire_set = survey.questionnaire_set.all()
         self.assertFalse(questionnaire_set[0].reviewed)
-
-    def test_published_a_questionnaire(self):
-        # add a new questionnaire to survey 1
-        response = QuestionnaireTestCase.client.post(reverse("survey:create-questionnaire", kwargs={'survey_slug': '1'}), {'title' : 'Test Questionnaire 3', 'questionnaire_id': '3', 'overview': 'questionnaire overview 3'}, follow=True)
-        self.assertEqual(200, response.status_code)
-
-        questionnaire = Questionnaire.objects.get(questionnaire_id=3)
-        # add a question to questionnaire
-        response = QuestionnaireTestCase.client.post(reverse("survey:questionnaire-builder", kwargs={'pk': questionnaire.id}), QuestionnaireTestCase.contents,  content_type='Application/JSON', follow=True, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(200, response.status_code)
-        self.assertContains(response,"Your questionnaire has been saved")
-
-        response = QuestionnaireTestCase.client.get(reverse("survey:questionnaire-summary", kwargs={'slug': questionnaire.id}),follow=True)
-        # check we cannot make it live
-        self.assertNotContains(response, 'publish')
-
-        response = QuestionnaireTestCase.client.get(reverse("survey:review-questionnaire", kwargs={'slug': questionnaire.id}), follow=True, HTTP_REFERER=reverse('survey:index'))
-        questionnaire = Questionnaire.objects.get(questionnaire_id='3')
-        self.assertTrue(questionnaire.reviewed)
-
-        # check we can publish
-        self.assertContains(response, 'publish')
-
-        response = QuestionnaireTestCase.client.get(reverse("survey:publish-questionnaire", kwargs={'slug' :questionnaire.id}), follow=True, HTTP_REFERER=reverse('survey:index'))
-
-        questionnaire = Questionnaire.objects.get(questionnaire_id='3')
-        self.assertTrue(questionnaire.published)
 
     def test_locked_questionnaire(self):
         # add a new questionnaire to survey 1
